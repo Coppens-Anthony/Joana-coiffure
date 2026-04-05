@@ -2,7 +2,7 @@
 
 ## 1. Contexte de l’application
 
-Le site comportera une partie destinée au publique et une autre pour la coiffeuse elle même.
+Le site comportera une partie destinée au public et une autre pour la coiffeuse elle même.
 
 La partie publique sera une vitrine avec la possibilité de prendre des rendez-vous.
 
