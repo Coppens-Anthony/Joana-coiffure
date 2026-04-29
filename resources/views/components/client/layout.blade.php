@@ -14,8 +14,11 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="overflow-x-hidden max-w-[1400px] mx-auto font-sans text-black">
-<main>
+<h1 class="sr-only">{{ $title }}</h1>
+<x-client.partial.header/>
+<main class="mx-8 md:mx-16">
     {{$slot}}
 </main>
+<x-client.partial.footer/>
 </body>
 </html>

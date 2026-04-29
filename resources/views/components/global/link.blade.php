@@ -1,8 +1,8 @@
-@props(['route', 'title', 'isActive' => false])
+@props(['route', 'title', 'isActive' => false, 'class' => ''])
 
 <a href="{{ $route }}"
    title="{{ $title }}"
-   class="relative group">
+   class="relative group {{ $class }}">
     {{ $slot }}
     <span class="absolute left-0 top-full w-full h-4 flex items-center pointer-events-none">
         <img src="{{ asset('assets/svg/scissor.svg') }}" class="h-fit w-auto flex-shrink-0
