@@ -37,9 +37,9 @@
             </li>
             <li>
                 <x-global.link
-                    route="{{ route('price') }}"
+                    route="{{ route('prices') }}"
                     title="Vers la page des tarifs"
-                    :isActive="request()->routeIs('price')">
+                    :isActive="request()->routeIs('prices')">
                     Tarifs
                 </x-global.link>
             </li>
