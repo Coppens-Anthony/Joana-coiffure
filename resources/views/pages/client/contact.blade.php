@@ -1,3 +1,6 @@
-<x-client.layout>
-<h1>Contact</h1>
+<x-client.layout title="Contactez-moi">
+    <section class="flex flex-col md:flex-row gap-16">
+        <x-client.section.contact_form/>
+        <x-client.section.contact_information/>
+    </section>
 </x-client.layout>
