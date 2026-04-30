@@ -1,4 +1,4 @@
-<header class="flex items-center justify-between px-8 py-8 md:px-12 lg:px-16 mb-16 z-50 bg-white sticky top-0 shadow-md">
+<header class="flex items-center justify-between h-30 px-8 py-8 md:px-12 lg:px-16 {{ request()->routeIs('home') ? '' : 'mb-16' }} z-50 bg-white sticky top-0 shadow-md">
     <div class="relative z-50">
         <a href="{{route('home')}}" class="absolute top-0 left-0 w-full h-full"
            title="Vers la page d'accueil"></a>
@@ -10,7 +10,6 @@
         <span class="span_burger_menu"></span>
         <span class="span_burger_menu"></span>
     </label>
-
     <nav aria-labelledby="navigation-haut-de-page"
          class="fixed inset-0 bg-white text-center transform translate-x-full
          peer-checked:translate-x-0 transition-transform duration-700 ease-in-out z-40
@@ -64,3 +63,4 @@
         </ul>
     </nav>
 </header>
+

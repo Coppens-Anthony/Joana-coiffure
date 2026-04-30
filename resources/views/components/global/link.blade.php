@@ -5,7 +5,7 @@
    class="relative group {{ $class }}">
     {{ $slot }}
     <span class="absolute left-0 top-full w-full h-4 flex items-center pointer-events-none">
-        <img src="{{ asset('assets/svg/scissor.svg') }}" class="h-fit w-auto flex-shrink-0
+        <img src="{{ asset('assets/svg/scissor.svg') }}" class="h-fit w-auto shrink-0
                     transition-opacity duration-100 delay-200
                     group-hover:delay-0
                     {{ $isActive ? 'opacity-100' : 'opacity-0 group-hover:opacity-100' }}" alt="">
