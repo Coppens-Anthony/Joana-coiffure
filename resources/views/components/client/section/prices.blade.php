@@ -5,7 +5,7 @@
     <ul class="flex flex-col gap-8">
         @foreach($services as $service)
             <li class="border-b border-black pb-4 flex flex-col gap-4">
-                <x-client.section.price_line :name="$service->name" :duration="$service->duration" :price="$service->price" :desc="$service->desc"/>
+                <x-client.single_element.price_line :name="$service->name" :duration="$service->duration" :price="$service->price" :desc="$service->desc"/>
             </li>
         @endforeach
     </ul>

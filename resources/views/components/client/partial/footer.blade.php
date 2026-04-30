@@ -32,22 +32,22 @@
             </h3>
             <ul class="flex flex-col gap-4">
                 <li>
-                    <x-global.link route="" title="Vers la page d'accueil">Accueil</x-global.link>
+                    <x-global.link :route="route('home')" title="Vers la page d'accueil">Accueil</x-global.link>
                 </li>
                 <li>
-                    <x-global.link route="" title="Vers la page à propos">À propos</x-global.link>
+                    <x-global.link :route="route('about')" title="Vers la page à propos">À propos</x-global.link>
                 </li>
                 <li>
-                    <x-global.link route="" title="Vers la page des tarifs">Tarifs</x-global.link>
+                    <x-global.link :route="route('prices')" title="Vers la page des tarifs">Tarifs</x-global.link>
                 </li>
                 <li>
-                    <x-global.link route="" title="Vers la galerie">Galerie</x-global.link>
+                    <x-global.link :route="route('gallery')" title="Vers la galerie">Galerie</x-global.link>
                 </li>
                 <li>
-                    <x-global.link route="" title="Vers la page de contact">Contact</x-global.link>
+                    <x-global.link :route="route('contact')" title="Vers la page de contact">Contact</x-global.link>
                 </li>
                 <li>
-                    <x-global.link route="" title="Prendre un rendez-vous">Rendez-vous</x-global.link>
+                    <x-global.link :route="route('appointment')" title="Prendre un rendez-vous">Rendez-vous</x-global.link>
                 </li>
             </ul>
         </nav>

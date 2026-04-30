@@ -23,10 +23,10 @@
 
 
 <x-client.layout title="Coiffeuse indépendante à Orp-Jauche">
-    <x-client.section.icon_content :isTitle="false" :items="$items" :isLink="true" link_button_label="Toutes mes prestations"
+    <x-client.single_element.icon_content :isTitle="false" :items="$items" :isLink="true" link_button_label="Toutes mes prestations"
                                    link_button_title="Voir toutes mes prestations" :link_button_route="route('prices')">
         Mes prestations
-    </x-client.section.icon_content>
+    </x-client.single_element.icon_content>
     <x-client.section.text_content
         img_path="assets/img/me.png"
         img_alt=""
@@ -37,4 +37,5 @@
         link_button_label="En savoir plus sur moi"
         :link_button_route="route('about')"
     />
+    <x-client.section.testimonials/>
 </x-client.layout>

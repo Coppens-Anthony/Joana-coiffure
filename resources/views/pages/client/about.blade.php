@@ -43,7 +43,7 @@
     />
 
     <x-client.section.approach/>
-    <x-client.section.icon_content :items="$items">
+    <x-client.single_element.icon_content :items="$items">
         Mes valeurs
-    </x-client.section.icon_content>
+    </x-client.single_element.icon_content>
 </x-client.layout>
