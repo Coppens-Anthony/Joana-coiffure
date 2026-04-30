@@ -1,7 +1,7 @@
 @props(['isTitle' => true, 'items' => [], 'isLink' => false, 'link_button_title' => '', 'link_button_route' => '', 'link_button_label' => ''])
 
 <section class="flex flex-col gap-8">
-    <h2 class="{{ $isTitle ? 'text-[2rem] mb-4' : 'sr-only' }}">{{ $slot }}</h2>
+    <h2 class="{{ $isTitle ? 'text-[2rem] mb-16' : 'sr-only' }}">{{ $slot }}</h2>
     <ul class="flex flex-col gap-8 md:flex-row md:justify-between">
         @foreach($items as $item)
             <li class="flex flex-col text-center md:w-1/3">
