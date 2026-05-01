@@ -21,7 +21,7 @@
 ];
 @endphp
 
-<x-client.layout title="À propos de moi">
+<x-client.layout title="À propos de moi" :isContactOrAppointment="false">
     <x-client.section.text_content
         img_path="assets/img/about.png"
         img_alt=""

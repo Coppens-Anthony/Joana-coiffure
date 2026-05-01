@@ -22,7 +22,7 @@
 @endphp
 
 
-<x-client.layout title="Coiffeuse indépendante à Orp-Jauche">
+<x-client.layout title="Coiffeuse indépendante à Orp-Jauche" :isContactOrAppointment="false">
     <x-client.single_element.icon_content :isTitle="false" :items="$items" :isLink="true" link_button_label="Toutes mes prestations"
                                    link_button_title="Voir toutes mes prestations" :link_button_route="route('prices')">
         Mes prestations

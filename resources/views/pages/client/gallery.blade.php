@@ -1,4 +1,4 @@
-<x-client.layout title="Mon travail en images">
+<x-client.layout title="Mon travail en images" :isContactOrAppointment="false">
     <section>
         <h2 class="sr-only">Galerie</h2>
         <ul class="flex flex-col gap-8">
