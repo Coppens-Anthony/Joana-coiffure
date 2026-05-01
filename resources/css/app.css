@@ -52,7 +52,7 @@
     @apply size-4;
 } */
 
-.span_burger_menu{
+.span_burger_menu {
     @apply block bg-primary rounded-2xl w-6 min-h-1  transition-transform ease-in-out
 }
 
@@ -69,5 +69,3 @@
     transform: translateY(-8px) rotate(-45deg);
     transition: 0.5s;
 }
-
-
