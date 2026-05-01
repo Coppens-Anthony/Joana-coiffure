@@ -40,13 +40,15 @@ new class extends Component {
                     </li>
                     <li>
                         <x-global.icon_link icon_path="assets/svg/email.svg" :route="route('clients.index')"
-                                            title="Vers le tableau des clients" :isActive="request()->routeIs('clients.index')">
+                                            title="Vers le tableau des clients"
+                                            :isActive="request()->routeIs('clients.index')">
                             Clients
                         </x-global.icon_link>
                     </li>
                     <li>
                         <x-global.icon_link icon_path="assets/svg/email.svg" :route="route('statistics')"
-                                            title="Vers la page de vos statitstiques" :isActive="request()->routeIs('statistics')">
+                                            title="Vers la page de vos statitstiques"
+                                            :isActive="request()->routeIs('statistics')">
                             Statistiques
                         </x-global.icon_link>
                     </li>
@@ -60,10 +62,7 @@ new class extends Component {
             </nav>
         </div>
         <div>
-            <x-global.icon_link class="pb-4 border-black border-b mb-4" icon_path="assets/svg/email.svg"
-                                :route="route('dashboard')" title="Vers le dashboard">
-                Se déconnecter
-            </x-global.icon_link>
+            <x-global.logout/>
             <x-global.icon_link icon_path="assets/svg/email.svg" :route="route('dashboard')" title="Vers le dashboard">
                 {{ $this->authUser->name }}
             </x-global.icon_link>
