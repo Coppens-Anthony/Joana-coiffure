@@ -73,7 +73,7 @@
 
 
 .table__tr {
-    @apply flex flex-col border border-primary p-4 rounded-2xl hover:bg-primary cursor-pointer
+    @apply flex flex-col border border-primary p-4 rounded-2xl
     lg:table-row lg:border-0 lg:py-0;
 
     &:nth-child(even) {
@@ -87,6 +87,10 @@
             @apply opacity-60 lg:hidden;
         }
     }
+}
+
+.hovered{
+    @apply hover:bg-primary cursor-pointer
 }
 
 

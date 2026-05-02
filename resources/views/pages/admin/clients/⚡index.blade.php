@@ -16,7 +16,7 @@ class extends Component {
             $query->where('name', 'like', '%' . $this->term . '%');
         })
             ->orderBy('name')
-            ->paginate(5);
+            ->paginate(10);
     }
 };
 ?>
@@ -36,7 +36,8 @@ class extends Component {
         <x-global.table :titles="['Nom', 'Email', 'Téléphone', 'Nombre de rendre-vous']">
             @if(count($this->clients) > 0)
                 @foreach($this->clients as $client)
-                <tr class="table__tr">
+                <tr onclick="Livewire.navigate('{{ route('clients.⚡show', $client->id) }}')"
+                    class="table__tr hovered">
                     <td class="text_td">
                         <span class="title_td">Nom</span>
                         {{$client->name}}
@@ -51,7 +52,7 @@ class extends Component {
                     </td>
                     <td class="text_td">
                         <span class="title_td">Nombre de rendez-vous</span>
-                        0
+                        1
                     </td>
                 </tr>
             @endforeach

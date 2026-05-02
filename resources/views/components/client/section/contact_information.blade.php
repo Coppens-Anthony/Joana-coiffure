@@ -4,13 +4,13 @@
         un message
         via le formulaire ci-contre et je vous répondrai dès que possible.</p>
     <div class="flex flex-col gap-4">
-        <x-global.icon_link route="mailto:joanastofs@gmail.com" title="Envoyez-moi un mail"
+        <x-global.linkbutton.icon_link route="mailto:joanastofs@gmail.com" title="Envoyez-moi un mail"
                             icon_alt="Envoyez-moi un mail" icon_path="assets/svg/email.svg">
             joanastofs@gmail.com
-        </x-global.icon_link>
-        <x-global.icon_link route="tel:0466486777" title="Téléphonez-moi" icon_path="assets/svg/telephone.svg"
+        </x-global.linkbutton.icon_link>
+        <x-global.linkbutton.icon_link route="tel:0466486777" title="Téléphonez-moi" icon_path="assets/svg/telephone.svg"
                             icon_alt="Téléphonez-moi">
             0466 48 67 77
-        </x-global.icon_link>
+        </x-global.linkbutton.icon_link>
     </div>
 </div>

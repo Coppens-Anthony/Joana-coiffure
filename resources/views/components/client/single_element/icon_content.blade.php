@@ -16,6 +16,6 @@
         @endforeach
     </ul>
     @if($isLink)
-        <x-global.link_button class="mx-auto" title="{{ $link_button_title }}" route="{{ $link_button_route }} ">{{ $link_button_label }}</x-global.link_button>
+        <x-global.linkbutton.link_button class="mx-auto" title="{{ $link_button_title }}" route="{{ $link_button_route }} ">{{ $link_button_label }}</x-global.linkbutton.link_button>
     @endif
 </section>

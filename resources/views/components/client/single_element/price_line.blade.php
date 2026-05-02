@@ -8,5 +8,5 @@
     <small class="text-[0.75rem] italic">{{ $desc }}</small>
 </div>
 @if($isAppointment)
-    <x-global.button type="button" title="Sélectionner la prestation">Sélectionner</x-global.button>
+    <x-global.linkbutton.button type="button" title="Sélectionner la prestation">Sélectionner</x-global.linkbutton.button>
 @endif

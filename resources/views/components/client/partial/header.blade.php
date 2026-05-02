@@ -19,47 +19,47 @@
         <ul class="flex flex-col w-full gap-6 origin-center absolute top-[25%] left-1/2 -translate-x-1/2
             md:flex-row md:static md:translate-x-0 md:top-auto md:w-auto md:justify-between md:items-center">
             <li>
-                <x-global.link
+                <x-global.linkbutton.link
                     route="{{ route('home') }}"
                     title="Vers la page d'accueil"
                     :isActive="request()->routeIs('home')">
                     Accueil
-                </x-global.link>
+                </x-global.linkbutton.link>
             </li>
             <li>
-                <x-global.link
+                <x-global.linkbutton.link
                     route="{{ route('about') }}"
                     title="Vers la page à propos"
                     :isActive="request()->routeIs('about')">
                     À propos
-                </x-global.link>
+                </x-global.linkbutton.link>
             </li>
             <li>
-                <x-global.link
+                <x-global.linkbutton.link
                     route="{{ route('prices') }}"
                     title="Vers la page des tarifs"
                     :isActive="request()->routeIs('prices')">
                     Tarifs
-                </x-global.link>
+                </x-global.linkbutton.link>
             </li>
             <li>
-                <x-global.link
+                <x-global.linkbutton.link
                     route="{{ route('gallery') }}"
                     title="Vers la galerie"
                     :isActive="request()->routeIs('gallery')">
                     Galerie
-                </x-global.link>
+                </x-global.linkbutton.link>
             </li>
             <li>
-                <x-global.link
+                <x-global.linkbutton.link
                     route="{{ route('contact') }}"
                     title="Vers la page de contact"
                     :isActive="request()->routeIs('contact')">
                     Contact
-                </x-global.link>
+                </x-global.linkbutton.link>
             </li>
-            <x-global.link_button class="mx-auto" route="{{ route('appointment') }}" title="Prendre un rendez-vous">Rendez-vous
-            </x-global.link_button>
+            <x-global.linkbutton.link_button class="mx-auto" route="{{ route('appointment') }}" title="Prendre un rendez-vous">Rendez-vous
+            </x-global.linkbutton.link_button>
         </ul>
     </nav>
 </header>

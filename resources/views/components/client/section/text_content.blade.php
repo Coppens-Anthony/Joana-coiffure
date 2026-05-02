@@ -5,7 +5,7 @@
         <h2 class="text-[2rem]">{{ $title }}</h2>
         <p>{{ $content }}</p>
         @if($isLink)
-            <x-global.link_button title="{{ $link_button_title }}" route="{{ $link_button_route }} ">{{ $link_button_label }}</x-global.link_button>
+            <x-global.linkbutton.link_button title="{{ $link_button_title }}" route="{{ $link_button_route }} ">{{ $link_button_label }}</x-global.linkbutton.link_button>
         @endif
     </div>
 </section>

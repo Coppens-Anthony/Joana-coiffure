@@ -32,7 +32,7 @@
                 <span class="text-error">*</span>
                 Champs obligatoires
             </small>
-            <x-global.button title="Connectez-vous">Se connecter</x-global.button>
+            <x-global.linkbutton.button title="Connectez-vous">Se connecter</x-global.linkbutton.button>
         </form>
     </div>
 </main>
