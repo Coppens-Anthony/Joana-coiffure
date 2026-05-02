@@ -18,6 +18,7 @@
 
     --color-primary: #FCD1DD;
     --color-primary-2: #FFAAC2;
+    --color-primary-opacity: rgb(252 209 221 / 0.4);
 
     --color-secondary: #88C9A8;
     --color-secondary-2: #50C087;
@@ -69,3 +70,23 @@
     transform: translateY(-8px) rotate(-45deg);
     transition: 0.5s;
 }
+
+
+.table__tr {
+    @apply flex flex-col border border-primary p-4 rounded-2xl hover:bg-primary cursor-pointer
+    lg:table-row lg:border-0 lg:py-0;
+
+    &:nth-child(even) {
+        @apply lg:bg-primary-opacity
+    }
+
+    .text_td {
+        @apply flex justify-between items-center py-2 lg:table-cell lg:py-2;
+
+        .title_td {
+            @apply opacity-60 lg:hidden;
+        }
+    }
+}
+
+
