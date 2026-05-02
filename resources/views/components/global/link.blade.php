@@ -1,6 +1,7 @@
 @props(['route', 'title', 'isActive' => false, 'class' => ''])
 
 <a href="{{ $route }}"
+   wire:navigate
    title="{{ $title }}"
    class="relative group {{ $class }}">
     {{ $slot }}
