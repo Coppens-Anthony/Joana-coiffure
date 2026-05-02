@@ -27,33 +27,33 @@ new class extends Component {
 
                 <ul class="flex flex-col gap-8 pt-4 border-t border-black">
                     <li>
-                        <x-global.icon_link icon_path="assets/svg/email.svg" :route="route('dashboard')"
+                        <x-global.icon_link icon_path="assets/svg/dashboard.svg" :route="route('dashboard')"
                                             title="Vers le dashboard" :isActive="request()->routeIs('dashboard')">
                             Dashboard
                         </x-global.icon_link>
                     </li>
                     <li>
-                        <x-global.icon_link icon_path="assets/svg/email.svg" :route="route('agenda')"
+                        <x-global.icon_link icon_path="assets/svg/agenda.svg" :route="route('agenda')"
                                             title="Vers votre agenda" :isActive="request()->routeIs('agenda')">
                             Agenda
                         </x-global.icon_link>
                     </li>
                     <li>
-                        <x-global.icon_link icon_path="assets/svg/email.svg" :route="route('clients.index')"
+                        <x-global.icon_link icon_path="assets/svg/clients.svg" :route="route('clients.index')"
                                             title="Vers le tableau des clients"
                                             :isActive="request()->routeIs('clients.index')">
                             Clients
                         </x-global.icon_link>
                     </li>
                     <li>
-                        <x-global.icon_link icon_path="assets/svg/email.svg" :route="route('statistics')"
+                        <x-global.icon_link icon_path="assets/svg/stats.svg" :route="route('statistics')"
                                             title="Vers la page de vos statitstiques"
                                             :isActive="request()->routeIs('statistics')">
                             Statistiques
                         </x-global.icon_link>
                     </li>
                     <li>
-                        <x-global.icon_link icon_path="assets/svg/email.svg" :route="route('database.index')"
+                        <x-global.icon_link icon_path="assets/svg/database.svg" :route="route('database.index')"
                                             title="Vers le dashboard" :isActive="request()->routeIs('database.index')">
                             Données
                         </x-global.icon_link>
@@ -63,7 +63,7 @@ new class extends Component {
         </div>
         <div>
             <x-global.logout/>
-            <x-global.icon_link icon_path="assets/svg/email.svg" :route="route('dashboard')" title="Vers le dashboard">
+            <x-global.icon_link icon_path="assets/svg/profile.svg" :route="route('dashboard')" title="Vers le dashboard">
                 {{ $this->authUser->name }}
             </x-global.icon_link>
         </div>

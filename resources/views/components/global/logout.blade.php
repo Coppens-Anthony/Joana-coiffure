@@ -1,6 +1,6 @@
 <form action="{{ route('logout') }}" method="post" class="flex gap-2 items-center pb-4 mb-4 border-black border-b">
     @csrf
-    <img src="{{ asset('assets/svg/email.svg') }}" alt="" class="w-8 h-8">
+    <img src="{{ asset('assets/svg/logout.svg') }}" alt="" class="w-8 h-8">
     <button title="Se déconnecter" class="relative group cursor-pointer">
         Se déconnecter
         <span class="absolute left-0 top-full w-full h-4 flex items-center pointer-events-none">
