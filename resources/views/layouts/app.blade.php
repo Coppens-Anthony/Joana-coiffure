@@ -17,5 +17,6 @@
     </div>
     <livewire:admin.sidebar/>
 </main>
+<livewire:widgets::modal/>
 </body>
 </html>

@@ -1,6 +1,6 @@
 @props(['title', 'type' => 'submit', 'class' => ''])
 
-<button type="{{ $type }}" title="{{ $title }}" class="relative group cursor-pointer {{ $class }}">
+<button type="{{ $type }}" title="{{ $title }}" class="relative group cursor-pointer {{ $class }}" {{ $attributes }}>
     {{ $slot }}
     <span class="absolute left-0 top-full w-full h-4 flex items-center pointer-events-none">
             <img src="{{ asset('assets/svg/scissor.svg') }}" class="h-fit w-auto shrink-0

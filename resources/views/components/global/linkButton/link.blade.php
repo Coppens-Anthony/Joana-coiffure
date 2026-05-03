@@ -2,6 +2,7 @@
 
 <a href="{{ $route }}"
    wire:navigate
+   {{ $attributes }}
    title="{{ $title }}"
    class="relative group {{ $class }}">
     {{ $slot }}
