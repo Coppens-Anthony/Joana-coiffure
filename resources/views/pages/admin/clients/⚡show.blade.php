@@ -7,6 +7,11 @@ use Livewire\Component;
 new #[Title('Fiche du client')]
 class extends Component {
     public Client $client;
+
+    public function mount(Client $client): void
+    {
+        $this->client = $client->load(['appointments.services']);
+    }
 };
 ?>
 
@@ -18,7 +23,7 @@ class extends Component {
             <span class="hidden md:inline-block w-1 h-1 rounded-full bg-black"></span>
             <li>{{ $client->telephone }}</li>
             <span class="hidden md:inline-block w-1 h-1 rounded-full bg-black"></span>
-            <li>{{ count($client->appointments) }} rendez-vous</li>
+            <li>{{ $client->appointments->count() }} rendez-vous</li>
         </ul>
     </section>
     <section class="mt-8 mb-16 bg-tertiary p-6 rounded-2xl" x-data="{expanded: false}">
@@ -60,7 +65,7 @@ class extends Component {
     <section>
         <h2 class="text-2xl mb-4">Historique des rendez-vous</h2>
         <x-global.table :titles="['Date', 'Prestation(s)', 'Durée', 'Prix', 'Informations supplémentaires']">
-            @if(count($client->appointments) > 0)
+            @if($client->appointments->count() > 0)
                 @foreach($client->appointments as $appointment)
                     <tr class="table__tr">
                         <td class="text_td">
