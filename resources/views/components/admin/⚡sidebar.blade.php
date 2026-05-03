@@ -131,8 +131,7 @@ new class extends Component {
             <x-global.linkbutton.icon_link
                 icon_path="assets/svg/profile.svg"
                 :route="route('dashboard')"
-                title="Vers le profil"
-            >
+                title="Vers le profil">
                 {{ $this->authUser->name }}
             </x-global.linkbutton.icon_link>
         </div>

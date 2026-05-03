@@ -18,7 +18,7 @@ class extends Component {
             <span class="hidden md:inline-block w-1 h-1 rounded-full bg-black"></span>
             <li>{{ $client->telephone }}</li>
             <span class="hidden md:inline-block w-1 h-1 rounded-full bg-black"></span>
-            <li>1 rendez-vous</li>
+            <li>{{ count($client->appointments) }} rendez-vous</li>
         </ul>
     </section>
     <section class="mt-8 mb-16 bg-tertiary p-6 rounded-2xl" x-data="{expanded: false}">
@@ -32,22 +32,22 @@ class extends Component {
                 <li class="flex flex-col sm:flex-row sm:justify-between gap-1 sm:items-center">
                     <p class="w-3/4">10/04/2026 : Sophie travaille dans l’immobilier.</p>
                     <div class="flex gap-2 w-fit">
-                        <img src="{{ asset('assets/svg/chevron.svg') }}" alt="">
-                        <img src="{{ asset('assets/svg/chevron.svg') }}" alt="">
+                        <img src="{{ asset('assets/svg/edit.svg') }}" alt="Modifier la note">
+                        <img src="{{ asset('assets/svg/delete.svg') }}" alt="Supprimer la note">
                     </div>
                 </li>
                 <li class="flex flex-col sm:flex-row sm:justify-between gap-1 sm:items-center">
                     <p class="w-3/4">10/04/2026 : Sophie travaille dans l’immobilier.</p>
                     <div class="flex gap-2 w-fit">
-                        <img src="{{ asset('assets/svg/chevron.svg') }}" alt="">
-                        <img src="{{ asset('assets/svg/chevron.svg') }}" alt="">
+                        <img src="{{ asset('assets/svg/edit.svg') }}" alt="Modifier la note">
+                        <img src="{{ asset('assets/svg/delete.svg') }}" alt="Supprimer la note">
                     </div>
                 </li>
                 <li class="flex flex-col sm:flex-row sm:justify-between gap-1 sm:items-center">
                     <p class="w-3/4">10/04/2026 : Sophie travaille dans l’immobilier.</p>
                     <div class="flex gap-2 w-fit">
-                        <img src="{{ asset('assets/svg/chevron.svg') }}" alt="">
-                        <img src="{{ asset('assets/svg/chevron.svg') }}" alt="">
+                        <img src="{{ asset('assets/svg/edit.svg') }}" alt="Modifier la note">
+                        <img src="{{ asset('assets/svg/delete.svg') }}" alt="Supprimer la note">
                     </div>
                 </li>
 
@@ -60,28 +60,36 @@ class extends Component {
     <section>
         <h2 class="text-2xl mb-4">Historique des rendez-vous</h2>
         <x-global.table :titles="['Date', 'Prestation(s)', 'Durée', 'Prix', 'Informations supplémentaires']">
-            <tr class="table__tr">
-                <td class="text_td">
-                    <span class="title_td">Date</span>
-                    {{ now() }}
-                </td>
-                <td class="text_td">
-                    <span class="title_td">Prestation(s)</span>
-                    Permanente
-                </td>
-                <td class="text_td">
-                    <span class="title_td">Durée</span>
-                    45 minutes
-                </td>
-                <td class="text_td">
-                    <span class="title_td">Prix</span>
-                    70€
-                </td>
-                <td class="text_td">
-                    <span class="title_td">Informations supplémentaires</span>
-                    <small class="text-[.75rem] italic">Je suis allergique au lait.</small>
-                </td>
-            </tr>
+            @if(count($client->appointments) > 0)
+                @foreach($client->appointments as $appointment)
+                    <tr class="table__tr">
+                        <td class="text_td">
+                            <span class="title_td">Date</span>
+                            {{ $appointment->formatDate('updated_at') }}
+                        </td>
+                        <td class="text_td">
+                            <span class="title_td">Prestation(s)</span>
+                            {{ $appointment->services->pluck('name')->implode(' / ') }}
+                        </td>
+                        <td class="text_td">
+                            <span class="title_td">Durée</span>
+                            {{ $appointment->durationFormat($appointment->services->sum('duration')) }}
+                        </td>
+                        <td class="text_td">
+                            <span class="title_td">Prix</span>
+                            {{ $appointment->services->sum('price') }}€
+                        </td>
+                        <td class="text_td">
+                            <span class="title_td">Informations supplémentaires</span>
+                            <small class="text-[.75rem] italic">{{ $appointment->message ?? '/' }}</small>
+                        </td>
+                    </tr>
+                @endforeach
+            @else
+                <tr>
+                    <td class="py-2" colspan="5">Aucun résultat</td>
+                </tr>
+            @endif
         </x-global.table>
     </section>
 </div>
