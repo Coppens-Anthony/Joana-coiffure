@@ -30,6 +30,14 @@ class extends Component {
     {
         $this->dispatch('open_modal', ['modal' => 'modals::services.create']);
     }
+    public function edit(string $id)
+    {
+        $this->dispatch('open_modal', ['modal' => 'modals::services.edit', 'model_id' => $id]);
+    }
+    public function delete(string $id)
+    {
+        $this->dispatch('open_modal', ['modal' => 'modals::services.delete', 'model_id' => $id]);
+    }
 };
 ?>
 
@@ -69,11 +77,11 @@ class extends Component {
                         <td class="text_td">
                             <span class="title_td">Actions</span>
                             <div class="flex gap-2 items-center w-fit mx-auto">
-                                <button type="button">
+                                <button type="button" wire:click="edit({{ $service->id }})">
                                     <img src="{{ asset('assets/svg/edit.svg') }}" alt="Modifier la prestation"
                                          class="w-7 h-7 cursor-pointer">
                                 </button>
-                                <button type="button">
+                                <button type="button" wire:click="delete({{ $service->id }})">
                                     <img src="{{ asset('assets/svg/delete.svg') }}" alt="Supprimer la prestation"
                                          class="w-6 h-6 cursor-pointer">
                                 </button>
