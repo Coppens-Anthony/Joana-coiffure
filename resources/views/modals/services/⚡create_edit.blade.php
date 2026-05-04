@@ -22,7 +22,7 @@ new class extends Component {
         }
     }
 
-    public function create()
+    public function store()
     {
         $validated = $this->validate([
             'name' => 'required|unique:services,name',
@@ -54,7 +54,7 @@ new class extends Component {
 
 
 <livewire:admin.modal :modal_title="$this->model_id ? 'Modifier la prestation' : 'Ajouter une prestation'">
-    <form wire:click.stop wire:submit="{{ $this->model_id ? 'update' : 'create' }}" class="flex flex-col gap-4">
+    <form wire:click.stop wire:submit="{{ $this->model_id ? 'update' : 'store' }}" class="flex flex-col gap-4">
         @csrf
         <x-global.form.input name="name" wire:model="name" placeholder="Permanente" :isRequired="true">
             Nom
@@ -79,7 +79,7 @@ new class extends Component {
                 Annuler
             </x-global.linkButton.button>
             <x-global.linkButton.button :title="$this->model_id ? 'Enregistrer les modifications' : 'Ajouter la nouvelle prestation'">
-                {{ $this->model_id ? 'Enregistrer' : 'ajouter' }}
+                {{ $this->model_id ? 'Enregistrer' : 'Ajouter' }}
             </x-global.linkButton.button>
         </div>
     </form>

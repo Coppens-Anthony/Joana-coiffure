@@ -9,7 +9,7 @@
         </small>
         @enderror
     </label>
-    <input class="border-2 border-primary p-4 rounded-2xl focus:border-primary-2 focus:outline-none"
+    <input class="border-2 w-full border-primary p-4 rounded-2xl focus:border-primary-2 focus:outline-none"
            type="{{ $type }}"
            id="{{$name}}"
            name="{{$name}}"

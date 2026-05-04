@@ -1,6 +1,8 @@
 <?php
 
 use App\Models\Client;
+use Livewire\Attributes\Computed;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 
@@ -8,9 +10,35 @@ new #[Title('Fiche du client')]
 class extends Component {
     public Client $client;
 
+    #[On('action_done')]
+    public function refresh()
+    {
+    }
+
+    #[Computed]
+    public function notes()
+    {
+        return $this->client->notes()->orderByDesc('updated_at')->get();
+    }
+
     public function mount(Client $client): void
     {
         $this->client = $client->load(['appointments.services']);
+    }
+
+    public function create()
+    {
+        $this->dispatch('open_modal', ['modal' => 'modals::notes.create_edit', 'model_type' => $this->client->id]);
+    }
+
+    public function edit(string $id)
+    {
+        $this->dispatch('open_modal', ['modal' => 'modals::notes.create_edit', 'model_id' => $id]);
+    }
+
+    public function delete(string $id)
+    {
+        $this->dispatch('open_modal', ['modal' => 'modals::notes.delete', 'model_id' => $id]);
     }
 };
 ?>
@@ -33,31 +61,26 @@ class extends Component {
                  :class="{'rotate-180': expanded}">
         </div>
         <div x-show="expanded" class="mt-4">
-            <ol class="flex flex-col gap-2">
-                <li class="flex flex-col sm:flex-row sm:justify-between gap-1 sm:items-center">
-                    <p class="w-3/4">10/04/2026 : Sophie travaille dans l’immobilier.</p>
-                    <div class="flex gap-2 w-fit">
-                        <img src="{{ asset('assets/svg/edit.svg') }}" alt="Modifier la note">
-                        <img src="{{ asset('assets/svg/delete.svg') }}" alt="Supprimer la note">
-                    </div>
-                </li>
-                <li class="flex flex-col sm:flex-row sm:justify-between gap-1 sm:items-center">
-                    <p class="w-3/4">10/04/2026 : Sophie travaille dans l’immobilier.</p>
-                    <div class="flex gap-2 w-fit">
-                        <img src="{{ asset('assets/svg/edit.svg') }}" alt="Modifier la note">
-                        <img src="{{ asset('assets/svg/delete.svg') }}" alt="Supprimer la note">
-                    </div>
-                </li>
-                <li class="flex flex-col sm:flex-row sm:justify-between gap-1 sm:items-center">
-                    <p class="w-3/4">10/04/2026 : Sophie travaille dans l’immobilier.</p>
-                    <div class="flex gap-2 w-fit">
-                        <img src="{{ asset('assets/svg/edit.svg') }}" alt="Modifier la note">
-                        <img src="{{ asset('assets/svg/delete.svg') }}" alt="Supprimer la note">
-                    </div>
-                </li>
-
-            </ol>
-            <x-global.linkbutton.button_link class="mt-4" title="Ajouter une note">
+            @if($this->notes->count() > 0)
+                <ol class="flex flex-col gap-2">
+                    @foreach($this->notes as $note)
+                        <li class="flex flex-col sm:flex-row sm:justify-between gap-1 sm:items-center">
+                            <p class="w-3/4">{{ $note->formatDate('updated_at') . ' : ' . $note->content }}</p>
+                            <div class="flex gap-2 w-fit">
+                                <button wire:click="edit({{ $note->id }})" class="cursor-pointer">
+                                    <img src="{{ asset('assets/svg/edit.svg') }}" alt="Modifier la note">
+                                </button>
+                                <button wire:click="delete({{ $note->id }})" class="cursor-pointer">
+                                    <img src="{{ asset('assets/svg/delete.svg') }}" alt="Supprimer la note">
+                                </button>
+                            </div>
+                        </li>
+                    @endforeach
+                </ol>
+            @else
+                <p>Pas encore de note pour {{ $client->name }}</p>
+            @endif
+            <x-global.linkbutton.button_link class="mt-4" title="Ajouter une note" wire:click="create">
                 + Ajouter une note
             </x-global.linkbutton.button_link>
         </div>

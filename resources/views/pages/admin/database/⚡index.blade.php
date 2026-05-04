@@ -12,9 +12,7 @@ class extends Component {
     public string $term = '';
 
     #[On('action_done')]
-    public function refresh()
-    {
-    }
+    public function refresh(){}
 
     #[Computed]
     public function services()
