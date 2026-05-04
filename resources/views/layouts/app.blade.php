@@ -10,12 +10,12 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="overflow-x-hidden mx-auto font-sans text-black">
-<main class="flex flex-row-reverse gap-8">
+<main class="flex gap-8">
+    <livewire:admin.sidebar/>
     <div class="flex-1 mr-8 py-8">
         <h1 class="text-[2rem] mb-8">{{ $title }}</h1>
         {{ $slot }}
     </div>
-    <livewire:admin.sidebar/>
 </main>
 <livewire:widgets::modal/>
 </body>

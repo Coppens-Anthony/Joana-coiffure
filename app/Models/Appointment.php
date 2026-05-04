@@ -49,6 +49,6 @@ class Appointment extends Model
 
     public function services(): BelongsToMany
     {
-        return $this->belongsToMany(Service::class, 'appointment_service', 'appointment_id', 'service_id');
+        return $this->belongsToMany(Service::class, 'appointment_service', 'appointment_id', 'service_id')->withTrashed();
     }
 }

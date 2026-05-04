@@ -74,7 +74,10 @@ class extends Component {
                         </td>
                         <td class="text_td">
                             <span class="title_td">Prestation(s)</span>
-                            {{ $appointment->services->pluck('name')->implode(' / ') }}
+                            {!! $appointment->services->map(fn($service) => $service->trashed()
+                                ? $service->name . ' <small class="text-[.75rem]">(Supprimé)</small>'
+                                : $service->name
+                            )->implode(' / ') !!}
                         </td>
                         <td class="text_td">
                             <span class="title_td">Durée</span>

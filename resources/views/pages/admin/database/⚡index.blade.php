@@ -28,11 +28,11 @@ class extends Component {
 
     public function create()
     {
-        $this->dispatch('open_modal', ['modal' => 'modals::services.create']);
+        $this->dispatch('open_modal', ['modal' => 'modals::services.create_edit']);
     }
     public function edit(string $id)
     {
-        $this->dispatch('open_modal', ['modal' => 'modals::services.edit', 'model_id' => $id]);
+        $this->dispatch('open_modal', ['modal' => 'modals::services.create_edit', 'model_id' => $id]);
     }
     public function delete(string $id)
     {
@@ -44,7 +44,7 @@ class extends Component {
 <div>
     <section class="flex flex-col gap-8">
         <h3 class="sr-only">Tableau des prestations</h3>
-        <div class="flex justify-between items-end">
+        <div class="flex flex-col md:flex-row md:justify-between items-start md:items-end gap-4 md:gap-0">
             <form class="w-fit">
                 <x-global.form.input name="name"
                                      placeholder="Permanente"
@@ -58,7 +58,7 @@ class extends Component {
                 + Ajouter une prestation
             </x-global.linkButton.button_link>
         </div>
-        <x-global.table :titles="['Nom', 'Durée', 'Prix', 'Actions']">
+        <x-global.table :titles="['Nom', 'Durée', 'Prix', 'Description', 'Actions']">
             @if(count($this->services) > 0)
                 @foreach($this->services as $service)
                     <tr class="table__tr">
@@ -75,8 +75,12 @@ class extends Component {
                             {{ $service->price }}€
                         </td>
                         <td class="text_td">
+                            <span class="title_td">Description</span>
+                            {{ $service->desc }}
+                        </td>
+                        <td class="text_td">
                             <span class="title_td">Actions</span>
-                            <div class="flex gap-2 items-center w-fit mx-auto">
+                            <div class="flex gap-2 items-center w-fit ml-auto lg:mx-auto">
                                 <button type="button" wire:click="edit({{ $service->id }})">
                                     <img src="{{ asset('assets/svg/edit.svg') }}" alt="Modifier la prestation"
                                          class="w-7 h-7 cursor-pointer">
@@ -91,7 +95,7 @@ class extends Component {
                 @endforeach
             @else
                 <tr>
-                    <td class="py-2" colspan="4">Aucun résultat</td>
+                    <td class="py-2" colspan="5">Aucun résultat</td>
                 </tr>
             @endif
         </x-global.table>
