@@ -30,10 +30,12 @@ class extends Component {
     {
         $this->dispatch('open_modal', ['modal' => 'modals::services.create_edit']);
     }
+
     public function edit(string $id)
     {
         $this->dispatch('open_modal', ['modal' => 'modals::services.create_edit', 'model_id' => $id]);
     }
+
     public function delete(string $id)
     {
         $this->dispatch('open_modal', ['modal' => 'modals::services.delete', 'model_id' => $id]);

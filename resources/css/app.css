@@ -81,7 +81,7 @@
     }
 
     .text_td {
-        @apply flex justify-between items-center py-2 lg:table-cell lg:py-2;
+        @apply flex justify-between items-center gap-8 text-end py-2 lg:table-cell lg:py-2;
 
         .title_td {
             @apply opacity-60 lg:hidden;
