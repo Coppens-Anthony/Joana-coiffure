@@ -11,8 +11,11 @@ class extends Component {
     public Client $client;
 
     #[On('action_done')]
-    public function refresh()
+    public function refresh(string $message = '', bool $isDeleted = false)
     {
+        if ($message) {
+            session()->flash($isDeleted ? 'delete' : 'success', $message);
+        }
     }
 
     #[Computed]
@@ -44,6 +47,15 @@ class extends Component {
 ?>
 
 <div>
+    @if (session('success'))
+        <div class="alert-success">
+            {{ session('success') }}
+        </div>
+    @elseif(session('delete'))
+        <div class="alert-delete">
+            {{ session('delete') }}
+        </div>
+    @endif
     <section>
         <h2 class="text-2xl">{{ $client->name }}</h2>
         <ul class="flex flex-col md:flex-row gap-2 md:items-center mt-2">

@@ -17,7 +17,7 @@ new class extends Component {
     public function destroy()
     {
         $this->note->delete();
-        $this->dispatch('action_done');
+        $this->dispatch('action_done', message: 'Note supprimée avec succès !', isDeleted: true);
         $this->dispatch('close_modal');
     }
 };

@@ -32,7 +32,7 @@ new class extends Component {
         ]);
 
         Service::create($validated);
-        $this->dispatch('action_done');
+        $this->dispatch('action_done', message: 'Prestation ajoutée avec succès !');
         $this->dispatch('close_modal');
     }
 
@@ -46,7 +46,7 @@ new class extends Component {
         ]);
 
         $this->service->update($validated);
-        $this->dispatch('action_done');
+        $this->dispatch('action_done', message: 'Prestation modifiée avec succès !');
         $this->dispatch('close_modal');
     }
 };

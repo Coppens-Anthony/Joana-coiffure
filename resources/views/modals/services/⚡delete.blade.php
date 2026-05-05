@@ -16,7 +16,7 @@ new class extends Component {
     public function destroy()
     {
         $this->service->delete();
-        $this->dispatch('action_done');
+        $this->dispatch('action_done', message: 'Prestation supprimée avec succès !', isDeleted: true);
         $this->dispatch('close_modal');
     }
 };

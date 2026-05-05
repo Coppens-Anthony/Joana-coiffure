@@ -30,7 +30,7 @@ new class extends Component {
             'client_id' => $this->client_id,
             'content' => $validated['content'],
         ]);
-        $this->dispatch('action_done');
+        $this->dispatch('action_done', message: 'Note ajoutée avec succès !');
         $this->dispatch('close_modal');
     }
 
@@ -44,7 +44,7 @@ new class extends Component {
             'content' => $validated['content'],
             'updated_at' => now(),
         ]);
-        $this->dispatch('action_done');
+        $this->dispatch('action_done', message: 'Note modifiée avec succès !');
         $this->dispatch('close_modal');
     }
 };

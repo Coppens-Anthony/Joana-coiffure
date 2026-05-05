@@ -12,7 +12,12 @@ class extends Component {
     public string $term = '';
 
     #[On('action_done')]
-    public function refresh(){}
+    public function refresh(string $message = '', bool $isDeleted = false)
+    {
+        if ($message) {
+            session()->flash($isDeleted ? 'delete' : 'success', $message);
+        }
+    }
 
     #[Computed]
     public function services()
@@ -42,6 +47,15 @@ class extends Component {
 ?>
 
 <div>
+    @if (session('success'))
+        <div class="alert-success">
+            {{ session('success') }}
+        </div>
+    @elseif(session('delete'))
+        <div class="alert-delete">
+            {{ session('delete') }}
+        </div>
+    @endif
     <section class="flex flex-col gap-8">
         <h3 class="sr-only">Tableau des prestations</h3>
         <div class="flex flex-col md:flex-row md:justify-between items-start md:items-end gap-4 md:gap-0">
