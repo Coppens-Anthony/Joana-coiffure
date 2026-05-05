@@ -121,7 +121,23 @@ class extends Component {
             ->first();
     }
 
-    
+    public function download()
+    {
+        $file = Pdf::loadView('pdf.stats', [
+            'appointments' => $this->appointments,
+            'totalClients' => $this->totalClients,
+            'recurringClients' => $this->recurringClients,
+            'newClients' => $this->newClients,
+            'totalRevenue' => $this->totalRevenue,
+            'averageRevenue' => $this->averageRevenue,
+            'mostRequestedService' => $this->mostRequestedService,
+        ]);
+
+        return response()->streamDownload(
+            fn() => print($file->output()),
+            'statistiques-' . (Carbon::create($this->year, $this->month)->locale(App::getLocale())->translatedFormat('F-Y')) . '.pdf'
+        );
+    }
 }
 ?>
 
