@@ -2,59 +2,107 @@
 <html lang="{{ App::getLocale() }}">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Joana-coiffure --- Statistiques</title>
+
+    <style>
+        body {
+            font-family: DejaVu Sans, sans-serif;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .container {
+            width: 100%;
+            margin-top: 32px;
+            text-align: center;
+        }
+
+        .card {
+            page-break-inside: avoid;
+            width: 50%;
+            display: inline-block;
+            vertical-align: top;
+            margin-bottom: 32px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            border: 1px solid black;
+            border-radius: 16px;
+        }
+
+        .card-header {
+            font-size: 24px;
+            background-color: #FEEDBF;
+            border: 1px solid #FEEDBF;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .card-body {
+            background: white;
+            padding: 16px;
+        }
+
+        .card-body ul {
+            padding-left: 16px;
+        }
+
+        .card-body li {
+            margin-bottom: 16px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Stats</h1>
-    <main>
-        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-8">
-            <h2 class="sr-only">Statistques pour le bilan</h2>
-            <article class="w-full shadow-[0_0_10px_rgba(0,0,0,0.25)] rounded-2xl">
-                <h3 class="text-2xl rounded-t-2xl bg-tertiary py-6 w-full text-center">Rendez-vous</h3>
-                <div class="rounded-b-2xl bg-white my-6 mx-4">
-                    <ul class="flex flex-col gap-4">
-                        <li>{{ $appointments->count() }} rendez-vous</li>
-                    </ul>
-                </div>
-            </article>
-            <article class="w-full shadow-[0_0_10px_rgba(0,0,0,0.25)] rounded-2xl">
-                <h3 class="text-2xl rounded-t-2xl bg-tertiary py-6 w-full text-center">Clients</h3>
-                <div class="rounded-b-2xl bg-white my-6 mx-4">
-                    <ul class="flex flex-col gap-4">
-                        <li>{{ $totalClients->count() }} clients</li>
-                        <li>{{ $recurringClients->count() }} clients réccurents</li>
-                        <li>{{ $newClients->count() }} nouveaux clients</li>
-                    </ul>
-                </div>
-            </article>
-            <article class="w-full shadow-[0_0_10px_rgba(0,0,0,0.25)] rounded-2xl">
-                <h3 class="text-2xl rounded-t-2xl bg-tertiary py-6 w-full text-center">Revenus</h3>
-                <div class="rounded-b-2xl bg-white my-6 mx-4">
-                    <ul class="flex flex-col gap-4">
-                        <li>{{ number_format($totalRevenue, 0, '', ' ') }}€ de revenu total</li>
-                        <li>{{ number_format($averageRevenue, 2, ',', ' ') }}€ de revenu moyen par rendez-vous</li>
-                    </ul>
-                </div>
-            </article>
-            <article class="w-full shadow-[0_0_10px_rgba(0,0,0,0.25)] rounded-2xl">
-                <h3 class="text-2xl rounded-t-2xl bg-tertiary py-6 w-full text-center">Prestations</h3>
-                <div class="rounded-b-2xl bg-white my-6 mx-4">
-                    <ul class="flex flex-col gap-4">
-                        <li>
-                            @if($mostRequestedService)
-                                {{ $mostRequestedService['name'] }} est la prestation la plus demandée
-                            @else
-                                Aucune prestation ce mois-ci
-                            @endif
-                        </li>
-                    </ul>
-                </div>
-            </article>
 
-        </section>
-    </main>
+<h1>Statistiques sur la prériode
+    de {{ $month == 0 ? $year : Carbon\Carbon::create($year, $month)->locale(App::getLocale())->translatedFormat('F Y')}} </h1>
+<main class="container">
+
+    <div class="card">
+        <div class="card-header">Rendez-vous</div>
+        <div class="card-body">
+            <ul>
+                <li>{{ $appointments->count() }} rendez-vous</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">Clients</div>
+        <div class="card-body">
+            <ul>
+                <li>{{ $totalClients->count() }} clients</li>
+                <li>{{ $recurringClients->count() }} clients récurrents</li>
+                <li>{{ $newClients->count() }} nouveaux clients</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">Revenus</div>
+        <div class="card-body">
+            <ul>
+                <li>{{ number_format($totalRevenue, 0, '', ' ') }}€ de revenu total</li>
+                <li>{{ number_format($averageRevenue, 2, ',', ' ') }}€ de revenu moyen par rendez-vous</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">Prestations</div>
+        <div class="card-body">
+            <ul>
+                <li>
+                    @if($mostRequestedService)
+                        {{ $mostRequestedService['name'] }} est la prestation la plus demandée
+                    @else
+                        Aucune prestation durant cette période
+                    @endif
+                </li>
+            </ul>
+        </div>
+    </div>
+</main>
 </body>
 </html>

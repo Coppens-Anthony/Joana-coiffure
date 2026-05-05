@@ -131,6 +131,8 @@ class extends Component {
             'totalRevenue' => $this->totalRevenue,
             'averageRevenue' => $this->averageRevenue,
             'mostRequestedService' => $this->mostRequestedService,
+            'month' => $this->month,
+            'year' => $this->year,
         ]);
 
         return response()->streamDownload(
@@ -195,7 +197,7 @@ class extends Component {
                         @if($this->mostRequestedService)
                             {{ $this->mostRequestedService['name'] }} est la prestation la plus demandée
                         @else
-                            Aucune prestation ce mois-ci
+                            Aucune prestation durant cette période
                         @endif
                     </li>
                 </ul>
