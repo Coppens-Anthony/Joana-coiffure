@@ -1,7 +1,7 @@
-@props(['type' => 'submit', 'title', 'isSecondary' => false])
+@props(['type' => 'submit', 'title', 'isSecondary' => false, 'class' => ''])
 
 <button type="{{$type}}" title="{{$title}}" {{ $attributes }}
-        class="px-8 py-4 duration-200 w-fit rounded-full cursor-pointer
+        class="px-8 py-4 duration-200 w-fit rounded-full cursor-pointer {{ $class }}
         {{ $isSecondary ? 'bg-secondary hover:bg-secondary-2' : 'bg-primary hover:bg-primary-2' }}">
     {{$slot}}
 </button>

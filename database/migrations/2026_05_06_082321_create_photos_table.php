@@ -9,6 +9,7 @@ return new class extends Migration {
     {
         Schema::create('photos', function (Blueprint $table) {
             $table->id();
+            $table->integer('position')->default(0);
             $table->string('picture');
             $table->timestamps();
         });

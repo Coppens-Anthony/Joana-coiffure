@@ -7,7 +7,7 @@ class GalleryController
 {
     public function index()
     {
-        $photos = Photo::orderByDesc('created_at')->get();
+        $photos = Photo::orderByDesc('position')->get()->values();
 
         return view('pages.client.gallery', compact('photos'));
     }
