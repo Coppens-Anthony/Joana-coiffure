@@ -19,6 +19,8 @@ Route::prefix('admin')->group(function () {
     Route::livewire('/statistics', 'pages::admin.⚡statistics')
         ->name('statistics')->middleware('auth');
 
-    Route::livewire('/database', 'pages::admin.database.⚡index')
-        ->name('database.index')->middleware('auth');
+    Route::livewire('/database/services', 'pages::admin.database.services.⚡index')
+        ->name('database.services')->middleware('auth');
+    Route::livewire('/database/photos', 'pages::admin.database.photos.⚡index')
+        ->name('database.photos')->middleware('auth');
 });

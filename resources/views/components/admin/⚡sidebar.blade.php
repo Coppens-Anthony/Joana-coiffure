@@ -114,9 +114,9 @@ new class extends Component {
                     <li>
                         <x-global.linkbutton.icon_link
                             icon_path="assets/svg/database.svg"
-                            :route="route('database.index')"
+                            :route="route('database.services')"
                             title="Vers les données"
-                            :isActive="request()->routeIs('database.index')"
+                            :isActive="request()->routeIs('database.*')"
                         >
                             Données
                         </x-global.linkbutton.icon_link>

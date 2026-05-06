@@ -3,12 +3,9 @@
 use App\Models\Service;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
-use Livewire\Attributes\Title;
 use Livewire\Component;
 
-new #[Title('Données')]
-class extends Component {
-
+new class extends Component {
     public string $term = '';
 
     #[On('action_done')]
