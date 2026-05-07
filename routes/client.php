@@ -10,6 +10,7 @@ Route::view('/price', 'pages.client.prices')->name('price');
 Route::view('/contact', 'pages.client.contact')->name('contact');
 Route::view('/appointment/date', 'pages.client.appointment.appointment2')->name('appointment2');
 Route::view('/appointment/confirmation', 'pages.client.appointment.appointment3')->name('appointment3');
+Route::view('/legal-notices', 'pages.client.legal_notice')->name('notice');
 
 Route::get('/gallery', [GalleryController::class, 'index'])->name('gallery');
 

@@ -76,7 +76,7 @@
             Réalisé par
             <x-global.linkbutton.link route="" title="Vers le portfolio d'Anthony Coppens">Anthony Coppens</x-global.linkbutton.link>
             -
-            <x-global.linkbutton.link route="" title="Vers les mentions légales">Mentions légales</x-global.linkbutton.link>
+            <x-global.linkbutton.link :route="route('notice')" title="Vers les mentions légales">Mentions légales</x-global.linkbutton.link>
         </p>
     </section>
 </footer>

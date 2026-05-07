@@ -1,9 +1,10 @@
-@props(['route', 'title', 'isActive' => false, 'class' => ''])
+@props(['route', 'title', 'isActive' => false, 'class' => '', 'isTarget' => false])
 
 <a href="{{ $route }}"
    wire:navigate
    {{ $attributes }}
    title="{{ $title }}"
+   @if($isTarget) target="_blank" @endif
    class="relative group {{ $class }}">
     {{ $slot }}
     <span class="absolute left-0 top-full w-full h-4 flex items-center pointer-events-none">
