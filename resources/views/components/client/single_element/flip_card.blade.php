@@ -9,7 +9,7 @@
             <p class="p-8 text-[2rem]">{{ $title }}</p>
         </div>
 
-        <div class="absolute rounded-2xl w-full h-full bg-black text-white backface-hidden transform-[rotateY(180deg)] flex items-center justify-center bg-[url('../../public/assets/img/flip1.png')]">
+        <div class="absolute rounded-2xl w-full h-full bg-black text-white backface-hidden transform-[rotateY(180deg)] flex items-center justify-center bg-[url('../../public/assets/img/originals/flip1.jpg')]">
             <p class="p-8">{{ $content }}</p>
         </div>
 

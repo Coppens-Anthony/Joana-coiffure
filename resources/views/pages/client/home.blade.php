@@ -30,7 +30,7 @@
         Mes prestations
     </x-client.single_element.icon_content>
     <x-client.section.text_content
-        img_path="assets/img/me.png"
+        img_path="me.jpg"
         img_alt=""
         content="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim  veniam, quis nostrud exercitation "
         :isLink="true"

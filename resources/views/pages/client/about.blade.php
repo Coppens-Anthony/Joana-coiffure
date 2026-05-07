@@ -23,21 +23,21 @@
 
 <x-client.layout title="À propos de moi" :isContactOrAppointment="false">
     <x-client.section.text_content
-        img_path="assets/img/about.png"
+        img_path="about.jpg"
         img_alt=""
         itemtype="https://schema.org/Person"
         content="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim  veniam, quis nostrud exercitation ">
         <span itemprop="name">Joana Monteiro</span>, <span itemprop="jobTitle">coiffeuse et visagiste</span>
     </x-client.section.text_content>
     <x-client.section.text_content
-        img_path="assets/img/room.png"
+        img_path="room.jpg"
         img_alt=""
         :isReverse="true"
         content="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim  veniam, quis nostrud exercitation ">
         Mon espace coiffure
     </x-client.section.text_content>
     <x-client.section.text_content
-        img_path="assets/img/school.png"
+        img_path="school.jpg"
         img_alt=""
 
         content="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim  veniam, quis nostrud exercitation ">
