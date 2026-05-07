@@ -23,19 +23,21 @@
 
 
 <x-client.layout title="Coiffeuse indépendante à Orp-Jauche" :isContactOrAppointment="false">
-    <x-client.single_element.icon_content :isTitle="false" :items="$items" :isLink="true" link_button_label="Toutes mes prestations"
-                                   link_button_title="Voir toutes mes prestations" :link_button_route="route('prices')">
+    <x-client.single_element.icon_content :isTitle="false" :items="$items" :isLink="true"
+                                          link_button_label="Toutes mes prestations"
+                                          link_button_title="Voir toutes mes prestations"
+                                          :link_button_route="route('prices')">
         Mes prestations
     </x-client.single_element.icon_content>
     <x-client.section.text_content
         img_path="assets/img/me.png"
         img_alt=""
-        title="Qui suis-je ?"
         content="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim  veniam, quis nostrud exercitation "
         :isLink="true"
         link_button_title="Vers la page à propos"
         link_button_label="En savoir plus sur moi"
-        :link_button_route="route('about')"
-    />
+        :link_button_route="route('about')">
+        Qui suis-je ?
+    </x-client.section.text_content>
     <x-client.section.testimonials/>
 </x-client.layout>

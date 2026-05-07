@@ -25,22 +25,24 @@
     <x-client.section.text_content
         img_path="assets/img/about.png"
         img_alt=""
-        title="Joana Monteiro, coiffeuse et visagiste"
-        content="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim  veniam, quis nostrud exercitation "
-    />
+        itemtype="https://schema.org/Person"
+        content="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim  veniam, quis nostrud exercitation ">
+        <span itemprop="name">Joana Monteiro</span>, <span itemprop="jobTitle">coiffeuse et visagiste</span>
+    </x-client.section.text_content>
     <x-client.section.text_content
         img_path="assets/img/room.png"
         img_alt=""
-        title="Mon espace coiffure"
         :isReverse="true"
-        content="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim  veniam, quis nostrud exercitation "
-    />
+        content="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim  veniam, quis nostrud exercitation ">
+        Mon espace coiffure
+    </x-client.section.text_content>
     <x-client.section.text_content
         img_path="assets/img/school.png"
         img_alt=""
-        title="Mon parcours"
-        content="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim  veniam, quis nostrud exercitation "
-    />
+
+        content="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim  veniam, quis nostrud exercitation ">
+        Mon parcours
+    </x-client.section.text_content>
 
     <x-client.section.approach/>
     <x-client.single_element.icon_content :items="$items">

@@ -2,9 +2,9 @@
     <section class="flex gap-6 flex-col md:grid md:grid-cols-2 lg:flex lg:flex-row lg:justify-between mb-16">
         <h2 class="sr-only">Pied de page</h2>
         <div class="w-fit">
-            <div class="relative">
+            <div class="relative" itemtype="https://schema.org/Organization" itemscope>
                 <a href="/" class="absolute h-full w-full"></a>
-                <img src="" alt="LOGO">
+                <img src="" alt="LOGO" itemprop="logo">
             </div>
             <div class="relative w-fit">
                 <a href="https://www.facebook.com/profile.php?id=100040838886459&locale=fr_FR" target="_blank"
@@ -53,18 +53,18 @@
         </nav>
         <section>
             <h3 class="text-[1.5rem] mb-4">Mes coordonnées</h3>
-            <ul class="flex flex-col gap-4">
-                <li>
+            <ul class="flex flex-col gap-4" itemtype="https://schema.org/Organization" itemscope>
+                <li itemprop="email">
                     <x-global.linkbutton.link route="mailto:joanastofs@gmail.com" title="Envoyez-moi un mail">joanastofs@gmail.com</x-global.linkbutton.link>
                 </li>
-                <li>
+                <li itemprop="telephone">
                     <x-global.linkbutton.link route="tel:0466486777" title="Téléphonez-moi">0466 48 67 77</x-global.linkbutton.link>
                 </li>
-                <li>
-                    Rue et numéro
+                <li itemprop="address">
+                    Rue de la Station 57,
                 </li>
-                <li>
-                    Code postal et ville
+                <li itemprop="location">
+                    1350 Orp-Jauche
                 </li>
             </ul>
         </section>
