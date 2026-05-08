@@ -11,6 +11,8 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('client_id')->constrained();
             $table->string('message')->nullable();
+            $table->dateTime('start_at');
+            $table->dateTime('end_at');
             $table->timestamps();
         });
     }

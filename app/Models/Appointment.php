@@ -15,6 +15,8 @@ class Appointment extends Model
     protected $fillable = [
         'message',
         'client_id',
+        'start_at',
+        'end_at',
     ];
 
     public function casts(): array

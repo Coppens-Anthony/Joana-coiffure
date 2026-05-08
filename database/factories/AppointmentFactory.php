@@ -16,6 +16,8 @@ class AppointmentFactory extends Factory
         return [
             'client_id' => Client::inRandomOrder()->first()->id,
             'message' => $this->faker->sentence(),
+            'start_at' => now(),
+            'end_at' => now()->addMinutes(30),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ];

@@ -7,14 +7,23 @@ use App\Http\Controllers\ServiceController;
 Route::view('/', 'pages.client.home')->name('home');
 Route::view('/a-propos', 'pages.client.about')->name('about');
 Route::view('/contact', 'pages.client.contact')->name('contact');
-Route::view('/rendez-vous/date', 'pages.client.appointment.appointment2')->name('appointment2');
-Route::view('/rendez-vous/confirmation', 'pages.client.appointment.appointment3')->name('appointment3');
+
 Route::view('/mentions-legales', 'pages.client.legal_notice')->name('notice');
 
 Route::get('/galerie', [GalleryController::class, 'index'])->name('gallery');
 
 Route::get('/prestations', [ServiceController::class, 'index'])->name('prices');
-Route::get('/rendez-vous', [AppointmentController::class, 'index'])->name('appointment');
+
+
+Route::get('/rendez-vous/prestations', [AppointmentController::class, 'services'])->name('appointment');
+Route::post('/rendez-vous/prestations', [AppointmentController::class, 'servicesStore'])->name('appointment.store');
+
+Route::get('/rendez-vous/date', [AppointmentController::class, 'date'])->name('appointment2');
+Route::post('/rendez-vous/date', [AppointmentController::class, 'dateStore'])->name('appointment2.store');
+
+Route::get('/rendez-vous/confirmation', [AppointmentController::class, 'confirmation'])->name('appointment3');
+Route::post('/rendez-vous/confirmation', [AppointmentController::class, 'confirmationStore'])->name('appointment3.store');
+
 
 
 Route::view('/login', 'pages.admin.login')->name('login')->middleware('guest');
