@@ -88,4 +88,6 @@ checkboxes.forEach(cb => {
     cb.addEventListener('change', updateBottomBar);
 });
 
-updateBottomBar();
+if (servicesContainer) {
+    updateBottomBar();
+}

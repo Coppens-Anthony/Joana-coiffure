@@ -1,4 +1,4 @@
-@props(['isAppointment' => false, 'service'])
+@props(['isAppointment' => false, 'service', 'selectedServices' => []])
 
 <div class="flex flex-col gap-4 w-full">
     <div class="flex justify-between">
@@ -16,6 +16,7 @@
         <input type="checkbox" name="services[]" id="{{ $service->id }}" value="{{ $service->id }}"
                data-name="{{ $service->name }}" data-price="{{ $service->price }}"
                data-duration="{{ $service->duration }}"
+               {{ in_array($service->id, $selectedServices) ? 'checked' : '' }}
                class="service-checkbox js:hidden w-4 h-4 border-2 cursor-pointer border-primary accent-primary appearance-none rounded-sm checked:bg-primary transition relative checked:after:content-['✓'] checked:after:absolute checked:after:inset-0 checked:after:flex checked:after:items-center checked:after:justify-center checked:after:text-black">
     </div>
 @endif

@@ -1,7 +1,7 @@
 <x-client.layout title="Prenez rendez-vous" :isContactOrAppointment="true">
     <form action="{{ route('appointment.store') }}" method="post">
         @csrf
-        <x-client.section.prices :isAppointment="true" :services="$services"/>
+        <x-client.section.prices :isAppointment="true" :services="$services" :selectedServices="$selectedServices"/>
         <x-global.linkButton.button title="Continuer" class="ml-auto block js:hidden">Confirmer</x-global.linkButton.button>
 
         <x-client.single_element.appointment_bottom_bar/>

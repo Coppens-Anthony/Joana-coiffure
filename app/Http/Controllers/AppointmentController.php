@@ -13,9 +13,8 @@ class AppointmentController
 {
     public function services()
     {
-        session()->forget('appointment');
         $services = Service::all();
-        $selectedServices = session('appointments.services');
+        $selectedServices = session('appointment.services');
 
         return view('pages.client.appointment.appointment', compact('services', 'selectedServices'));
     }
@@ -31,7 +30,7 @@ class AppointmentController
             'appointment.services' => $validated['services'],
         ]);
 
-        return redirect(route('appointment2'));
+        return redirect(route('appointment2', ['date' => today()->format('Y-m-d')]));
     }
 
     public function date(Request $request)
@@ -43,35 +42,39 @@ class AppointmentController
         }
 
         $totalDuration = $services->sum('duration');
-        $slots = [];
-        $selectedSlot = session('appointment.slot');
 
-        $dateValue = $request->filled('date')
-            ? $request->date
-            : session('appointment.date');
+        $dateValue = $request->date
+            ?? session('appointment.date')
+            ?? today()->format('Y-m-d');
 
-        if ($dateValue) {
-            $date = Carbon::parse($dateValue);
+        $currentDate = Carbon::parse($dateValue)->startOfDay();
 
-            if ($date->isBefore(today())) {
-                return view('pages.client.appointment.appointment2', compact(
-                    'slots',
-                    'services',
-                    'totalDuration',
-                    'dateValue',
-                    'selectedSlot'
-                ))->with('error', 'Veuillez choisir une date à partir d\'aujourd\'hui.');
-            }
-
-            $slots = $this->generateSlots($date, $totalDuration);
+        if ($currentDate->lt(today()->startOfDay())) {
+            $currentDate = today();
         }
+
+        $currentMonth = $currentDate->copy()->startOfMonth();
+
+        $startOfGrid = $currentMonth->copy()->startOfWeek(Carbon::MONDAY);
+
+        $days = [];
+        $cursor = $startOfGrid->copy();
+
+        for ($i = 0; $i < 42; $i++) {
+            $days[] = $cursor->copy();
+            $cursor->addDay();
+        }
+
+        $slots = $this->generateSlots($currentDate, $totalDuration);
 
         return view('pages.client.appointment.appointment2', compact(
             'slots',
             'services',
             'totalDuration',
             'dateValue',
-            'selectedSlot'
+            'currentDate',
+            'currentMonth',
+            'days'
         ));
     }
 
@@ -82,18 +85,27 @@ class AppointmentController
         $start = $date->copy()->setTime(9, 0);
         $end = $date->copy()->setTime(18, 0);
 
-        $appointments = Appointment::whereDate('start_at', $date)
-            ->get();
+        $now = now();
+
+        if ($date->isToday()) {
+            $start = $start->max(
+                $now->copy()->addMinutes(15 - ($now->minute % 15))
+            );
+        }
+
+        if ($start->gte($end)) {
+            return [];
+        }
+
+        $appointments = Appointment::whereDate('start_at', $date)->get();
 
         while ($start->copy()->addMinutes($duration) <= $end) {
 
             $slotEnd = $start->copy()->addMinutes($duration);
 
-            $overlap = $appointments->contains(function ($appointment) use ($start, $slotEnd) {
-
-                return $start < $appointment->end_at
-                    && $slotEnd > $appointment->start_at;
-            });
+            $overlap = $appointments->contains(fn ($appointment) => $start < $appointment->end_at &&
+                $slotEnd > $appointment->start_at
+            );
 
             if (! $overlap) {
                 $slots[] = [
