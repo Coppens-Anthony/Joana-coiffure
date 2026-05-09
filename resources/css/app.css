@@ -121,3 +121,21 @@
         transform: translateX(10px);
     }
 }
+
+.js .js\:block{
+    @apply block
+}
+
+.js .js\:hidden{
+    @apply hidden
+}
+
+.service-remove-btn {
+    @apply relative pr-4 cursor-pointer
+    after:content-['']
+    after:absolute after:top-1/4 after:right-0 after:-translate-y-1/2
+    after:block after:w-4 after:h-4
+    after:bg-[url('../../public/assets/svg/close.svg')]
+    after:bg-no-repeat after:bg-contain;
+}
+
