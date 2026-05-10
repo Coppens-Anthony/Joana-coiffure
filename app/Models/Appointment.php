@@ -22,6 +22,8 @@ class Appointment extends Model
     public function casts(): array
     {
         return [
+            'start_at' => 'datetime',
+            'end_at' => 'datetime',
             'updated_at' => 'date',
             'created_at' => 'date',
         ];

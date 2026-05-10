@@ -16,8 +16,8 @@ new class extends Component
         wire:click.stop
         x-trap.inert.noscroll="true"
         class="p-8 w-[80vw] md:w-[70vw] lg:w-[50vw] fixed top-1/2 left-1/2 bg-white transform -translate-x-1/2 -translate-y-1/2 rounded-3xl shadow-[0_0_10px_rgba(0,0,0,0.25)]">
-        <div class="flex justify-between items-center mb-8">
-            <p class="text-[2rem]">{{ $this->modal_title }}</p>
+        <div class="flex justify-between gap-8 items-center mb-8">
+            <p class="text-[2rem] w-3/4">{{ $this->modal_title }}</p>
             <button
                 type="button"
                 class="cursor-pointer group"

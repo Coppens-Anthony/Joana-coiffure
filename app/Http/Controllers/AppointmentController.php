@@ -103,9 +103,19 @@ class AppointmentController
 
             $slotEnd = $start->copy()->addMinutes($duration);
 
-            $overlap = $appointments->contains(fn ($appointment) => $start < $appointment->end_at &&
-                $slotEnd > $appointment->start_at
-            );
+            $buffer = 15;
+
+            $overlap = $appointments->contains(function ($appointment) use ($start, $slotEnd, $buffer) {
+
+                $safeSlotEnd = $slotEnd->copy()->addMinutes($buffer);
+
+                $appointmentEndWithBuffer = $appointment->end_at
+                    ->copy()
+                    ->addMinutes($buffer);
+
+                return $start < $appointmentEndWithBuffer &&
+                    $safeSlotEnd > $appointment->start_at;
+            });
 
             if (! $overlap) {
                 $slots[] = [

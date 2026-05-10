@@ -3,7 +3,7 @@
         <x-global.linkButton.link class="w-fit" title="Vers l'étape précédente" :route="route('appointment')">
             &laquo; Précédent
         </x-global.linkButton.link>
-        <div class="flex flex-col md:flex-row gap-16">
+        <div class="flex flex-col-reverse md:flex-row gap-16">
             <section class="w-full md:w-1/2">
                 <h3 class="text-[2rem] mb-8">Sélectionnez une date et une heure</h3>
                 <div class="p-8 rounded-3xl shadow-[0_0_10px_rgba(0,0,0,0.1)]">
@@ -78,14 +78,14 @@
 
                     </div>
                     @if(count($slots))
-                        <div class="grid grid-cols-6 gap-4 mt-4">
+                        <div class="grid grid-cols-4 md:grid-cols-6 gap-4 mt-4">
                             @foreach($slots as $slot)
                                 <form method="POST" action="{{ route('appointment2.store') }}">
                                     @csrf
                                     <input type="hidden" name="date" value="{{ $dateValue }}">
                                     <input type="hidden" name="slot" value="{{ $slot['start'] }}">
                                     <button type="submit"
-                                            class="text-center w-full py-2 hover:bg-primary-2 duration-200 cursor-pointer bg-primary rounded-xl">{{ $slot['start'] }}</button>
+                                            class="text-center w-full px-2 md:px-0 py-2 hover:bg-primary-2 duration-200 cursor-pointer bg-primary rounded-xl">{{ $slot['start'] }}</button>
                                 </form>
                             @endforeach
                         </div>
