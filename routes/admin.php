@@ -16,11 +16,14 @@ Route::prefix('admin')->group(function () {
     Route::livewire('/clients/{client}', 'pages::admin.clients.⚡show')
         ->name('clients.⚡show')->middleware('auth');
 
-    Route::livewire('/statistics', 'pages::admin.⚡statistics')
+    Route::livewire('/statistiques', 'pages::admin.⚡statistics')
         ->name('statistics')->middleware('auth');
 
-    Route::livewire('/database/services', 'pages::admin.database.services.⚡index')
+    Route::livewire('/donnes/services', 'pages::admin.database.services.⚡index')
         ->name('database.services')->middleware('auth');
-    Route::livewire('/database/photos', 'pages::admin.database.photos.⚡index')
+    Route::livewire('/donnes/photos', 'pages::admin.database.photos.⚡index')
         ->name('database.photos')->middleware('auth');
+
+    Route::livewire('/profil', 'pages::admin.⚡profile')
+        ->name('profile')->middleware('auth');
 });

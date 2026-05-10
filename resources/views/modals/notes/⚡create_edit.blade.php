@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\ClientNote;
 use App\Models\Note;
 use Livewire\Component;
 
