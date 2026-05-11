@@ -213,8 +213,9 @@ class AppointmentController
 
         $appointment->services()->attach($services->pluck('id'));
 
+        session(['confirmed_appointment_id' => $appointment->id]);
         session()->forget('appointment');
 
-        return redirect(route('home'));
+        return redirect(route('thanks', $appointment));
     }
 }

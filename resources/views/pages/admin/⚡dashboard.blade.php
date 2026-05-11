@@ -44,6 +44,9 @@ class extends Component {
     @endif
     <section>
         <h2 class="text-2xl">Les rendez-vous de la journée</h2>
+        @if($this->appointments->count() <= 0)
+            <p class="mt-8">Il n'y a pas de rendez-vous aujourd'hui.</p>
+        @endif
         <ol class="mt-6 flex flex-col gap-8">
             @foreach($this->appointments as $appointment)
                 <li class="pb-8 border-b border-b-black flex flex-col sm:flex-row sm:justify-between gap-4 sm:gap-8 sm:items-center">
