@@ -2,15 +2,18 @@
 
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\ConfirmationController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\ServiceController;
 
 Route::view('/', 'pages.client.home')->name('home');
 Route::view('/a-propos', 'pages.client.about')->name('about');
-Route::view('/contact', 'pages.client.contact')->name('contact');
-
 Route::view('/mentions-legales', 'pages.client.legal_notice')->name('notice');
+
 Route::get('/confirmation-rendez-vous/{appointment}', [ConfirmationController::class, 'show'])->name('thanks');
+
+Route::view('/contact', 'pages.client.contact')->name('contact');
+Route::post('contact', [ContactController::class, 'store'])->name('contact.store');
 
 Route::get('/galerie', [GalleryController::class, 'index'])->name('gallery');
 

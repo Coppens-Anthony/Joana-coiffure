@@ -12,7 +12,7 @@ class ConfirmationController
         }
 
         session()->forget('confirmed_appointment_id');
-        
+
         return view('pages.client.thanks', compact('appointment'));
     }
 }

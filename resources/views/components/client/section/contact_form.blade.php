@@ -1,4 +1,4 @@
-<form action="" method="post" class="md:w-1/2 flex flex-col gap-4">
+<form action="{{ route('contact.store') }}" method="post" class="md:w-1/2 flex flex-col gap-4">
     @csrf
     <x-global.form.input name="name" placeholder="John Doe">
         Nom
