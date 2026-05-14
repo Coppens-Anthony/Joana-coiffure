@@ -12,8 +12,8 @@
 
 </head>
 <body class="overflow-x-hidden mx-auto font-sans text-black">
-<main class="flex flex-row-reverse gap-8">
-    <div class="flex-1 mr-8 py-8">
+<main class="md:flex md:flex-row-reverse md:gap-8">
+    <div class="md:flex-1 md:mr-8 py-8 mx-8 md:mx-auto">
         <h1 class="text-[2rem] mb-8">{{ $title }}</h1>
         {{ $slot }}
     </div>

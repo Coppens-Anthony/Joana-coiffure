@@ -16,7 +16,10 @@
     <!-- Styles / Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="overflow-x-hidden mx-auto font-sans text-black">
+<body class="
+
+
+        overflow-x-hidden mx-auto font-sans text-black">
 <h1 class="sr-only">{{ $title }}</h1>
 <x-client.partial.header/>
 <main>

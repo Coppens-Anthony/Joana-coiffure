@@ -25,7 +25,7 @@ class extends Component {
 <div>
     <section class="flex flex-col gap-8">
         <h3 class="sr-only">Tableau des clients</h3>
-        <form class="w-fit">
+        <form class="w-full md:w-fit">
             <x-global.form.input name="name"
                                  placeholder="John"
                                  type="search"
