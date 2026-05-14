@@ -68,11 +68,11 @@ class extends Component {
                         <div class="flex gap-4 items-center">
                             <button class="cursor-pointer" wire:click="show({{ $appointment->id }})">
                                 <img src="{{ asset('assets/svg/eye.svg') }}" alt="Voir le rendez-vous en détail"
-                                     class="w-5 h-5 lg:w-8 h-8">
+                                     class="w-5 h-5 lg:w-8 lg:h-8">
                             </button>
                             <button class="cursor-pointer" wire:click="delete({{ $appointment->id }})">
                                 <img src="{{ asset('assets/svg/delete.svg') }}" alt="Annuler le rendez-vous"
-                                     class="w-4 h-4 lg:w-6 h-6">
+                                     class="w-4 h-4 lg:w-6 lg:h-6">
                             </button>
                         </div>
                     </div>

@@ -139,3 +139,14 @@
     after:bg-no-repeat after:bg-contain;
 }
 
+.fc-daygrid-day {
+    @apply cursor-pointer hover:bg-primary-opacity;
+}
+
+.fc .fc-daygrid-day.fc-day-today {
+    @apply bg-tertiary;
+}
+.selected-day{
+    @apply bg-primary hover:bg-primary;
+}
+
