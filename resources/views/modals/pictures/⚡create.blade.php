@@ -68,7 +68,7 @@ new class extends Component {
                 </div>
                 @if($this->picture)
                     <img src="{{$this->picture->temporaryUrl()}}" alt="{!! __('admin/table.image_alt') !!}"
-                         class="object-cover absolute w-[33vw] h-75 rounded-2xl">
+                         class="object-contain absolute w-[33vw] h-75 rounded-2xl">
                 @endif
             </label>
         </div>
