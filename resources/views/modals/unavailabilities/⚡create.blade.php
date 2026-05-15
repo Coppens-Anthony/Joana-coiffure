@@ -1,11 +1,12 @@
 <?php
 
+use App\Models\Appointment;
 use App\Models\Unavailabilities;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 new class extends Component {
     public string $date;
-    public array $params;
     public bool $isFullDay = true;
     public ?string $start_at = null;
     public ?string $end_at = null;
@@ -23,14 +24,29 @@ new class extends Component {
             'end_at' => 'nullable|required_if:isFullDay,false|date_format:H:i|after:start_at',
         ]);
 
+        $start = $this->date . ' ' . ($validated['isFullDay'] ? '09:00:00' : $validated['start_at']);
+        $end = $this->date . ' ' . ($validated['isFullDay'] ? '18:00:00' : $validated['end_at']);
 
-        Unavailabilities::create([
-            'start_at' => $this->date . ' ' . ($validated['isFullDay'] ? '09:00' : $validated['start_at']),
-            'end_at'   => $this->date . ' ' . ($validated['isFullDay'] ? '18:00' : $validated['end_at']),
-        ]);
+        $appointments = Appointment::where(function ($query) use ($start, $end) {
+            $query
+                ->whereBetween('start_at', [$start, $end])
+                ->orWhereBetween('end_at', [$start, $end])
+                ->orWhere(function ($q) use ($start, $end) {
+                    $q->where('start_at', '<=', $start)
+                        ->where('end_at', '>=', $end);
+                });
+        })->get();
 
-        $this->dispatch('action_done', message: 'Période off ajoutée avec succès !');
-        $this->dispatch('close_modal');
+        if ($appointments->isNotEmpty()) {
+            $this->dispatch('open_modal', ['modal' => 'modals::unavailabilities.confirm', 'params' => ['count' => $appointments->count()]]);
+        } else {
+            Unavailabilities::create([
+                'start_at' => $this->date . ' ' . ($validated['isFullDay'] ? '09:00' : $validated['start_at']),
+                'end_at' => $this->date . ' ' . ($validated['isFullDay'] ? '18:00' : $validated['end_at']),
+            ]);
+            $this->dispatch('action_done', message: 'Période off ajoutée avec succès !');
+            $this->dispatch('close_modal');
+        }
     }
 };
 ?>
