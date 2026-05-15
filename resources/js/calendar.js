@@ -2,15 +2,18 @@ import { Calendar } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 
+let calendar = null;
+
 document.addEventListener('livewire:navigated', () => {
     const calendarEl = document.getElementById('calendar');
 
-    if (!calendarEl) return;
+    if (!calendarEl || calendar) return;
+
     let selectedDayEl = null;
 
     const events = JSON.parse(calendarEl.dataset.events);
 
-    const calendar = new Calendar(calendarEl, {
+    calendar = new Calendar(calendarEl, {
         plugins: [
             dayGridPlugin,
             interactionPlugin
@@ -24,7 +27,6 @@ document.addEventListener('livewire:navigated', () => {
 
         events: events,
         dayMaxEvents: true,
-
 
         dateClick(info) {
             if (selectedDayEl) {
@@ -41,4 +43,9 @@ document.addEventListener('livewire:navigated', () => {
     });
 
     calendar.render();
+
+    Livewire.on('refresh-calendar', ({ events }) => {
+        calendar.removeAllEvents();
+        calendar.addEventSource(events);
+    });
 });
