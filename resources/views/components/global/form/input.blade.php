@@ -1,6 +1,6 @@
-@props(['name', 'isRequired' => true, 'type' => 'text', 'placeholder' => '', 'value' => ''])
+@props(['name', 'isRequired' => true, 'type' => 'text', 'placeholder' => '', 'value' => '', 'class' => ''])
 
-<div class="flex flex-col gap-2">
+<div class="flex flex-col gap-2 {{ $class }}">
     <label for="{{$name}}">
         {{$slot}} <span class="text-error">{{$isRequired ? '*' : ''}}</span>
         @error($name)

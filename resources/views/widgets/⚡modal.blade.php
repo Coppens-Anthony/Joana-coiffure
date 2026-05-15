@@ -7,6 +7,7 @@ new class extends Component {
     public ?string $current = null;
     public ?string $model_id = null;
     public ?string $model_type = null;
+    public ?array $params = null;
 
     #[On('open_modal')]
     public function open(array $payload): void
@@ -14,6 +15,7 @@ new class extends Component {
         $this->current = $payload['modal'];
         $this->model_id = $payload['model_id'] ?? null;
         $this->model_type = $payload['model_type'] ?? null;
+        $this->params = $payload['params'] ?? null;
     }
 
     #[On('close_modal')]
@@ -22,6 +24,7 @@ new class extends Component {
         $this->current = null;
         $this->model_id = null;
         $this->model_type = null;
+        $this->params = null;
     }
 
 };
@@ -29,6 +32,6 @@ new class extends Component {
 
 <div>
     @if(!is_null($current))
-        <livewire:is :component="$current"  :model_id="$model_id" :model_type="$model_type" />
+        <livewire:is :component="$current"  :model_id="$model_id" :model_type="$model_type" :params="$params"/>
     @endif
 </div>
