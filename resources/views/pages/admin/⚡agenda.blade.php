@@ -41,15 +41,13 @@ class extends Component {
         $this->start = $start;
         $this->end = $end;
 
-        Unavailabilities::create([
-            'start_at' => $this->start . ' 09:00',
-            'end_at' => $this->end . ' 18:00',
-        ]);
+        $this->dispatch('open_modal', ['modal' => 'modals::unavailabilities.create', 'params' => ['start_date' => $this->start, 'end_date' => $this->end]]);
     }
 
     #[Computed]
     public function selectedAppointments()
     {
+
         return Appointment::with('client')->whereDate('start_at', $this->selectedDate)->orderBy('start_at')->get();
     }
 
