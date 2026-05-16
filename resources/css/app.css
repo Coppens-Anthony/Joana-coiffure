@@ -27,6 +27,7 @@
     --color-tertiary-2: #fadc8d;
 
     --color-error: #B92629;
+    --color-test: #75818c;
 }
 
 
@@ -146,6 +147,7 @@
 .fc .fc-daygrid-day.fc-day-today {
     @apply bg-tertiary;
 }
+
 .selected-day{
     @apply bg-primary hover:bg-primary;
 }
@@ -153,4 +155,21 @@
 @utility no-scrollbar {
     @apply [scrollbar-width:none] [&::-webkit-scrollbar]:hidden;
 }
+
+.fc-toolbar-chunk .fc-button{
+    @apply bg-primary text-black border-primary-2 hover:bg-primary-2 active:bg-primary-2 duration-200 hover:text-black active:text-black;
+}
+
+.fc-toolbar-chunk .fc-today-button{
+    @apply bg-secondary hover:bg-secondary-2 border-secondary-2;
+}
+
+.fc-toolbar-chunk .fc-today-button:disabled{
+    @apply bg-test text-white;
+}
+
+.fc-highlight {
+    @apply bg-primary hover:bg-primary-opacity;
+}
+
 

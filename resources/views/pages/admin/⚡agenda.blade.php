@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Appointment;
+use App\Models\Unavailabilities;
 use Carbon\Carbon;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
@@ -10,6 +11,8 @@ use Livewire\Component;
 new #[Title('Agenda')]
 class extends Component {
     public string $selectedDate;
+    public string $start;
+    public string $end;
 
     public function mount()
     {
@@ -30,6 +33,18 @@ class extends Component {
     public function selectDate($date)
     {
         $this->selectedDate = $date;
+    }
+
+    #[On('unavailabilities-selected')]
+    public function unavailabilitiesSelected($start, $end)
+    {
+        $this->start = $start;
+        $this->end = $end;
+
+        Unavailabilities::create([
+            'start_at' => $this->start . ' 09:00',
+            'end_at' => $this->end . ' 18:00',
+        ]);
     }
 
     #[Computed]

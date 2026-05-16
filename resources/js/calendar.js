@@ -28,6 +28,24 @@ document.addEventListener('livewire:navigated', () => {
         events: events,
         dayMaxEvents: true,
 
+        buttonText: {
+            today: 'Aujourd\'hui'
+        },
+        selectable: true,
+
+        select(info) {
+            const endDate = new Date(info.end);
+            endDate.setDate(endDate.getDate() - 1);
+            const endStr = endDate.toISOString().split('T')[0];
+
+            if (info.startStr === endStr) return;
+
+            Livewire.dispatch('unavailabilities-selected', {
+                start: info.startStr,
+                end: endStr
+            });
+        },
+
         dateClick(info) {
             if (selectedDayEl) {
                 selectedDayEl.classList.remove('selected-day');

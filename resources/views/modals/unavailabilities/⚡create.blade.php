@@ -91,8 +91,6 @@ new class extends Component {
                         mail
                     </x-global.form.checkbox>
                 </div>
-            @else
-
             @endif
             <div class="ml-auto w-fit flex gap-6">
                 <x-global.linkButton.button type="button" title="Fermer la modale" :isSecondary="true"
