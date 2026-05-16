@@ -84,7 +84,7 @@ new class extends Component {
                 </div>
             @endif
             @if(($this->isFullDay || ($this->start_at != null && $this->end_at != null)) && $this->conflictingAppointments->isNotEmpty())
-                <div class="mt-8">
+                <div class="my-8">
                     <p class="mb-8"><span class="text-error">Attention</span>, il y a {{ $this->conflictingAppointments->count() }}
                         rendez-vous durant cette période. Si vous confirmez, {{ $this->conflictingAppointments->count() > 1 ? 'ils seront annulés' : 'il sera annulé'}}.</p>
                     <x-global.form.checkbox name="contactClient" wire:model="contactClient">Prévenir les clients par
