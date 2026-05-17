@@ -20,7 +20,10 @@ new class extends Component {
         if (isset($params['start_date'], $params['end_date'])) {
             $this->start_date = $params['start_date'];
             $this->end_date = $params['end_date'];
-            $this->isMultipleDays = true;
+            $this->isMultipleDays = $params['start_date'] !== $params['end_date'];
+            $this->start_at = $params['start_at'] ?? null;
+            $this->end_at = $params['end_at'] ?? null;
+            $this->isFullDay = $this->start_at === '09:00' && $this->end_at === '18:00';
         } else {
             $this->start_date = $params['date'];
             $this->end_date = $params['date'];

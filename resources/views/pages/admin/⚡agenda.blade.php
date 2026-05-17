@@ -45,13 +45,6 @@ class extends Component {
     }
 
     #[Computed]
-    public function selectedAppointments()
-    {
-
-        return Appointment::with('client')->whereDate('start_at', $this->selectedDate)->orderBy('start_at')->get();
-    }
-
-    #[Computed]
     public function events()
     {
         $appointments = Appointment::with('client')
@@ -66,7 +59,7 @@ class extends Component {
                     ->format('Y-m-d H:i:s'),
             ]);
 
-        $unavailabilities = Unavailabilities::all()->map(function($unavailability) {
+        $unavailabilities = Unavailabilities::all()->map(function ($unavailability) {
             $sameDay = $unavailability->start_at->toDateString() === $unavailability->end_at->toDateString();
             $isPartial = $sameDay && !($unavailability->start_at->format('H:i') === '09:00' && $unavailability->end_at->format('H:i') === '18:00');
 
@@ -90,6 +83,37 @@ class extends Component {
     {
         $this->dispatch('open_modal', ['modal' => 'modals::unavailabilities.create', 'params' => ['date' => $this->selectedDate]]);
     }
+
+    #[Computed]
+    public function selectedEvents()
+    {
+        $appointments = Appointment::with('client')
+            ->whereDate('start_at', $this->selectedDate)
+            ->orderBy('start_at')
+            ->get()
+            ->map(fn($appointment) => [
+                'type' => 'appointment',
+                'start_at' => $appointment->start_at,
+                'end_at' => $appointment->end_at,
+                'model' => $appointment,
+            ]);
+
+        $unavailabilities = Unavailabilities::whereDate('start_at', '<=', $this->selectedDate)
+            ->whereDate('end_at', '>=', $this->selectedDate)
+            ->orderBy('start_at')
+            ->get()
+            ->map(fn($unavailability) => [
+                'id' => $unavailability->id,
+                'type' => 'unavailability',
+                'start_at' => $unavailability->start_at,
+                'end_at' => $unavailability->end_at,
+                'model' => $unavailability,
+            ]);
+
+        return collect($appointments)->merge($unavailabilities)
+            ->sortBy('start_at')
+            ->values();
+    }
 };
 ?>
 <div class="flex flex-col lg:flex-row gap-8 lg:max-h-200">
@@ -110,18 +134,22 @@ class extends Component {
         </h3>
 
         <div class="flex-1 overflow-y-scroll scroll no-scrollbar">
-            @if($this->selectedAppointments->count() > 0)
+            @if($this->selectedEvents->count() > 0)
                 <ol class="flex flex-col gap-4">
-                    @foreach($this->selectedAppointments as $appointment)
-                        <livewire:admin.appointment.item_line
-                            :isDashboard="false"
-                            :appointment="$appointment"
-                            :key="$appointment->id . '-' . $selectedDate"
-                        />
+                    @foreach($this->selectedEvents as $event)
+                        @if($event['type'] === 'appointment')
+                            <livewire:admin.appointment.item_line
+                                :isDashboard="false"
+                                :appointment="$event['model']"
+                                :key="$event['model']->id . '-' . $selectedDate"
+                            />
+                        @else
+                            <livewire:admin.off :unavailability="$event" :key="'unav-' . $event['id']"/>
+                        @endif
                     @endforeach
                 </ol>
             @else
-                <p>Pas de rendez-vous ce jour-ci.</p>
+                <p>Aucune activité ce jour-ci.</p>
             @endif
         </div>
 
