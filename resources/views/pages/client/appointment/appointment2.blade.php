@@ -42,13 +42,13 @@
 
                     </div>
                     <div class="grid grid-cols-7 text-center text-sm mb-2 opacity-60">
-                        <div>Lun</div>
-                        <div>Mar</div>
-                        <div>Mer</div>
-                        <div>Jeu</div>
-                        <div>Ven</div>
-                        <div>Sam</div>
-                        <div>Dim</div>
+                        <p>Lun</p>
+                        <p>Mar</p>
+                        <p>Mer</p>
+                        <p>Jeu</p>
+                        <p>Ven</p>
+                        <p>Sam</p>
+                        <p>Dim</p>
                     </div>
                     <div class="grid grid-cols-7 gap-2 w-full">
 
