@@ -24,7 +24,7 @@
                         </div>
 
                         <p class="text-center text-xl">
-                            {{ $currentMonth->translatedFormat('F Y') }}
+                            {{ ucfirst($currentMonth->translatedFormat('F Y')) }}
                         </p>
 
                         <div class="flex justify-end ml-auto relative w-fit">
@@ -58,24 +58,18 @@
                                 $isCurrentMonth = $day->month === $currentMonth->month;
                                 $isSelected = $day->isSameDay($currentDate);
                                 $isPast = $day->isBefore(today());
+                                $hasSlots = $availableDays[$day->format('Y-m-d')] ?? true;
                             @endphp
 
                             <a href="?date={{ $day->format('Y-m-d') }}"
-                               class="
-        w-full py-2
-        flex items-center justify-center
-        rounded-full transition
-
-        {{ !$isCurrentMonth ? 'opacity-20 pointer-events-none' : '' }}
-        {{ $isPast ? 'opacity-30 pointer-events-none' : '' }}
-        {{ $isSelected ? 'bg-primary text-black font-bold' : '' }}
-        hover:bg-primary-opacity
-   ">
+                               class="w-full py-2 flex items-center justify-center rounded-full transition hover:bg-primary
+                                {{ !$isCurrentMonth ? 'opacity-20 pointer-events-none' : '' }}
+                                {{ $isPast ? 'opacity-30 pointer-events-none' : '' }}
+                                {{ $isSelected ? 'bg-primary-2 hover:bg-primary-2 text-black font-bold' : '' }}
+                                {{ !$isPast && $isCurrentMonth && !$hasSlots ? 'text-error font-bold pointer-events-none' : '' }}">
                                 {{ $day->day }}
                             </a>
-
                         @endforeach
-
                     </div>
                     @if(count($slots))
                         <div class="grid grid-cols-4 md:grid-cols-6 gap-4 mt-4">

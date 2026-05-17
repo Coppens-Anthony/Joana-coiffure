@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Appointment;
 use App\Models\Client;
 use App\Models\Service;
+use App\Models\Unavailabilities;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -67,6 +68,12 @@ class AppointmentController
 
         $slots = $this->generateSlots($currentDate, $totalDuration);
 
+        $availableDays = collect($days)->mapWithKeys(function ($day) use ($totalDuration) {
+            $slots = $this->generateSlots($day, $totalDuration);
+
+            return [$day->format('Y-m-d') => count($slots) > 0];
+        })->toArray();
+
         return view('pages.client.appointment.appointment2', compact(
             'slots',
             'services',
@@ -74,7 +81,8 @@ class AppointmentController
             'dateValue',
             'currentDate',
             'currentMonth',
-            'days'
+            'days',
+            'availableDays'
         ));
     }
 
@@ -99,6 +107,10 @@ class AppointmentController
 
         $appointments = Appointment::whereDate('start_at', $date)->get();
 
+        $unavailabilities = Unavailabilities::where('start_at', '<=', $date->copy()->setTime(18, 0))
+            ->where('end_at', '>=', $date->copy()->setTime(9, 0))
+            ->get();
+
         while ($start->copy()->addMinutes($duration) <= $end) {
 
             $slotEnd = $start->copy()->addMinutes($duration);
@@ -117,7 +129,11 @@ class AppointmentController
                     $safeSlotEnd > $appointment->start_at;
             });
 
-            if (! $overlap) {
+            $overlapUnavailability = $unavailabilities->contains(function ($unavailability) use ($start, $slotEnd) {
+                return $start < $unavailability->end_at && $slotEnd > $unavailability->start_at;
+            });
+
+            if (! $overlap && ! $overlapUnavailability) {
                 $slots[] = [
                     'start' => $start->format('H:i'),
                     'end' => $slotEnd->format('H:i'),
