@@ -33,6 +33,8 @@ document.addEventListener('livewire:navigated', () => {
         },
         selectable: true,
 
+
+
         select(info) {
             const endDate = new Date(info.end);
             endDate.setDate(endDate.getDate() - 1);

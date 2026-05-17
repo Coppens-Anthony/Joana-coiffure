@@ -83,10 +83,22 @@ new class extends Component {
             ? $this->end_date . ' 18:00'
             : $this->start_date . ' ' . ($this->isFullDay ? '18:00' : $this->end_at);
 
+        $overlapping = Unavailabilities::where(function ($query) use ($startAt, $endAt) {
+            $query->whereBetween('start_at', [$startAt, $endAt])
+                ->orWhereBetween('end_at', [$startAt, $endAt])
+                ->orWhere(fn($q) => $q->where('start_at', '<=', $startAt)->where('end_at', '>=', $endAt));
+        })->get();
+
+        $finalStart = min($startAt, $overlapping->min('start_at') ?? $startAt);
+        $finalEnd = max($endAt, $overlapping->max('end_at') ?? $endAt);
+
+        $overlapping->each->delete();
+
         Unavailabilities::create([
-            'start_at' => $startAt,
-            'end_at' => $endAt,
+            'start_at' => $finalStart,
+            'end_at' => $finalEnd,
         ]);
+
         $this->dispatch('action_done', message: 'Période off ajoutée avec succès !');
         $this->dispatch('close_modal');
     }
@@ -127,7 +139,8 @@ new class extends Component {
                         rendez-vous durant cette période. Si vous
                         confirmez, {{ $this->conflictingAppointments->count() > 1 ? 'ils seront annulés' : 'il sera annulé'}}
                         .</p>
-                    <x-global.form.checkbox name="contactClient" wire:model.live="contactClient">Prévenir les clients par
+                    <x-global.form.checkbox name="contactClient" wire:model.live="contactClient">Prévenir les clients
+                        par
                         mail
                     </x-global.form.checkbox>
                 </div>

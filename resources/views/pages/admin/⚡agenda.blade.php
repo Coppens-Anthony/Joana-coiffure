@@ -26,7 +26,7 @@ class extends Component {
             session()->flash($isDeleted ? 'delete' : 'success', $message);
         }
 
-        $this->dispatch('refresh-calendar', events: $this->appointments);
+        $this->dispatch('refresh-calendar', events: $this->events);
     }
 
     #[On('date-selected')]
@@ -52,9 +52,9 @@ class extends Component {
     }
 
     #[Computed]
-    public function appointments()
+    public function events()
     {
-        return Appointment::with('client')
+        $appointments = Appointment::with('client')
             ->get()
             ->map(fn($appointment) => [
                 'title' => $appointment->client->name,
@@ -65,6 +65,25 @@ class extends Component {
                     ->timezone('Europe/Brussels')
                     ->format('Y-m-d H:i:s'),
             ]);
+
+        $unavailabilities = Unavailabilities::all()->map(function($unavailability) {
+            $sameDay = $unavailability->start_at->toDateString() === $unavailability->end_at->toDateString();
+            $isPartial = $sameDay && !($unavailability->start_at->format('H:i') === '09:00' && $unavailability->end_at->format('H:i') === '18:00');
+
+            return [
+                'title' => $isPartial ? 'Créneau off' : ($sameDay ? 'Journée off' : 'Période off'),
+                'start' => $isPartial
+                    ? $unavailability->start_at->timezone('Europe/Brussels')->format('Y-m-d H:i:s')
+                    : $unavailability->start_at->toDateString(),
+                'end' => $isPartial
+                    ? $unavailability->end_at->timezone('Europe/Brussels')->format('Y-m-d H:i:s')
+                    : $unavailability->end_at->clone()->addDay()->toDateString(),
+                'display' => $isPartial ? 'auto' : 'line',
+                'color' => '#B92629',
+            ];
+        });
+
+        return $appointments->merge($unavailabilities);
     }
 
     public function unavailability()
@@ -83,7 +102,7 @@ class extends Component {
             {{ session('delete') }}
         </div>
     @endif
-    <div class="flex-1" id="calendar" data-events='@json($this->appointments)' wire:ignore></div>
+    <div class="flex-1" id="calendar" data-events='@json($this->events)' wire:ignore></div>
     <aside class="lg:w-1/3 flex flex-col p-8 pt-0 shadow-[0_0_10px_rgba(0,0,0,0.25)] rounded-2xl max-h-200">
 
         <h3 class="text-2xl text-center bg-white py-8 sticky top-0 z-10">
