@@ -61,11 +61,11 @@ new class extends Component {
         </x-global.form.input>
 
         <div class="flex flex-col md:flex-row gap-4 md:gap-8">
-            <x-global.form.input type="number" name="duration" wire:model="duration" placeholder="60"
+            <x-global.form.input class="w-full" type="number" name="duration" wire:model="duration" placeholder="60"
                                  :isRequired="true">
                 Durée moyenne (en min.)
             </x-global.form.input>
-            <x-global.form.input type="number" name="price" wire:model="price" placeholder="50" :isRequired="true">
+            <x-global.form.input class="w-full" type="number" name="price" wire:model="price" placeholder="50" :isRequired="true">
                 Prix
             </x-global.form.input>
         </div>

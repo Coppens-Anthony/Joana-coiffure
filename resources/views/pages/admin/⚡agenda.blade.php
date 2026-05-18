@@ -79,9 +79,14 @@ class extends Component {
         return $appointments->merge($unavailabilities);
     }
 
-    public function unavailability()
+    public function createUnavailability()
     {
         $this->dispatch('open_modal', ['modal' => 'modals::unavailabilities.create', 'params' => ['date' => $this->selectedDate]]);
+    }
+
+    public function createAppointment()
+    {
+        $this->dispatch('open_modal', ['modal' => 'modals::appointments.create', 'params' => ['date' => $this->selectedDate]]);
     }
 
     #[Computed]
@@ -153,17 +158,28 @@ class extends Component {
             @endif
         </div>
 
-        @if(Carbon::parse($this->selectedDate)->startOfDay() >= now()->startOfDay())
-            <div class="bg-white pt-8 sticky bottom-0 flex flex-col gap-4 ">
-                <x-global.linkButton.button class="w-full" type="button" title="Ajouter un rendez-vous">
+        @php
+            $isFullDayOff = $this->selectedEvents->contains(fn($event) =>
+                $event['type'] === 'unavailability' &&
+                $event['start_at']->format('H:i') === '09:00' &&
+                $event['end_at']->format('H:i') === '18:00'
+            );
+        @endphp
+
+        @if(Carbon::parse($this->selectedDate)->startOfDay() >= now()->startOfDay() && !$isFullDayOff)
+            <div class="bg-white pt-8 sticky bottom-0 flex flex-col gap-4">
+                <x-global.linkButton.button class="w-full" type="button" title="Ajouter un rendez-vous"
+                                            wire:click="createAppointment">
                     Ajouter un rendez-vous
                 </x-global.linkButton.button>
 
-                <x-global.linkButton.button class="w-full" :isSecondary="true" type="button" wire:click="unavailability"
+                <x-global.linkButton.button class="w-full" :isSecondary="true" type="button"
+                                            wire:click="createUnavailability"
                                             title="Définir une période off">
                     Définir une période off
                 </x-global.linkButton.button>
             </div>
         @endif
+
     </aside>
 </div>
