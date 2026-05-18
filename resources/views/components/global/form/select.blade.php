@@ -1,4 +1,4 @@
-@props(['name', 'isRequired' => false, 'class' => '', 'options' => []])
+@props(['name', 'isRequired' => false, 'class' => '', 'options' => [], 'isDefaultOption' => false])
 
 <div class="flex flex-col gap-2 {{ $class }}">
     <label for="{{$name}}">
@@ -10,6 +10,9 @@
         @enderror
     </label>
     <select name="{{ $name }}" {{ $attributes }} id="{{ $name }}" class="border-2 border-primary p-4 rounded-2xl focus:border-primary-2 focus:outline-none cursor-pointer">
+        @if($isDefaultOption)
+            <option value="">Sélectionner</option>
+        @endif
         @foreach($options as $key => $value)
             <option value="{{ $key }}" class="cursor-pointer">{{ $value }}</option>
         @endforeach

@@ -6,6 +6,7 @@ use Livewire\Component;
 new class extends Component {
     #[Modelable]
     public ?int $value = null;
+
     public string $label;
     public array $items;
 };
@@ -37,19 +38,25 @@ new class extends Component {
     }"
     class="relative"
 >
-    <x-global.form.input
-        name="search"
-        x-model="search"
-        placeholder="Sélectionner"
-        @click="open = true"
-        @click.outside="open = false"
-        @input="open = true; if (search === '') clear()"
-    >
-        {{ $label }}
-    </x-global.form.input>
+    <div class="relative">
+        <x-global.form.input
+            name="search"
+            x-model="search"
+            placeholder="Sélectionner"
+            @click="open = true"
+            @click.outside="open = false"
+            @input="open = true; if (search === '') clear()"
+        >
+            {{ $label }}
+        </x-global.form.input>
+        <svg class="w-4 h-4 opacity-50 transition-transform absolute bottom-6 right-4"
+             :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+        </svg>
+    </div>
 
     <ul x-show="open"
-        class="absolute max-h-75 top-24 left-0 border border-black rounded-2xl w-full flex flex-col bg-white overflow-x-hidden overflow-y-scroll"
+        class="absolute max-h-75 top-24 left-0 border border-black rounded-2xl w-full flex flex-col z-50 bg-white overflow-x-hidden overflow-y-scroll"
         x-cloak>
         <template x-for="item in filteredItems" :key="item.id">
             <li class="cursor-pointer hover:bg-primary" @click="select(item)">

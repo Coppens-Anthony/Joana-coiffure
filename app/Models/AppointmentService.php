@@ -10,6 +10,11 @@ class AppointmentService extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'appointment_id',
+        'service_id'
+    ];
+
     public $timestamps = false;
 
     protected $table = 'appointment_service';

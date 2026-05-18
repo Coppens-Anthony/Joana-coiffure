@@ -2,10 +2,9 @@
 
 namespace App\Helpers;
 
-use Carbon\Carbon;
 use App\Models\Appointment;
 use App\Models\Unavailabilities;
-
+use Carbon\Carbon;
 
 function generateSlots(Carbon $date, int $duration): array
 {
@@ -54,7 +53,7 @@ function generateSlots(Carbon $date, int $duration): array
             return $start < $unavailability->end_at && $slotEnd > $unavailability->start_at;
         });
 
-        if (!$overlap && !$overlapUnavailability) {
+        if (! $overlap && ! $overlapUnavailability) {
             $slots[] = [
                 'start' => $start->format('H:i'),
                 'end' => $slotEnd->format('H:i'),

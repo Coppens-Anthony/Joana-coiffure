@@ -1,14 +1,26 @@
 <?php
 
+use App\Models\Appointment;
+use App\Models\AppointmentService;
 use App\Models\Client;
 use App\Models\Service;
+use Carbon\Carbon;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
+use function App\Helpers\generateSlots;
 
 new class extends Component {
+    public string $selectedDate;
     public int $client_id;
-    public string $service;
+    public array $services_id = [];
+    public array $appointmentSlots = [];
     public string $hour;
+    public bool $hasServices = false;
+
+    public function mount(array $params)
+    {
+        $this->selectedDate = $params['date'];
+    }
 
     #[Computed]
     public function clients()
@@ -22,29 +34,97 @@ new class extends Component {
     #[Computed]
     public function services()
     {
-        return Service::pluck('name', 'id');
+        return Service::orderBy('name')->pluck('name', 'id')
+            ->map(fn($name, $id) => ['id' => $id, 'label' => $name])
+            ->values()
+            ->toArray();
+    }
+
+    public function updatedServicesId()
+    {
+        $this->hasServices = true;
+
+        if (empty($this->services_id) || !$this->selectedDate) {
+            $this->slots = [];
+            return;
+        }
+
+        $services = Service::whereIn('id', $this->services_id)->get();
+        $totalDuration = $services->sum('duration');
+
+        $date = Carbon::parse($this->selectedDate);
+
+        $this->appointmentSlots = collect(generateSlots($date, $totalDuration))
+            ->mapWithKeys(fn($appointmentSlot) => [
+                $appointmentSlot['start'] . '-' . $appointmentSlot['end'] => $appointmentSlot['start'] . ' - ' . $appointmentSlot['end']
+            ])
+            ->toArray();
     }
 
     public function store()
     {
         $validated = $this->validate([
             'client_id' => 'required|exists:clients,id',
+            'services_id' => 'required|array',
+            'services_id.*' => 'exists:services,id',
+            'hour' => 'required|string|in:' . implode(',', array_keys($this->appointmentSlots)),
         ]);
 
-        dd($validated);
+        $hour = explode('-', $validated['hour']);
+        $start_at = $this->selectedDate . ' ' . $hour[0];
+        $end_at = $this->selectedDate . ' ' . $hour[1];
+
+        $appointment = Appointment::create([
+            'client_id' => $validated['client_id'],
+            'start_at' => $start_at,
+            'end_at' => $end_at,
+        ]);
+
+        foreach ($validated['services_id'] as $service) {
+            AppointmentService::create([
+                'appointment_id' => $appointment->id,
+                'service_id' => $service
+            ]);
+        }
+
+        $this->dispatch('action_done', message: 'Rendez-vous ajouté avec succès !');
+        $this->dispatch('close_modal');
     }
 };
 ?>
 
 <livewire:admin.modal modal_title="Ajout d'un rendez-vous">
     <form class="flex flex-col gap-4" wire:submit="store">
-        <livewire:admin.searchable_filed wire:model="client_id" label="Client" :items="$this->clients"/>
-        {{--<x-global.form.select name="service" wire:model="service" :options="$this->services" :isRequired="true">
-            Prestations
-        </x-global.form.select>
-        <x-global.form.select name="hour" wire:model="hour" :options="[]" :isRequired="true">
-            Heures disponibles
-        </x-global.form.select>--}}
+        <livewire:admin.searchable_field wire:model="client_id" label="Client" :items="$this->clients"/>
+        <livewire:admin.multiple_field wire:model.live="services_id" label="Services" :items="$this->services"/>
+        @if (empty($services_id))
+            <div class="flex flex-col gap-2">
+                <p>Horaire <span class="text-error">*</span></p>
+                <p class="border-2 border-primary p-4 rounded-2xl focus:border-primary-2 focus:outline-none">
+                    Veuillez d’abord choisir un/des service(s)
+                </p>
+            </div>
+
+        @elseif ($this->hasServices && empty($this->appointmentSlots))
+            <div class="flex flex-col gap-2">
+                <p>Horaire <span class="text-error">*</span></p>
+                <p class="border-2 border-primary p-4 rounded-2xl focus:border-primary-2 focus:outline-none">
+                    Aucun horaire disponible
+                </p>
+            </div>
+
+        @else
+            <x-global.form.select
+                name="hour"
+                wire:model="hour"
+                :options="$this->appointmentSlots"
+                :isRequired="true"
+                :isDefaultOption="true"
+            >
+                Plage horaire
+            </x-global.form.select>
+        @endif
+
         <div class="ml-auto w-fit flex gap-6">
             <x-global.linkButton.button
                 type="button"
