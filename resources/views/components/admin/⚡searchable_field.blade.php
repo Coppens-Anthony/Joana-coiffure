@@ -36,16 +36,15 @@ new class extends Component {
             this.search = '';
         }
     }"
-    class="relative"
+    class="relative" @focusout="if (!$el.contains($event.relatedTarget)) open = false"
 >
     <div class="relative">
         <x-global.form.input
             name="search"
             x-model="search"
             placeholder="Sélectionner"
-            @click="open = true"
-            @click.outside="open = false"
-            @input="open = true; if (search === '') clear()"
+            @focus="open = true"
+            @input="if (search === '') clear()"
         >
             {{ $label }}
         </x-global.form.input>
@@ -62,6 +61,9 @@ new class extends Component {
             <li class="cursor-pointer hover:bg-primary" @click="select(item)">
                 <button type="button" x-text="item.label" class="focus:bg-primary focus:outline-none p-4 w-full text-start"></button>
             </li>
+        </template>
+        <template x-if="filteredItems.length === 0">
+            <li class="p-4 text-center">Aucun résultat</li>
         </template>
     </ul>
 </div>
