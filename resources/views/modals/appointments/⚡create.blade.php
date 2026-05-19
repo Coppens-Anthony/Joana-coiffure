@@ -95,8 +95,8 @@ new class extends Component {
 
 <livewire:admin.modal modal_title="Ajout d'un rendez-vous">
     <form class="flex flex-col gap-4" wire:submit="store">
-        <livewire:admin.searchable_field wire:model="client_id" label="Client" :items="$this->clients" wire:key="client-field"/>
-        <livewire:admin.multiple_field wire:model.live="services_id" label="Services" :items="$this->services"/>
+        <livewire:admin.searchable_field wire:model="client_id" label="Client" :items="$this->clients" wire:key="client_field"/>
+        <livewire:admin.multiple_field wire:model.live="services_id" label="Services" :items="$this->services" wire:key="services_field"/>
         @if (empty($services_id))
             <div class="flex flex-col gap-2">
                 <p>Horaire <span class="text-error">*</span></p>

@@ -1,6 +1,8 @@
 <?php
 
+use App\Models\Service;
 use Livewire\Attributes\Modelable;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 new class extends Component {
@@ -8,15 +10,37 @@ new class extends Component {
     public array $value = [];
     public string $label;
     public array $items;
+
+    public function create()
+    {
+        $this->dispatch('open_modal', ['modal' => 'modals::services.create_edit', 'params' => ['isAppointment' => true]]);
+    }
+
+    #[On('service_created')]
+    public function addService($id, $name)
+    {
+        $this->value[] = $id;
+
+        $this->items = Service::orderBy('name')
+            ->get()
+            ->map(fn($s) => [
+                'id' => $s->id,
+                'label' => $s->name,
+            ])
+            ->toArray();
+
+        $this->dispatch('services_updated', items: $this->items);
+    }
 };
 ?>
 
 <div class="relative"
-    x-data="{
+     x-on:services_updated.window="items = $event.detail.items"
+     x-data="{
         open: false,
         search: '',
 
-        items: @js($items),
+        items: @entangle('items'),
         value: @entangle('value'),
 
         get filteredItems() {
@@ -40,7 +64,7 @@ new class extends Component {
             }
         }
     }"
-    @focusout="if (!$el.contains($event.relatedTarget)) open = false"
+     @focusout="if (!$el.contains($event.relatedTarget)) open = false"
 >
     <div class="flex flex-col gap-2">
         <p>{{ $label }} <span class="text-error">*</span></p>
@@ -73,6 +97,11 @@ new class extends Component {
         </div>
 
         <ul class="overflow-y-scroll flex items-center gap-4 md:grid md:grid-cols-2 p-4">
+            <li class="hover:bg-primary rounded-xl">
+                <button type="button" class="focus:bg-primary cursor-pointer focus:outline-none p-2 w-full text-start"
+                        wire:click="create">+ Ajouter un service
+                </button>
+            </li>
             <template x-for="item in filteredItems" :key="item.id">
                 <li>
                     <div class="flex gap-2 items-center md:w-1/2">

@@ -21,7 +21,7 @@ new class extends Component {
 
         $this->value = $id;
 
-        $this->dispatch('client-added-to-alpine', id: $id, name: $name);
+        $this->dispatch('client_added', id: $id, name: $name);
     }
 
     public function create()
@@ -32,7 +32,7 @@ new class extends Component {
 ?>
 
 <div
-    x-on:client-added-to-alpine.window="items.push({ id: $event.detail.id, label: $event.detail.name }); search = $event.detail.name;"
+    x-on:client_added.window="items.push({ id: $event.detail.id, label: $event.detail.name }); search = $event.detail.name;"
 
     x-data="{
         open: false,

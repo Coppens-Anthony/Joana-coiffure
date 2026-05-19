@@ -10,8 +10,9 @@ new class extends Component {
     public ?int $price = null;
     public string $desc = '';
     public ?string $model_id = null;
+    public bool $isAppointment = false;
 
-    public function mount(?string $model_id)
+    public function mount(?string $model_id, ?array $params)
     {
         if ($model_id) {
             $this->service = Service::findOrFail($model_id);
@@ -19,6 +20,9 @@ new class extends Component {
             $this->duration = $this->service->duration;
             $this->price = $this->service->price;
             $this->desc = $this->service->desc;
+        }
+        if ($params){
+            $this->isAppointment = $params['isAppointment'];
         }
     }
 
@@ -31,8 +35,12 @@ new class extends Component {
             'desc' => 'required',
         ]);
 
-        Service::create($validated);
-        $this->dispatch('action_done', message: 'Prestation ajoutée avec succès !');
+        $service = Service::create($validated);
+        if ($this->isAppointment) {
+            $this->dispatch('service_created', id: $service->id, name: $service->name);
+        } else {
+            $this->dispatch('action_done', message: 'Prestation ajoutée avec succès !');
+        }
         $this->dispatch('close_modal');
     }
 
