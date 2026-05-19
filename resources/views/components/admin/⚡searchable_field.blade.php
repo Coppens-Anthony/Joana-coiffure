@@ -1,6 +1,7 @@
 <?php
 
 use Livewire\Attributes\Modelable;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 new class extends Component {
@@ -9,10 +10,30 @@ new class extends Component {
 
     public string $label;
     public array $items;
+
+    #[On('client_created')]
+    public function addClient($id, $name)
+    {
+        $this->items[] = [
+            'id' => $id,
+            'label' => $name,
+        ];
+
+        $this->value = $id;
+
+        $this->dispatch('client-added-to-alpine', id: $id, name: $name);
+    }
+
+    public function create()
+    {
+        $this->dispatch('open_modal', ['modal' => 'modals::clients.create']);
+    }
 };
 ?>
 
 <div
+    x-on:client-added-to-alpine.window="items.push({ id: $event.detail.id, label: $event.detail.name }); search = $event.detail.name;"
+
     x-data="{
         open: false,
         search: '',
@@ -57,9 +78,15 @@ new class extends Component {
     <ul x-show="open"
         class="absolute max-h-75 top-24 left-0 border border-black rounded-2xl w-full flex flex-col z-50 bg-white overflow-x-hidden overflow-y-scroll"
         x-cloak>
+        <li class="hover:bg-primary">
+            <button type="button" class="focus:bg-primary cursor-pointer focus:outline-none p-4 w-full text-start"
+                    wire:click="create">+ Ajouter un client
+            </button>
+        </li>
         <template x-for="item in filteredItems" :key="item.id">
             <li class="cursor-pointer hover:bg-primary" @click="select(item)">
-                <button type="button" x-text="item.label" class="focus:bg-primary focus:outline-none p-4 w-full text-start"></button>
+                <button type="button" x-text="item.label"
+                        class="focus:bg-primary focus:outline-none p-4 w-full text-start"></button>
             </li>
         </template>
         <template x-if="filteredItems.length === 0">

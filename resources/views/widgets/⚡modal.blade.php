@@ -4,7 +4,7 @@ use Livewire\Attributes\On;
 use Livewire\Component;
 
 new class extends Component {
-    public ?string $current = null;
+    public array $stack = [];
     public ?string $model_id = null;
     public ?string $model_type = null;
     public ?array $params = null;
@@ -12,7 +12,7 @@ new class extends Component {
     #[On('open_modal')]
     public function open(array $payload): void
     {
-        $this->current = $payload['modal'];
+        $this->stack[] = $payload;
         $this->model_id = $payload['model_id'] ?? null;
         $this->model_type = $payload['model_type'] ?? null;
         $this->params = $payload['params'] ?? null;
@@ -21,7 +21,7 @@ new class extends Component {
     #[On('close_modal')]
     public function close(): void
     {
-        $this->current = null;
+        array_pop($this->stack);
         $this->model_id = null;
         $this->model_type = null;
         $this->params = null;
@@ -31,7 +31,13 @@ new class extends Component {
 ?>
 
 <div>
-    @if(!is_null($current))
-        <livewire:is :component="$current"  :model_id="$model_id" :model_type="$model_type" :params="$params"/>
-    @endif
+    @foreach($stack as $modal)
+        <livewire:is
+            :component="$modal['modal']"
+            :model_id="$modal['model_id'] ?? null"
+            :model_type="$modal['model_type'] ?? null"
+            :params="$modal['params'] ?? null"
+            :key="$loop->index"
+        />
+    @endforeach
 </div>
