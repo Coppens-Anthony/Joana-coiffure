@@ -87,7 +87,7 @@ new class extends Component {
                         </td>
                         <td class="text_td">
                             <span class="title_td">Description</span>
-                            {{ $service->desc }}
+                            <small>{{ $service->desc }}</small>
                         </td>
                         <td class="text_td">
                             <span class="title_td">Actions</span>

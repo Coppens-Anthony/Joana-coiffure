@@ -77,7 +77,7 @@ new class extends Component {
                 Prix
             </x-global.form.input>
         </div>
-        <x-global.form.textarea rows="1" name="desc" wire:model.live="desc" :isRequired="true">
+        <x-global.form.textarea rows="3" name="desc" wire:model.live="desc" :isRequired="true">
             Description
         </x-global.form.textarea>
 
