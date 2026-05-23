@@ -5,5 +5,5 @@
         <h3>{{ $title }}</h3>
         <p>{{ $duration }} / {{ $price }}€</p>
     </div>
-    <small class="text-[.75rem] italic">{{ $desc }}</small>
+    <small class="text-[.875rem] italic">{{ $desc }}</small>
 </article>

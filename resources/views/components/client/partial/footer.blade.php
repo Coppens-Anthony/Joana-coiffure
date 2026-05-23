@@ -16,10 +16,10 @@
             <h3 class="text-[1.5rem] mb-4">Mes horaires</h3>
             <ul class="flex flex-col gap-4">
                 <li>
-                    Du lundi au vendredi de 9h à 19h
+                    Du lundi au vendredi de 9h à 18h
                 </li>
                 <li>
-                    Le samedi de 9h à 18h
+                    Fermé le samedi
                 </li>
                 <li>
                     Fermé le dimanche

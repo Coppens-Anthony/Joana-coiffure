@@ -9,5 +9,5 @@
             </li>
         @endforeach
     </ul>
-    <small class="text-[0.75rem] italic mt-4 block mb-4">* Tout soin est compris dans le tarif de la prestation.</small>
+    <small class="text-[.875rem] italic mt-4 block mb-4">* Tout soin est compris dans le tarif de la prestation.</small>
 </section>

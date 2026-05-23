@@ -110,7 +110,7 @@ class extends Component {
                         <td class="text_td">
                             <span class="title_td">Prestation(s)</span>
                             {!! $appointment->services->map(fn($service) => $service->trashed()
-                                ? $service->name . ' <small class="text-[.75rem]">(Supprimé)</small>'
+                                ? $service->name . ' <small class="text-[.875rem]">(Supprimé)</small>'
                                 : $service->name
                             )->implode(' / ') !!}
                         </td>
@@ -124,7 +124,7 @@ class extends Component {
                         </td>
                         <td class="text_td">
                             <span class="title_td">Informations supplémentaires</span>
-                            <small class="text-[.75rem] italic">{{ $appointment->message ?? '/' }}</small>
+                            <small class="text-[.875rem] italic">{{ $appointment->message ?? '/' }}</small>
                         </td>
                     </tr>
                 @endforeach

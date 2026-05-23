@@ -13,11 +13,14 @@ class AppointmentFactory extends Factory
 
     public function definition(): array
     {
+        $startAt = Carbon::instance($this->faker->dateTimeThisMonth())
+            ->setTime($this->faker->numberBetween(9, 17), $this->faker->randomElement([0, 30]));
+
         return [
             'client_id' => Client::inRandomOrder()->first()->id,
             'message' => $this->faker->sentence(),
-            'start_at' => now(),
-            'end_at' => now()->addMinutes(30),
+            'start_at' => $startAt,
+            'end_at' => $startAt->copy()->addMinutes(60),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ];

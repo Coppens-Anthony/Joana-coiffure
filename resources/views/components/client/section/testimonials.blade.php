@@ -2,20 +2,12 @@
     $items = [
         [
             'person' => 'Alexandre B.',
-            'content' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum delectus deleniti dignissimos modi nulla omnis qui recusandae sequi veniam voluptatum. Accusantium ad aperiam cumque dolore iste iure quasi quos tempora! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum delectus deleniti dignissimos modi nulla omnis qui recusandae sequi veniam voluptatum. Accusantium ad aperiam cumque dolore iste iure quasi quos tempora!'
+            'content' => 'J’ai enfin trouvé une coiffeuse qui comprend vraiment mes attentes. Dès le début, Joana a pris le temps de m’écouter et de me conseiller selon la nature de mes cheveux et la forme de mon visage. Le résultat est impeccable, bien au-delà de ce que j’espérais. En plus, l’ambiance est super agréable, on se sent vraiment à l’aise.'
         ],
         [
             'person' => 'Dimitri S.',
-            'content' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum delectus deleniti dignissimos modi nulla omnis qui recusandae sequi veniam voluptatum. Accusantium ad aperiam cumque dolore iste iure quasi quos tempora! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum delectus deleniti dignissimos modi nulla omnis qui recusandae sequi veniam voluptatum. Accusantium ad aperiam cumque dolore iste iure quasi quos tempora!'
+            'content' => 'Expérience parfaite du début à la fin. La prise de rendez-vous est simple, l’accueil chaleureux et le salon très propre. Joana est très professionnelle, elle explique chaque étape et donne de vrais conseils personnalisés. Je suis ressorti(e) avec une coupe moderne et facile à entretenir au quotidien.'
         ],
-        [
-            'person' => 'Bruno M.',
-            'content' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum delectus deleniti dignissimos modi nulla omnis qui recusandae sequi veniam voluptatum. Accusantium ad aperiam cumque dolore iste iure quasi quos tempora! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum delectus deleniti dignissimos modi nulla omnis qui recusandae sequi veniam voluptatum. Accusantium ad aperiam cumque dolore iste iure quasi quos tempora!'
-        ],
-        [
-            'person' => 'Dylan P.',
-            'content' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum delectus deleniti dignissimos modi nulla omnis qui recusandae sequi veniam voluptatum. Accusantium ad aperiam cumque dolore iste iure quasi quos tempora! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum delectus deleniti dignissimos modi nulla omnis qui recusandae sequi veniam voluptatum. Accusantium ad aperiam cumque dolore iste iure quasi quos tempora!'
-        ]
 ]
 @endphp
 

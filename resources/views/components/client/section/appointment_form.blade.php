@@ -12,10 +12,10 @@
             Téléphone
         </x-global.form.input>
         <x-global.form.textarea name="message" :isRequired="false">
-            Informations supplémentaires <small class="text-[O.75rem]">(ex : allergies, précisions sur vos cheveux,
+            Informations supplémentaires <small class="text-[.875rem]">(ex : allergies, précisions sur vos cheveux,
                 etc)</small>
         </x-global.form.textarea>
-        <small class="text-[0.75rem] mb-8">
+        <small class="text-[.875rem] mb-8">
             <span class="text-error">*</span>
             Champs obligatoires
         </small>

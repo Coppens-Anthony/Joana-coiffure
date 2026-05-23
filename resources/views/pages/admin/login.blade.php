@@ -28,7 +28,7 @@
             <x-global.form.checkbox name="remember">
                 Rester connecté(e)
             </x-global.form.checkbox>
-            <small class="text-[0.75rem] mb-8">
+            <small class="text-[.875rem] mb-8">
                 <span class="text-error">*</span>
                 Champs obligatoires
             </small>
