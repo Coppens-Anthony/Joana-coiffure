@@ -30,7 +30,7 @@ it('creates an appointment', function () {
     $client = Client::factory()->create();
     $service = Service::factory()->create();
 
-    $component = Livewire::test('modals::appointments.create', ['params' => ['date' => today()->toDateString()]])
+    $component = Livewire::test('modals::appointments.create', ['params' => ['date' => today()->addDays(4)->toDateString()]])
         ->set('client_id', $client->id)
         ->set('services_id', [$service->id]);
 
@@ -43,8 +43,8 @@ it('creates an appointment', function () {
 
     $this->assertDatabaseHas('appointments', [
         'client_id' => $client->id,
-        'start_at' => today()->format('Y-m-d') . ' ' . $period[0] . ':00',
-        'end_at' => today()->format('Y-m-d') . ' ' . $period[1] . ':00',
+        'start_at' => today()->addDays(4)->format('Y-m-d').' '.$period[0].':00',
+        'end_at' => today()->addDays(4)->format('Y-m-d').' '.$period[1].':00',
     ]);
 });
 

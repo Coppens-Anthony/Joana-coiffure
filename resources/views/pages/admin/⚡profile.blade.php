@@ -65,10 +65,10 @@ class extends Component {
                                  :value="$this->authUser->email">
                 Email
             </x-global.form.input>
-            <x-global.form.input name="oldPassword" wire:model="oldPassword" {{--type="password"--}}>
+            <x-global.form.input name="oldPassword" wire:model="oldPassword" type="password">
                 Mot de passe actuel
             </x-global.form.input>
-            <x-global.form.input name="password" wire:model="password" {{--type="password"--}} :isRequired="false">
+            <x-global.form.input name="password" wire:model="password" type="password" :isRequired="false">
                 Nouveau mot de passe
             </x-global.form.input>
         </div>
