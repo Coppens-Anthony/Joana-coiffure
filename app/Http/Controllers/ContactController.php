@@ -10,7 +10,7 @@ class ContactController
     {
         $validated = $request->validate([
             'name' => 'required',
-            'email' => 'required',
+            'email' => 'required|email',
             'telephone' => 'required',
             'message' => 'required|max:255',
         ]);

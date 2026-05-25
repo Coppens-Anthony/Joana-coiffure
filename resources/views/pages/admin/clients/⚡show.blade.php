@@ -105,7 +105,7 @@ class extends Component {
                     <tr class="table__tr">
                         <td class="text_td">
                             <span class="title_td">Date</span>
-                            {{ $appointment->formatDate('updated_at') }}
+                            {{ $appointment->formatDate('start_at') }}
                         </td>
                         <td class="text_td">
                             <span class="title_td">Prestation(s)</span>
