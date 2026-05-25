@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Appointment;
 use App\Models\AppointmentService;
 use App\Models\Client;
+use App\Models\RecurringUnavailability;
 use App\Models\Service;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -83,5 +84,7 @@ class DatabaseSeeder extends Seeder
                 ]);
             }
         });
+
+        RecurringUnavailability::factory()->create();
     }
 }

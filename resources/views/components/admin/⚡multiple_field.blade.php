@@ -104,7 +104,7 @@ new class extends Component {
             </li>
             <template x-for="item in filteredItems" :key="item.id">
                 <li>
-                    <div class="flex gap-2 items-center md:w-1/2">
+                    <div class="flex gap-2 items-center w-full">
                         <input
                             type="checkbox"
                             :id="'cb-' + item.id"

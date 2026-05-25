@@ -1,8 +1,10 @@
 <?php
 
 use App\Models\Appointment;
+use App\Models\RecurringUnavailability;
 use App\Models\Unavailabilities;
 use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Title;
@@ -75,8 +77,11 @@ class extends Component {
                 'color' => '#B92629',
             ];
         });
+        $recurring = $this->getRecurringUnavailabilityEvents();
 
-        return $appointments->merge($unavailabilities);
+        return $appointments
+            ->merge($unavailabilities)
+            ->merge($recurring);
     }
 
     public function createUnavailability()
@@ -115,9 +120,72 @@ class extends Component {
                 'model' => $unavailability,
             ]);
 
-        return collect($appointments)->merge($unavailabilities)
+        $date = Carbon::parse($this->selectedDate);
+
+        $recurringRules = RecurringUnavailability::where('is_active', true)->get()
+            ->filter(fn($rule) => in_array($date->dayOfWeek, $rule->days_of_week))
+            ->map(fn($rule) => [
+                'id' => 'recurring-' . $rule->id . '-' . $date->toDateString(),
+                'type' => 'recurring_unavailability',
+                'start_at' => $date->copy()->setTimeFromTimeString($rule->start_time),
+                'end_at' => $date->copy()->setTimeFromTimeString($rule->end_time),
+                'model' => $rule,
+            ]);
+
+        return collect()
+            ->merge($appointments)
+            ->merge($unavailabilities)
+            ->merge($recurringRules)
             ->sortBy('start_at')
             ->values();
+    }
+
+    private function getRecurringUnavailabilityEvents()
+    {
+        $rules = RecurringUnavailability::where('is_active', true)->get();
+
+        $events = collect();
+
+        $start = now()->startOfMonth()->subMonth();
+        $end = now()->endOfMonth()->addYear();
+
+        $period = CarbonPeriod::create($start, $end);
+
+        foreach ($rules as $rule) {
+
+            foreach ($period as $date) {
+
+                if (!in_array($date->dayOfWeek, $rule->days_of_week)) {
+                    continue;
+                }
+
+                if ($rule->starts_on && $date->lt($rule->starts_on)) continue;
+                if ($rule->ends_on && $date->gt($rule->ends_on)) continue;
+
+                $startAt = $date->copy()->setTimeFromTimeString($rule->start_time);
+                $endAt = $date->copy()->setTimeFromTimeString($rule->end_time);
+
+                $events->push([
+                    'title' => 'Congés',
+                    'start' => $startAt->toDateString(),
+                    'end' => $endAt->copy()->addDay()->toDateString(),
+                    'display' => 'line',
+                    'color' => '#B92629',
+                ]);
+            }
+        }
+
+        return $events;
+    }
+
+    #[Computed]
+    public function isRecurringBlocked()
+    {
+        $date = Carbon::parse($this->selectedDate);
+
+        return RecurringUnavailability::where('is_active', true)
+            ->get()
+            ->contains(fn($rule) => in_array($date->dayOfWeek, $rule->days_of_week));
     }
 };
 ?>
@@ -132,7 +200,7 @@ class extends Component {
         </div>
     @endif
     <div class="flex-1" id="calendar" data-events='@json($this->events)' wire:ignore></div>
-    <aside class="lg:w-1/3 flex flex-col p-8 pt-0 shadow-[0_0_10px_rgba(0,0,0,0.25)] rounded-2xl max-h-200">
+    <aside class="xl:w-1/3 flex flex-col p-8 pt-0 shadow-[0_0_10px_rgba(0,0,0,0.25)] rounded-2xl max-h-200">
 
         <h3 class="text-2xl text-center bg-white py-8 sticky top-0 z-10">
             {{ Carbon::parse($selectedDate)->translatedFormat('d F Y') }}
@@ -166,7 +234,7 @@ class extends Component {
             );
         @endphp
 
-        @if(Carbon::parse($this->selectedDate)->startOfDay() >= now()->startOfDay() && !$isFullDayOff)
+        @if(Carbon::parse($this->selectedDate)->startOfDay() >= now()->startOfDay() && !$isFullDayOff && !$this->isRecurringBlocked)
             <div class="bg-white pt-8 sticky bottom-0 flex flex-col gap-4">
                 <x-global.linkButton.button class="w-full" type="button" title="Ajouter un rendez-vous"
                                             wire:click="createAppointment">

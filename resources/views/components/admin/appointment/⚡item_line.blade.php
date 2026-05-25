@@ -30,11 +30,11 @@ new class extends Component {
         <div
             class="bg-primary w-full p-4 rounded-2xl flex flex-col {{ $this->isDashboard ? 'sm:flex-row sm:justify-between sm:gap-8 sm:items-center' : 'gap-2' }}">
             <div class="flex-1">
-                <p class="flex items-center gap-2">
+                <p class="flex flex-col md:flex-row xl:flex-col md:items-center xl:items-start gap-2">
                     {!! $appointment->services->pluck('name')->implode('
                     <span class="inline-block w-1.5 h-1.5 rounded-full bg-black"></span>') !!}
                 </p>
-                <p class="flex items-center gap-2">{{ $appointment->client->name }}
+                <p class="flex mt-2 flex-col md:flex-row 2xl:flex-col md:items-center gap-2">{{ $appointment->client->name }}
                     <span class="inline-block w-1.5 h-1.5 rounded-full bg-black"></span>
                     {{$appointment->services->sum('price')}}€
                 </p>

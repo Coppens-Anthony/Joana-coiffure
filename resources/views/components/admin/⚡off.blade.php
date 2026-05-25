@@ -16,6 +16,7 @@ new class extends Component {
                 'end_date' => Carbon::parse($this->unavailability['end_at'])->toDateString(),
                 'start_at' => Carbon::parse($this->unavailability['start_at'])->format('H:i'),
                 'end_at' => Carbon::parse($this->unavailability['end_at'])->format('H:i'),
+                'id' => $this->unavailability['id'],
             ]
         ]);
     }

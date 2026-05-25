@@ -14,6 +14,7 @@ new class extends Component {
     public ?string $start_at = null;
     public ?string $end_at = null;
     public bool $contactClient = true;
+    public ?int $unavailability_id = null;
 
     public function mount(array $params)
     {
@@ -24,6 +25,7 @@ new class extends Component {
             $this->start_at = $params['start_at'] ?? null;
             $this->end_at = $params['end_at'] ?? null;
             $this->isFullDay = $this->start_at === '09:00' && $this->end_at === '18:00';
+            $this->unavailability_id = $params['id'] ?? null;
         } else {
             $this->start_date = $params['date'];
             $this->end_date = $params['date'];
@@ -90,17 +92,31 @@ new class extends Component {
             $query->whereBetween('start_at', [$startAt, $endAt])
                 ->orWhereBetween('end_at', [$startAt, $endAt])
                 ->orWhere(fn($q) => $q->where('start_at', '<=', $startAt)->where('end_at', '>=', $endAt));
-        })->get();
+        })
+            ->when($this->unavailability_id, fn($q) => $q->where('id', '!=', $this->unavailability_id))
+            ->get();
 
-        $finalStart = min($startAt, $overlapping->min('start_at') ?? $startAt);
-        $finalEnd = max($endAt, $overlapping->max('end_at') ?? $endAt);
+        $finalStart = $overlapping->isNotEmpty()
+            ? min($startAt, $overlapping->min('start_at'))
+            : $startAt;
+
+        $finalEnd = $overlapping->isNotEmpty()
+            ? max($endAt, $overlapping->max('end_at'))
+            : $endAt;
 
         $overlapping->each->delete();
 
-        Unavailabilities::create([
-            'start_at' => $finalStart,
-            'end_at' => $finalEnd,
-        ]);
+        if ($this->unavailability_id) {
+            Unavailabilities::find($this->unavailability_id)->update([
+                'start_at' => $finalStart,
+                'end_at' => $finalEnd,
+            ]);
+        } else {
+            Unavailabilities::create([
+                'start_at' => $finalStart,
+                'end_at' => $finalEnd,
+            ]);
+        }
 
         $this->dispatch('action_done', message: 'Période off ajoutée avec succès !');
         $this->dispatch('close_modal');

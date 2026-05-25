@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use App\Models\Appointment;
+use App\Models\RecurringUnavailability;
 use App\Models\Unavailabilities;
 use Carbon\Carbon;
 
@@ -31,19 +32,32 @@ function generateSlots(Carbon $date, int $duration): array
         ->where('end_at', '>=', $date->copy()->setTime(9, 0))
         ->get();
 
+    $rules = RecurringUnavailability::where('is_active', true)->get();
+
+    $recurringBlocks = collect();
+
+    foreach ($rules as $rule) {
+        if (! in_array($date->dayOfWeek, $rule->days_of_week)) {
+            continue;
+        }
+
+        $recurringBlocks->push([
+            'start' => $date->copy()->setTimeFromTimeString($rule->start_time),
+            'end' => $date->copy()->setTimeFromTimeString($rule->end_time),
+        ]);
+    }
+
     while ($start->copy()->addMinutes($duration) <= $end) {
 
         $slotEnd = $start->copy()->addMinutes($duration);
 
         $buffer = 15;
 
-        $overlap = $appointments->contains(function ($appointment) use ($start, $slotEnd, $buffer) {
+        $overlapAppointment = $appointments->contains(function ($appointment) use ($start, $slotEnd, $buffer) {
 
             $safeSlotEnd = $slotEnd->copy()->addMinutes($buffer);
 
-            $appointmentEndWithBuffer = $appointment->end_at
-                ->copy()
-                ->addMinutes($buffer);
+            $appointmentEndWithBuffer = $appointment->end_at->copy()->addMinutes($buffer);
 
             return $start < $appointmentEndWithBuffer &&
                 $safeSlotEnd > $appointment->start_at;
@@ -53,7 +67,11 @@ function generateSlots(Carbon $date, int $duration): array
             return $start < $unavailability->end_at && $slotEnd > $unavailability->start_at;
         });
 
-        if (! $overlap && ! $overlapUnavailability) {
+        $overlapRecurring = $recurringBlocks->contains(function ($block) use ($start, $slotEnd) {
+            return $start < $block['end'] && $slotEnd > $block['start'];
+        });
+
+        if (! $overlapAppointment && ! $overlapUnavailability && ! $overlapRecurring) {
             $slots[] = [
                 'start' => $start->format('H:i'),
                 'end' => $slotEnd->format('H:i'),
@@ -64,5 +82,4 @@ function generateSlots(Carbon $date, int $duration): array
     }
 
     return $slots;
-
 }
