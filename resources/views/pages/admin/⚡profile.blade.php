@@ -110,6 +110,19 @@ class extends Component {
                 ->with('success', 'Profil modifié avec succès');
         }
     }
+
+    public function days()
+    {
+        return [
+            'monday' => 'Lundi',
+            'tuesday' => 'Mardi',
+            'wednesday' => 'Mercredi',
+            'thursday' => 'Jeudi',
+            'friday' => 'Vendredi',
+            'saturday' => 'Samedi',
+            'sunday' => 'Dimanche'
+        ];
+    }
 };
 ?>
 
@@ -136,30 +149,25 @@ class extends Component {
                 Nouveau mot de passe
             </x-global.form.input>
         </div>
-        <fieldset class="flex flex-col gap-4 mt-4">
-            <legend>Jours de congés récurrents</legend>
-            <div class="grid grid-cols-2 gap-4  mt-2">
-                <x-global.form.checkbox name="monday" wire:model="monday">
-                    Lundi
-                </x-global.form.checkbox>
-                <x-global.form.checkbox name="tuesday" wire:model="tuesday">
-                    Mardi
-                </x-global.form.checkbox>
-                <x-global.form.checkbox name="wednesday" wire:model="wednesday">
-                    Mercredi
-                </x-global.form.checkbox>
-                <x-global.form.checkbox name="thursday" wire:model="thursday">
-                    Jeudi
-                </x-global.form.checkbox>
-                <x-global.form.checkbox name="friday" wire:model="friday">
-                    Vendredi
-                </x-global.form.checkbox>
-                <x-global.form.checkbox name="saturday" wire:model="saturday">
-                    Samedi
-                </x-global.form.checkbox>
-                <x-global.form.checkbox name="sunday" wire:model="sunday">
-                    Dimanche
-                </x-global.form.checkbox>
+        <fieldset class="border border-black rounded-xl p-5 mt-8">
+            <legend class="flex items-center gap-2 px-2 mb-2">
+                Jours de congés récurrents
+            </legend>
+
+            <div class="grid grid-cols-2 sm:grid-cols-4 xl:grid-cols-7 gap-2.5 mt-3">
+                @foreach($this->days() as $id => $value)
+                    <label class="day-toggle cursor-pointer">
+                        <input type="checkbox"
+                               id="{{ $id }}"
+                               name="{{ $id }}"
+                               wire:model="{{ $id }}"
+                               class="sr-only peer">
+                        <span class="flex flex-col items-center gap-2 p-4 rounded-xl transition-all duration-200 select-none text-center bg-secondary
+                         peer-checked:bg-error peer-checked:text-white hover:opacity-70">
+                <span>{{ $value }}</span>
+            </span>
+                    </label>
+                @endforeach
             </div>
         </fieldset>
         <x-global.linkButton.button title="Enregistrer les modifications" class="mx-auto block mt-8">Enregistrer
