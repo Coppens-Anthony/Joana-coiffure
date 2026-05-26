@@ -32,7 +32,7 @@ function generateSlots(Carbon $date, int $duration): array
         ->where('end_at', '>=', $date->copy()->setTime(9, 0))
         ->get();
 
-    $rules = RecurringUnavailability::where('is_active', true)->get();
+    $rules = RecurringUnavailability::all();
 
     $recurringBlocks = collect();
 

@@ -34,7 +34,7 @@ new class extends Component {
                     {!! $appointment->services->pluck('name')->implode('
                     <span class="inline-block w-1.5 h-1.5 rounded-full bg-black"></span>') !!}
                 </p>
-                <p class="flex mt-2 flex-col md:flex-row 2xl:flex-col md:items-center gap-2">{{ $appointment->client->name }}
+                <p class="flex mt-2 flex-col md:flex-row md:items-center gap-2">{{ $appointment->client->name }}
                     <span class="inline-block w-1.5 h-1.5 rounded-full bg-black"></span>
                     {{$appointment->services->sum('price')}}€
                 </p>

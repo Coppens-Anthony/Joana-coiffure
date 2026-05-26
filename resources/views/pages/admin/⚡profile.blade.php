@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Appointment;
 use App\Models\RecurringUnavailability;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Title;
@@ -79,24 +80,35 @@ class extends Component {
             6 => $this->saturday,
         ]));
 
-        $recurring = RecurringUnavailability::first();
+        $appointments = Appointment::where('start_at', '>=', now())
+            ->get()
+            ->filter(fn($appointment) => in_array(
+                $appointment->start_at->dayOfWeek,
+                $days
+            ));
 
-        if ($recurring) {
-            $recurring->update([
-                'days_of_week' => $days,
-                'starts_on' => now()
-            ]);
+        if ($appointments->isNotEmpty()) {
+            $this->dispatch('open_modal', ['modal' => 'modals::recurring_unavailabilities.confirmation', 'params' => ['appointment_ids' => $appointments->pluck('id')->toArray(), 'days' => $days]]);
         } else {
-            RecurringUnavailability::create([
-                'days_of_week' => $days,
-                'starts_on' => now(),
-                'start_time' => '09:00',
-                'end_time' => '18:00',
-            ]);
-        }
+            $recurring = RecurringUnavailability::first();
 
-        return redirect(route('profile'))
-            ->with('success', 'Profil modifié avec succès');
+            if ($recurring) {
+                $recurring->update([
+                    'days_of_week' => $days,
+                    'starts_on' => now()
+                ]);
+            } else {
+                RecurringUnavailability::create([
+                    'days_of_week' => $days,
+                    'starts_on' => now(),
+                    'start_time' => '09:00',
+                    'end_time' => '18:00',
+                ]);
+            }
+
+            return redirect(route('profile'))
+                ->with('success', 'Profil modifié avec succès');
+        }
     }
 };
 ?>

@@ -122,8 +122,13 @@ class extends Component {
 
         $date = Carbon::parse($this->selectedDate);
 
-        $recurringRules = RecurringUnavailability::where('is_active', true)->get()
-            ->filter(fn($rule) => in_array($date->dayOfWeek, $rule->days_of_week))
+        $recurringRules = RecurringUnavailability::all()
+            ->filter(function($rule) use ($date) {
+                if (!in_array($date->dayOfWeek, $rule->days_of_week)) return false;
+                if ($rule->starts_on && $date->lt($rule->starts_on)) return false;
+                if ($rule->ends_on && $date->gt($rule->ends_on)) return false;
+                return true;
+            })
             ->map(fn($rule) => [
                 'id' => 'recurring-' . $rule->id . '-' . $date->toDateString(),
                 'type' => 'recurring_unavailability',
@@ -142,7 +147,7 @@ class extends Component {
 
     private function getRecurringUnavailabilityEvents()
     {
-        $rules = RecurringUnavailability::where('is_active', true)->get();
+        $rules = RecurringUnavailability::all();
 
         $events = collect();
 
@@ -169,7 +174,7 @@ class extends Component {
                     'title' => 'Congés',
                     'start' => $startAt->toDateString(),
                     'end' => $endAt->copy()->addDay()->toDateString(),
-                    'display' => 'line',
+                    'display' => 'background',
                     'color' => '#B92629',
                 ]);
             }
@@ -183,9 +188,13 @@ class extends Component {
     {
         $date = Carbon::parse($this->selectedDate);
 
-        return RecurringUnavailability::where('is_active', true)
-            ->get()
-            ->contains(fn($rule) => in_array($date->dayOfWeek, $rule->days_of_week));
+        return RecurringUnavailability::all()
+            ->contains(function($rule) use ($date) {
+                if (!in_array($date->dayOfWeek, $rule->days_of_week)) return false;
+                if ($rule->starts_on && $date->lt($rule->starts_on)) return false;
+                if ($rule->ends_on && $date->gt($rule->ends_on)) return false;
+                return true;
+            });
     }
 };
 ?>

@@ -16,7 +16,6 @@ return new class extends Migration
             $table->json('days_of_week');
             $table->time('start_time');
             $table->time('end_time');
-            $table->boolean('is_active')->default(true);
             $table->date('starts_on')->nullable();
             $table->date('ends_on')->nullable();
             $table->timestamps();

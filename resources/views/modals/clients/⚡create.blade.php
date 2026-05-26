@@ -18,7 +18,7 @@ new class extends Component {
         ]);
 
         $client = Client::create($validated);
-        $this->dispatch('client_created', id: $client->id, name: $client->name);
+        $this->dispatch('client_created', id: $client->id, name: $client->name, message: 'Client ajouté avec succès !');
         $this->dispatch('close_modal');
     }
 };
