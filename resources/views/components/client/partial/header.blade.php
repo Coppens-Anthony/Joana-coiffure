@@ -2,7 +2,7 @@
     <div class="relative z-50">
         <a href="{{route('home')}}" class="absolute top-0 left-0 w-full h-full"
            title="Vers la page d'accueil"></a>
-        <img src="" alt="LOGO">
+        <x-global.logo/>
     </div>
     <input type="checkbox" id="menu-toggle" class="peer hidden"/>
     <label for="menu-toggle" class="flex flex-col gap-1 justify-between cursor-pointer z-50 md:invisible">

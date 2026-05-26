@@ -4,9 +4,9 @@
         <div class="w-fit">
             <div class="relative" itemtype="https://schema.org/Organization" itemscope>
                 <a href="/" class="absolute h-full w-full"></a>
-                <img src="" alt="LOGO" itemprop="logo">
+                <x-global.logo/>
             </div>
-            <div class="relative w-fit">
+            <div class="relative w-fit mx-auto">
                 <a href="https://www.facebook.com/profile.php?id=100040838886459&locale=fr_FR" target="_blank"
                    class="absolute top-0 left-0 h-full w-full" title="Vers ma page Facebook"></a>
                 <img src="{{asset('assets/svg/facebook.svg')}}" alt="Vers ma page Facebook">
