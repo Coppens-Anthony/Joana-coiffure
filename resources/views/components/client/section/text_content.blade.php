@@ -6,7 +6,7 @@
          {{ asset('assets/img/variants/300x300/' . $img_path) }} 300w,
          {{ asset('assets/img/variants/600x600/' . $img_path) }} 600w,
          {{ asset('assets/img/variants/900x900/' . $img_path) }} 900w"
-         sizes="(max-width: 768px) 50vw, 20vw"
+         sizes="(max-width: 768px) 100vw, 50vw"
          alt="{{ $img_alt }}"
          class="w-full md:w-1/2 rounded-[3rem]">
     <div class="flex flex-col gap-4 md:gap-8 md:w-1/2">

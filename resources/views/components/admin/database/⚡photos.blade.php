@@ -71,7 +71,7 @@ new class extends Component {
                                 {{ asset('pictures/variants/300x300/' . $photo->picture) }} 300w,
                                 {{ asset('pictures/variants/600x600/' . $photo->picture) }} 600w,
                                 {{ asset('pictures/variants/900x900/' . $photo->picture) }} 900w"
-                             sizes="(max-width: 768px) 50vw, 20vw"
+                             sizes="(max-width: 768px) 20vw, 25vw"
                              alt=""
                              class="h-full w-full object-cover rounded-2xl">
                         <button title="Supprimer la photo de la galerie"
