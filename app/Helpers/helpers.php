@@ -6,8 +6,9 @@ use App\Models\Appointment;
 use App\Models\RecurringUnavailability;
 use App\Models\Unavailabilities;
 use Carbon\Carbon;
+use Illuminate\Support\Collection;
 
-function generateSlots(Carbon $date, int $duration): array
+function generateSlots(Carbon $date, int $duration, Collection $appointments, Collection $unavailabilities, Collection $recurringRules): array
 {
     $slots = [];
 
@@ -26,17 +27,9 @@ function generateSlots(Carbon $date, int $duration): array
         return [];
     }
 
-    $appointments = Appointment::whereDate('start_at', $date)->get();
-
-    $unavailabilities = Unavailabilities::where('start_at', '<=', $date->copy()->setTime(18, 0))
-        ->where('end_at', '>=', $date->copy()->setTime(9, 0))
-        ->get();
-
-    $rules = RecurringUnavailability::all();
-
     $recurringBlocks = collect();
 
-    foreach ($rules as $rule) {
+    foreach ($recurringRules as $rule) {
         if (! in_array($date->dayOfWeek, $rule->days_of_week)) {
             continue;
         }

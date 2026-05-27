@@ -4,6 +4,7 @@ use App\Models\Appointment;
 use App\Models\AppointmentService;
 use App\Models\Client;
 use App\Models\Service;
+use App\Models\Unavailabilities;
 use Carbon\Carbon;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
@@ -54,7 +55,16 @@ new class extends Component {
 
         $date = Carbon::parse($this->selectedDate);
 
-        $this->appointmentSlots = collect(generateSlots($date, $totalDuration))
+        $appointments = Appointment::whereDate('start_at', $date)
+            ->get();
+
+        $unavailabilities = Unavailabilities::where('start_at', '<=', $date->copy()->setTime(18, 0))
+            ->where('end_at', '>=', $date->copy()->setTime(9, 0))
+            ->get();
+
+        $reccuringRules = collect();
+
+        $this->appointmentSlots = collect(generateSlots($date, $totalDuration, $appointments,$unavailabilities, $reccuringRules))
             ->mapWithKeys(fn($appointmentSlot) => [
                 $appointmentSlot['start'] . '-' . $appointmentSlot['end'] => $appointmentSlot['start'] . ' - ' . $appointmentSlot['end']
             ])
@@ -95,8 +105,10 @@ new class extends Component {
 
 <livewire:admin.modal modal_title="Ajout d'un rendez-vous">
     <form class="flex flex-col gap-4" wire:submit="store">
-        <livewire:admin.searchable_field wire:model="client_id" label="Client" :items="$this->clients" wire:key="client_field"/>
-        <livewire:admin.multiple_field wire:model.live="services_id" label="Services" :items="$this->services" wire:key="services_field"/>
+        <livewire:admin.searchable_field wire:model="client_id" label="Client" :items="$this->clients"
+                                         wire:key="client_field"/>
+        <livewire:admin.multiple_field wire:model.live="services_id" label="Services" :items="$this->services"
+                                       wire:key="services_field"/>
         @if (empty($services_id))
             <div class="flex flex-col gap-2">
                 <p>Horaire <span class="text-error">*</span></p>

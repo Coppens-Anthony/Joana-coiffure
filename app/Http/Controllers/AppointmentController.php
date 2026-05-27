@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Appointment;
 use App\Models\Client;
+use App\Models\RecurringUnavailability;
 use App\Models\Service;
+use App\Models\Unavailabilities;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -67,10 +69,24 @@ class AppointmentController
             $cursor->addDay();
         }
 
-        $slots = generateSlots($currentDate, $totalDuration);
+        $gridStart = $startOfGrid->copy()->startOfDay();
+        $gridEnd = $startOfGrid->copy()->addDays(41)->endOfDay();
 
-        $availableDays = collect($days)->mapWithKeys(function ($day) use ($totalDuration) {
-            $slots = generateSlots($day, $totalDuration);
+        $appointments = Appointment::whereBetween('start_at', [now()->format('Y-m-d'), $gridEnd])
+            ->get()
+            ->groupBy(fn ($appointment) => $appointment->start_at->format('Y-m-d'));
+
+        $unavailabilities = Unavailabilities::where('start_at', '<=', $gridEnd)
+            ->where('end_at', '>=', $gridStart)
+            ->get();
+
+        $recurringRules = RecurringUnavailability::all();
+
+        $slots = generateSlots($currentDate, $totalDuration, $appointments->get($currentDate->format('Y-m-d'), collect()), $unavailabilities, $recurringRules);
+
+        $availableDays = collect($days)->mapWithKeys(function ($day) use ($totalDuration, $appointments, $unavailabilities, $recurringRules) {
+            $slots = generateSlots($day, $totalDuration, $appointments->get($day->format('Y-m-d'), collect()), $unavailabilities, $recurringRules);
+
             return [$day->format('Y-m-d') => count($slots) > 0];
         })->toArray();
 

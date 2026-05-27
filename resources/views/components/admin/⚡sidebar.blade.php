@@ -51,17 +51,17 @@ new class extends Component {
         md:translate-x-0">
         <h2 class="sr-only">Barre latérale</h2>
         <div>
-            <div class="flex justify-between items-center md:block">
-                <div class="relative w-fit h-fit mb-4">
+            <div class="flex justify-between md:block h-fit">
+                <div class="relative w-fit mx-auto h-fit mb-4">
                     <a
                         href="{{ route('dashboard') }}"
                         title="Revenir au dashboard"
                         class="absolute inset-0"></a>
 
-                    <x-global.logo width="48"/>
+                    <x-global.logo width="32"/>
 
                 </div>
-                <img src="{{ asset('assets/svg/close.svg') }}" alt="Fermer le menu" wire:click="toggleMenu" class="cursor-pointer md:hidden">
+                <img src="{{ asset('assets/svg/close.svg') }}" alt="Fermer le menu" wire:click="toggleMenu" class="cursor-pointer md:hidden h-fit">
             </div>
 
             <nav>
