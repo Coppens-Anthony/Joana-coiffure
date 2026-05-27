@@ -77,13 +77,13 @@ class extends Component {
                         </td>
                         <td class="text_td">
                             <span class="title_td">Nombre de rendez-vous</span>
-                            {{ $client->appointments_count }}
+                            {{ $client->appointments->count() }}
                         </td>
                     </tr>
                 @endforeach
             @else
                 <tr>
-                    <td class="py-2" colspan="5">Aucun résultat</td>
+                    <td class="py-2" colspan="4">Aucun résultat</td>
                 </tr>
             @endif
         </x-global.table>
