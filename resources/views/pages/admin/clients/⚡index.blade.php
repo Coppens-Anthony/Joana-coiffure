@@ -77,7 +77,7 @@ class extends Component {
                         </td>
                         <td class="text_td">
                             <span class="title_td">Nombre de rendez-vous</span>
-                            {{ $client->appointments->count() }}
+                            {{ $client->appointments_count }}
                         </td>
                     </tr>
                 @endforeach

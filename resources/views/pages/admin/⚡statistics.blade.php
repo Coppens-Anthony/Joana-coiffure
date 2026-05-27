@@ -74,6 +74,7 @@ class extends Component {
     public function newClients()
     {
         $query = Client::query()
+            ->whereHas('appointments')
             ->whereYear('created_at', $this->year);
 
         if ($this->month !== 0) {
@@ -81,12 +82,6 @@ class extends Component {
         }
 
         return $query;
-    }
-
-    #[Computed]
-    public function services()
-    {
-        return $this->appointments->flatMap->services;
     }
 
     #[Computed]
@@ -113,9 +108,9 @@ class extends Component {
         return $this->appointments
             ->flatMap->services
             ->groupBy('id')
-            ->map(fn($group) => [
-                'name' => $group->first()->name,
-                'count' => $group->count(),
+            ->map(fn($service) => [
+                'name' => $service->first()->name,
+                'count' => $service->count(),
             ])
             ->sortByDesc('count')
             ->first();
