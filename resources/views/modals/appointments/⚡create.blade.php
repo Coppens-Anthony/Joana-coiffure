@@ -1,5 +1,6 @@
 <?php
 
+use App\Mails\NewAppointment;
 use App\Models\Appointment;
 use App\Models\AppointmentService;
 use App\Models\Client;
@@ -64,7 +65,7 @@ new class extends Component {
 
         $reccuringRules = collect();
 
-        $this->appointmentSlots = collect(generateSlots($date, $totalDuration, $appointments,$unavailabilities, $reccuringRules))
+        $this->appointmentSlots = collect(generateSlots($date, $totalDuration, $appointments, $unavailabilities, $reccuringRules))
             ->mapWithKeys(fn($appointmentSlot) => [
                 $appointmentSlot['start'] . '-' . $appointmentSlot['end'] => $appointmentSlot['start'] . ' - ' . $appointmentSlot['end']
             ])
@@ -89,6 +90,10 @@ new class extends Component {
             'start_at' => $start_at,
             'end_at' => $end_at,
         ]);
+
+        Mail::to(config('mail.from.address'))->send(
+            new NewAppointment($appointment)
+        );
 
         foreach ($validated['services_id'] as $service) {
             AppointmentService::create([

@@ -1,5 +1,6 @@
 <?php
 
+use App\Mails\CanceledAppointment;
 use App\Models\Appointment;
 use App\Models\AppointmentService;
 use App\Models\Unavailabilities;
@@ -72,7 +73,9 @@ new class extends Component {
         if ($this->conflictingAppointments->isNotEmpty()) {
             foreach ($this->conflictingAppointments as $appointment) {
                 if ($this->contactClient) {
-                    // ENVOIE DE MAIL
+                    Mail::to(config('mail.from.address'))->send(
+                        new CanceledAppointment($appointment)
+                    );
                 }
                 AppointmentService::where('appointment_id', $appointment->id)->delete();
 

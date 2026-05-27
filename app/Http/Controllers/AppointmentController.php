@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Mails\NewAppointment;
+use App\Mails\NewAppointmentRecap;
 use App\Models\Appointment;
 use App\Models\Client;
 use App\Models\RecurringUnavailability;
@@ -9,6 +11,7 @@ use App\Models\Service;
 use App\Models\Unavailabilities;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rule;
 
 use function App\Helpers\generateSlots;
@@ -187,6 +190,11 @@ class AppointmentController
 
         session(['confirmed_appointment_id' => $appointment->id]);
         session()->forget('appointment');
+
+        $mail = Mail::to(config('mail.from.address'));
+
+        $mail->send(new NewAppointment($appointment));
+        $mail->send(new NewAppointmentRecap($appointment));
 
         return redirect(route('thanks', $appointment));
     }

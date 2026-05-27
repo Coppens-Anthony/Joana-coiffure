@@ -1,5 +1,6 @@
 <?php
 
+use App\Mails\CanceledAppointment;
 use App\Models\Appointment;
 use App\Models\AppointmentService;
 use App\Models\RecurringUnavailability;
@@ -29,13 +30,16 @@ new class extends Component {
             'contactClient' => 'boolean'
         ]);
 
-        if ($this->contactClient) {
-            // ENVOIE DE MAIL
-        }
-
         foreach ($this->appointmentIds as $appointmentId) {
+            $appointment = Appointment::find($appointmentId);
+            if ($this->contactClient) {
+                Mail::to(config('mail.from.address'))->send(
+                    new CanceledAppointment($appointment)
+                );
+            }
+
             AppointmentService::where('appointment_id', $appointmentId)->delete();
-            Appointment::where('id', $appointmentId)->delete();
+            $appointment->delete();
         }
 
         $recurring = RecurringUnavailability::first();
