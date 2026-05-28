@@ -26,7 +26,7 @@ new class extends Component {
 
     public function create()
     {
-        $this->dispatch('open_modal', ['modal' => 'modals::clients.create']);
+        $this->dispatch('open_modal', ['modal' => 'modals::clients.create_edit']);
     }
 };
 ?>

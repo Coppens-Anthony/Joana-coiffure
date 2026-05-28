@@ -34,6 +34,10 @@ class extends Component {
         $this->dispatch('open_modal', ['modal' => 'modals::notes.create_edit', 'model_type' => $this->client->id]);
     }
 
+    public function clientEdit(string $id)
+    {
+        $this->dispatch('open_modal', ['modal' => 'modals::clients.create_edit', 'model_id' => $id]);
+    }
     public function edit(string $id)
     {
         $this->dispatch('open_modal', ['modal' => 'modals::notes.create_edit', 'model_id' => $id]);
@@ -57,7 +61,12 @@ class extends Component {
         </div>
     @endif
     <section>
-        <h2 class="text-2xl">{{ $client->name }}</h2>
+        <div class="flex gap-4 items-center wi-full">
+            <h2 class="text-2xl">{{ $client->name }}</h2>
+            <button wire:click="clientEdit({{ $client->id }})" class="cursor-pointer">
+                <img src="{{ asset('assets/svg/edit.svg') }}" alt="Modifier les informations du client">
+            </button>
+        </div>
         <ul class="flex flex-col md:flex-row gap-2 md:items-center mt-2">
             <li>{{ $client->email }}</li>
             <span class="hidden md:inline-block w-1 h-1 rounded-full bg-black"></span>

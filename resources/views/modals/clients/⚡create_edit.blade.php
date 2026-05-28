@@ -5,9 +5,21 @@ use App\Models\Service;
 use Livewire\Component;
 
 new class extends Component {
+    public Client $client;
     public string $name = '';
     public string $email = '';
     public string $telephone = '';
+    public ?string $model_id = null;
+
+    public function mount(?string $model_id)
+    {
+        if ($model_id) {
+            $this->client = Client::findOrFail($model_id);
+            $this->name = $this->client->name;
+            $this->email = $this->client->email;
+            $this->telephone = $this->client->telephone;
+        }
+    }
 
     public function store()
     {
@@ -21,12 +33,25 @@ new class extends Component {
         $this->dispatch('client_created', id: $client->id, name: $client->name, message: 'Client ajouté avec succès !');
         $this->dispatch('close_modal');
     }
+
+    public function update()
+    {
+        $validated = $this->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:clients,email,' . $this->client->id,
+            'telephone' => 'required',
+        ]);
+
+        $this->client->update($validated);
+        $this->dispatch('action_done', message: 'Client modifié avec succès !');
+        $this->dispatch('close_modal');
+    }
 };
 ?>
 
 
-<livewire:admin.modal modal_title="Ajouter un client">
-    <form wire:click.stop wire:submit="store" class="flex flex-col gap-4">
+<livewire:admin.modal :modal_title="$this->model_id ? 'Modifier le client' : 'Ajooute un prestation'">
+    <form wire:click.stop wire:submit="{{ $this->model_id ? 'update' : 'store' }}" class="flex flex-col gap-4">
         @csrf
         <x-global.form.input name="name" wire:model="name" placeholder="John Doe" :isRequired="true">
             Nom
@@ -46,8 +71,8 @@ new class extends Component {
                 Annuler
             </x-global.linkButton.button>
             <x-global.linkButton.button
-                title="Ajouter un client">
-                Ajouter
+                :title="$this->model_id ? 'Enregistrer les modifications' : 'Ajouter le nouveau client'">
+                {{ $this->model_id ? 'Enregistrer' : 'Ajouter' }}
             </x-global.linkButton.button>
         </div>
     </form>
