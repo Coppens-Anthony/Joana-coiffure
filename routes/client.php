@@ -4,9 +4,10 @@ use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\ConfirmationController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ServiceController;
 
-Route::view('/', 'pages.client.home')->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::view('/a-propos', 'pages.client.about')->name('about');
 Route::view('/mentions-legales', 'pages.client.legal_notice')->name('notice');
 

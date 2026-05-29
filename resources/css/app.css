@@ -27,7 +27,7 @@
     --color-tertiary-2: #fadc8d;
 
     --color-error: #B92629;
-    --color-test: #75818c;
+    --color-gray: #75818c;
 }
 
 
@@ -92,7 +92,7 @@
 }
 
 .hovered{
-    @apply hover:bg-primary cursor-pointer
+    @apply hover:bg-primary cursor-pointer focus:bg-primary focus:outline-none focus:ring-0;
 }
 
 
@@ -165,7 +165,7 @@
 }
 
 .fc-toolbar-chunk .fc-today-button:disabled{
-    @apply bg-test text-white;
+    @apply bg-gray text-white;
 }
 
 .fc-highlight {

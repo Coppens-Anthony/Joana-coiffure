@@ -62,6 +62,7 @@
                             @endphp
 
                             <a href="?date={{ $day->format('Y-m-d') }}"
+                               tabindex="{{ $isPast || !$hasSlots || !$isCurrentMonth ? '-1' : '0' }}"
                                class="w-full py-2 flex items-center justify-center rounded-full transition hover:bg-primary
                                 {{ !$isCurrentMonth ? 'opacity-20 pointer-events-none' : '' }}
                                 {{ $isPast ? 'opacity-30 pointer-events-none' : '' }}

@@ -38,6 +38,7 @@ class extends Component {
     {
         $this->dispatch('open_modal', ['modal' => 'modals::clients.create_edit', 'model_id' => $id]);
     }
+
     public function edit(string $id)
     {
         $this->dispatch('open_modal', ['modal' => 'modals::notes.create_edit', 'model_id' => $id]);
@@ -76,7 +77,11 @@ class extends Component {
         </ul>
     </section>
     <section class="mt-8 mb-16 bg-tertiary p-6 rounded-2xl" x-data="{expanded: false}">
-        <div class="flex items-center justify-between cursor-pointer" @click="expanded = !expanded">
+        <div class="flex items-center justify-between cursor-pointer"
+             tabindex="0"
+             @click="expanded = !expanded"
+             @keydown.enter="expanded = !expanded"
+             @keydown.space.prevent="expanded = !expanded">
             <h2 class="text-2xl">Notes personnelles</h2>
             <img src="{{ asset('assets/svg/chevron.svg') }}" alt="" class="transition-transform duration-200"
                  :class="{'rotate-180': expanded}">

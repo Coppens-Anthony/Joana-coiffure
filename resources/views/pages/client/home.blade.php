@@ -3,20 +3,20 @@
         [
          'icon_path' => 'assets/svg/stroke_scissor.svg',
          'icon_alt' => '',
-         'title' => 'Homme',
-         'desc' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim  veniam, quis nostrud exercitation '
+         'title' => $man->name,
+         'desc' => $man->desc
         ],
         [
          'icon_path' => 'assets/svg/comb.svg',
          'icon_alt' => '',
-         'title' => 'Mèches',
-         'desc' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim  veniam, quis nostrud exercitation '
+         'title' => $meches->name,
+         'desc' => $meches->desc
         ],
         [
          'icon_path' => 'assets/svg/permanente.svg',
          'icon_alt' => '',
-         'title' => 'Permanente',
-         'desc' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim  veniam, quis nostrud exercitation '
+         'title' => $permanente->name,
+         'desc' => $permanente->desc
         ],
 ];
 @endphp

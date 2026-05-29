@@ -53,7 +53,7 @@ new class extends Component {
         <div>
             <div class="flex justify-between md:block h-fit">
                 <div class="relative w-fit mx-auto h-fit mb-4">
-                    <a
+                    <a tabindex="1"
                         href="{{ route('dashboard') }}"
                         title="Revenir au dashboard"
                         class="absolute inset-0"></a>
@@ -70,6 +70,7 @@ new class extends Component {
                 <ul class="flex flex-col gap-4 pt-4 border-t border-black">
                     <li>
                         <x-global.linkbutton.icon_link
+                            tabindex="1"
                             icon_path="assets/svg/dashboard.svg"
                             :route="route('dashboard')"
                             title="Vers le dashboard"
@@ -81,6 +82,7 @@ new class extends Component {
 
                     <li>
                         <x-global.linkbutton.icon_link
+                            tabindex="1"
                             icon_path="assets/svg/agenda.svg"
                             :route="route('agenda')"
                             title="Vers votre agenda"
@@ -92,6 +94,7 @@ new class extends Component {
 
                     <li>
                         <x-global.linkbutton.icon_link
+                            tabindex="1"
                             icon_path="assets/svg/clients.svg"
                             :route="route('clients.index')"
                             title="Vers le tableau des clients"
@@ -103,6 +106,7 @@ new class extends Component {
 
                     <li>
                         <x-global.linkbutton.icon_link
+                            tabindex="1"
                             icon_path="assets/svg/stats.svg"
                             :route="route('statistics')"
                             title="Vers la page de vos statistiques"
@@ -114,6 +118,7 @@ new class extends Component {
 
                     <li>
                         <x-global.linkbutton.icon_link
+                            tabindex="1"
                             icon_path="assets/svg/database.svg"
                             :route="route('database.services')"
                             title="Vers les données"
@@ -130,6 +135,7 @@ new class extends Component {
             <x-global.logout/>
 
             <x-global.linkbutton.icon_link
+                tabindex="1"
                 icon_path="assets/svg/profile.svg"
                 :route="route('profile')"
                 :isActive="request()->routeIs('profile')"

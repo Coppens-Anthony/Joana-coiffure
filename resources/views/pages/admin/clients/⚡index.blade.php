@@ -61,7 +61,10 @@ class extends Component {
         <x-global.table :titles="['Nom', 'Email', 'Téléphone', 'Nombre de rendre-vous']">
             @if(count($this->clients) > 0)
                 @foreach($this->clients as $client)
-                    <tr onclick="Livewire.navigate('{{ route('clients.⚡show', $client->id) }}')"
+                    <tr @click="Livewire.navigate('{{ route('clients.⚡show', $client->id) }}')"
+                        @keydown.enter="Livewire.navigate('{{ route('clients.⚡show', $client->id) }}')"
+                        @keydown.space.prevent="Livewire.navigate('{{ route('clients.⚡show', $client->id) }}')"
+                        tabindex="0"
                         class="table__tr hovered">
                         <td class="text_td">
                             <span class="title_td">Nom</span>
