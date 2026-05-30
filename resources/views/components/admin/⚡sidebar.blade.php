@@ -58,7 +58,7 @@ new class extends Component {
                         title="Revenir au dashboard"
                         class="absolute inset-0"></a>
 
-                    <x-global.logo width="32"/>
+                    <x-global.logo/>
 
                 </div>
                 <img src="{{ asset('assets/svg/close.svg') }}" alt="Fermer le menu" wire:click="toggleMenu" class="cursor-pointer md:hidden h-fit">

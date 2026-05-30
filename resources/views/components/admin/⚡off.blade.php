@@ -32,22 +32,32 @@ new class extends Component {
 ?>
 
 <div>
-    <li class="pb-8 border-b border-b-black flex flex-col gap-4">
-        <div class="flex text-2xl flex-row items-center">
-            <p>{{ Carbon::parse($this->unavailability['start_at'])->format('H\hi') }}</p>
-            <span>&nbsp;-&nbsp;</span>
-            <p>{{ Carbon::parse($this->unavailability['end_at'])->format('H\hi') }}</p>
-        </div>
-        <div class="bg-error text-white w-full p-4 rounded-2xl flex flex-col gap-2">
-            <p class="flex-1">Période off</p>
-            <div class="flex gap-4 items-center">
-                <button class="cursor-pointer" wire:click="edit({{ $this->unavailability['id'] }})">
-                    <img src="{{ asset('assets/svg/white_edit.svg') }}" alt="Modifier" class="w-5 h-5 lg:w-8 lg:h-8">
-                </button>
-                <button class="cursor-pointer" wire:click="delete({{ $this->unavailability['id'] }})">
-                    <img src="{{ asset('assets/svg/white_delete.svg') }}" alt="Annuler" class="w-4 h-4 lg:w-6 lg:h-6">
-                </button>
+    <li class="{{ $this->unavailability['type'] === 'unavailability' ?? 'border-b border-b-black pb-8' }} flex flex-col gap-4">
+        @if($this->unavailability['type'] === 'unavailability')
+            <div class="flex text-2xl flex-row items-center">
+                <p>{{ Carbon::parse($this->unavailability['start_at'])->format('H\hi') }}</p>
+                <span>&nbsp;-&nbsp;</span>
+                <p>{{ Carbon::parse($this->unavailability['end_at'])->format('H\hi') }}</p>
             </div>
+        @endif
+
+        <div class="bg-error text-white w-full p-4 rounded-2xl flex flex-col gap-2">
+            <p class="flex-1">
+                {{ $this->unavailability['type'] === 'unavailability' ? 'Période off' : 'Jour de congé' }}
+            </p>
+            @if($this->unavailability['type'] === 'unavailability')
+                <div class="flex gap-4 items-center">
+                    <button class="cursor-pointer" wire:click="edit({{ $this->unavailability['id'] }})">
+                        <img src="{{ asset('assets/svg/white_edit.svg') }}" alt="Modifier"
+                             class="w-5 h-5 lg:w-8 lg:h-8">
+                    </button>
+                    <button class="cursor-pointer" wire:click="delete({{ $this->unavailability['id'] }})">
+                        <img src="{{ asset('assets/svg/white_delete.svg') }}" alt="Annuler"
+                             class="w-4 h-4 lg:w-6 lg:h-6">
+                    </button>
+                </div>
+            @endif
+
         </div>
     </li>
 </div>

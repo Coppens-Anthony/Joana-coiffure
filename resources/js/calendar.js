@@ -1,76 +1,76 @@
-import { Calendar } from '@fullcalendar/core';
+import { Calendar as FullCalendar } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
+import listPlugin from '@fullcalendar/list';
 
 let calendar = null;
 
-document.addEventListener('livewire:navigated', () => {
-    const calendarEl = document.getElementById('calendar');
+export const Calendar = {
+    init() {
+        const calendarEl = document.getElementById('calendar');
 
-    if (!calendarEl || calendar) return;
+        if (!calendarEl) return;
+        if (calendar) calendar.destroy();
 
-    let selectedDayEl = null;
+        let selectedDayEl = null;
+        const events = JSON.parse(calendarEl.dataset.events);
 
-    const events = JSON.parse(calendarEl.dataset.events);
+        calendar = new FullCalendar(calendarEl, {
+            plugins: [dayGridPlugin, interactionPlugin, listPlugin],
+            initialView: 'dayGridMonth',
+            locale: 'fr',
+            timeZone: 'Europe/Brussels',
+            firstDay: 1,
+            events: events,
+            dayMaxEvents: true,
+            buttonText: { today: "Aujourd'hui" },
+            selectable: true,
 
-    calendar = new Calendar(calendarEl, {
-        plugins: [
-            dayGridPlugin,
-            interactionPlugin
-        ],
+            datesSet(info) {
+                Livewire.dispatch('data-set', {
+                    firstDay: info.startStr,
+                    lastDay: info.endStr
+                });
+            },
 
-        initialView: 'dayGridMonth',
+            select(info) {
+                const endDate = new Date(info.end);
+                endDate.setDate(endDate.getDate() - 1);
+                const endStr = endDate.toISOString().split('T')[0];
+                if (info.startStr === endStr) return;
+                Livewire.dispatch('unavailabilities-selected', { start: info.startStr, end: endStr });
+            },
+            navLinks: true,
 
-        locale: 'fr',
-        timeZone: 'Europe/Brussels',
-        firstDay: 1,
+            navLinkDayClick(date) {
+                if (selectedDayEl) selectedDayEl.classList.remove('selected-day');
+                Livewire.dispatch('date-selected', {
+                    date: date.toISOString().split('T')[0]
+                });
+            },
 
-        events: events,
-        dayMaxEvents: true,
-
-        buttonText: {
-            today: 'Aujourd\'hui'
-        },
-        selectable: true,
-
-        datesSet: function(info) {
-            Livewire.dispatch('data-set', {
-                firstDay: info.startStr,
-                lastDay: info.endStr
-            })
-        },
-
-        select(info) {
-            const endDate = new Date(info.end);
-            endDate.setDate(endDate.getDate() - 1);
-            const endStr = endDate.toISOString().split('T')[0];
-
-            if (info.startStr === endStr) return;
-
-            Livewire.dispatch('unavailabilities-selected', {
-                start: info.startStr,
-                end: endStr
-            });
-        },
-
-        dateClick(info) {
-            if (selectedDayEl) {
-                selectedDayEl.classList.remove('selected-day');
+            dateClick(info) {
+                if (selectedDayEl) selectedDayEl.classList.remove('selected-day');
+                info.dayEl.classList.add('selected-day');
+                selectedDayEl = info.dayEl;
+                Livewire.dispatch('date-selected', { date: info.dateStr });
             }
+        });
 
-            info.dayEl.classList.add('selected-day');
-            selectedDayEl = info.dayEl;
+        calendar.render();
 
-            Livewire.dispatch('date-selected', {
-                date: info.dateStr,
-            });
-        }
-    });
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 1024) calendar.changeView('dayGridMonth');
+            else calendar.changeView('listWeek');
+        });
 
-    calendar.render();
+        Livewire.on('refresh-calendar', ({ events }) => {
+            calendar.removeAllEvents();
+            calendar.addEventSource(events);
+        });
+    },
 
-    Livewire.on('refresh-calendar', ({ events }) => {
-        calendar.removeAllEvents();
-        calendar.addEventSource(events);
-    });
-});
+    getInitialView() {
+        return window.innerWidth >= 1024 ? 'dayGridMonth' : 'listWeek';
+    }
+};
