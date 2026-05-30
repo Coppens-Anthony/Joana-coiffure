@@ -2,7 +2,7 @@
 
 use App\Models\Appointment;
 use App\Models\Client;
-use App\Models\Unavailabilities;
+use App\Models\Unavailability;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
@@ -17,7 +17,7 @@ it('returns unavailabilities as events', function () {
         'end_at' => today()->setTime(11, 0),
     ]);
 
-    Unavailabilities::factory()->create();
+    Unavailability::factory()->create();
 
     $page = Livewire::test('pages::admin.agenda');
 
@@ -35,7 +35,7 @@ it('returns an unavailability with "Journée off" for title because all day is o
         'end_at' => today()->setTime(11, 0),
     ]);
 
-    Unavailabilities::factory()->create([
+    Unavailability::factory()->create([
         'start_at' => today()->setTime(9, 0),
         'end_at' => today()->setTime(18, 0),
     ]);
@@ -58,7 +58,7 @@ it('returns an unavailability with "Créneau off" for title because a part of th
         'end_at' => today()->setTime(11, 0),
     ]);
 
-    Unavailabilities::factory()->create([
+    Unavailability::factory()->create([
         'start_at' => today()->setTime(9, 0),
         'end_at' => today()->setTime(12, 0),
     ]);
@@ -82,7 +82,7 @@ it('returns an unavailability with "Période off" for title because at least 2 d
         'end_at' => today()->setTime(11, 0),
     ]);
 
-    Unavailabilities::factory()->create([
+    Unavailability::factory()->create([
         'start_at' => today()->setTime(9, 0),
         'end_at' => today()->addDays(3)->setTime(18, 0),
     ]);

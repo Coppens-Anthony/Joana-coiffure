@@ -10,7 +10,7 @@ use Livewire\Component;
 new class extends Component {
     public array $appointmentIds = [];
     public array $days = [];
-    public bool $contactClient = false;
+    public bool $contactClient = true;
 
     public function mount(array $params)
     {

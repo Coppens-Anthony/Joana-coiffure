@@ -3,7 +3,7 @@
 use App\Mails\CanceledAppointment;
 use App\Models\Appointment;
 use App\Models\AppointmentService;
-use App\Models\Unavailabilities;
+use App\Models\Unavailability;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
@@ -91,7 +91,7 @@ new class extends Component {
             ? $this->end_date . ' 18:00'
             : $this->start_date . ' ' . ($this->isFullDay ? '18:00' : $this->end_at);
 
-        $overlapping = Unavailabilities::where(function ($query) use ($startAt, $endAt) {
+        $overlapping = Unavailability::where(function ($query) use ($startAt, $endAt) {
             $query->whereBetween('start_at', [$startAt, $endAt])
                 ->orWhereBetween('end_at', [$startAt, $endAt])
                 ->orWhere(fn($q) => $q->where('start_at', '<=', $startAt)->where('end_at', '>=', $endAt));
@@ -110,12 +110,12 @@ new class extends Component {
         $overlapping->each->delete();
 
         if ($this->unavailability_id) {
-            Unavailabilities::find($this->unavailability_id)->update([
+            Unavailability::find($this->unavailability_id)->update([
                 'start_at' => $finalStart,
                 'end_at' => $finalEnd,
             ]);
         } else {
-            Unavailabilities::create([
+            Unavailability::create([
                 'start_at' => $finalStart,
                 'end_at' => $finalEnd,
             ]);

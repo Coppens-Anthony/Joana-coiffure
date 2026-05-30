@@ -4,7 +4,7 @@ namespace App\Helpers;
 
 use App\Models\Appointment;
 use App\Models\RecurringUnavailability;
-use App\Models\Unavailabilities;
+use App\Models\Unavailability;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 

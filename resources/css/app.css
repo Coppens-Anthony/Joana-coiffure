@@ -1,5 +1,9 @@
 @import 'tailwindcss';
 @import '../../vendor/livewire/flux/dist/flux.css';
+@import "calendar.css";
+@import "burgerMenu.css";
+@import "table.css";
+@import "global.css";
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 @source '../views';
@@ -30,6 +34,9 @@
     --color-gray: #75818c;
 }
 
+:root {
+    --fc-highlight-color: var(--color-primary-opacity);
+}
 
 @layer base {
 
@@ -54,148 +61,3 @@
 /* \[:where(&)\]:size-4 {
     @apply size-4;
 } */
-
-.span_burger_menu {
-    @apply block bg-primary rounded-2xl w-6 min-h-1  transition-transform ease-in-out
-}
-
-#menu-toggle:checked ~ label span:nth-child(1) {
-    transform: translateY(8px) rotate(45deg);
-    transition: 0.5s;
-}
-
-#menu-toggle:checked ~ label span:nth-child(2) {
-    opacity: 0;
-}
-
-#menu-toggle:checked ~ label span:nth-child(3) {
-    transform: translateY(-8px) rotate(-45deg);
-    transition: 0.5s;
-}
-
-
-.table__tr {
-    @apply flex flex-col border border-primary p-4 rounded-2xl
-    lg:table-row lg:border-0 lg:py-0;
-
-    &:nth-child(even) {
-        @apply lg:bg-primary-opacity
-    }
-
-    .text_td {
-        @apply flex flex-col sm:flex-row sm:justify-between sm:items-center sm:gap-8 sm:text-end lg:text-center py-2 lg:table-cell lg:py-2;
-
-        .title_td {
-            @apply opacity-60 lg:hidden;
-        }
-    }
-}
-
-.hovered{
-    @apply hover:bg-primary cursor-pointer focus:bg-primary focus:outline-none focus:ring-0;
-}
-
-
-.alert-success {
-    @apply bg-green-100 border border-green-400 w-fit fixed top-8 right-8 text-green-700 px-5 py-3 rounded-md mb-5 z-100;
-    animation: slideIn 0.3s ease-out, fadeOut 0.5s ease-in 2s forwards;
-}
-.alert-delete {
-    @apply bg-red-100 border border-red-400 w-fit fixed top-8 right-8 text-red-700 px-5 py-3 rounded-md mb-5 z-100;
-    animation: slideIn 0.3s ease-out, fadeOut 0.5s ease-in 2s forwards;
-}
-
-@keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateX(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-@keyframes fadeOut {
-    to {
-        opacity: 0;
-        transform: translateX(10px);
-    }
-}
-
-.js .js\:block{
-    @apply block
-}
-
-.js .js\:hidden{
-    @apply hidden
-}
-
-.service-remove-btn {
-    @apply relative pr-4 cursor-pointer
-    after:content-['']
-    after:absolute after:top-1/4 after:right-0 after:-translate-y-1/2
-    after:block after:w-4 after:h-4
-    after:bg-[url('../../public/assets/svg/close.svg')]
-    after:bg-no-repeat after:bg-contain;
-}
-
-.fc-daygrid-day {
-    @apply cursor-pointer hover:bg-primary-opacity;
-}
-
-.fc .fc-daygrid-day.fc-day-today {
-    @apply bg-tertiary;
-}
-
-.selected-day{
-    @apply bg-primary hover:bg-primary;
-}
-
-@utility no-scrollbar {
-    @apply [scrollbar-width:none] [&::-webkit-scrollbar]:hidden;
-}
-
-.fc-toolbar-chunk .fc-button{
-    @apply bg-primary text-black border-primary-2 hover:bg-primary-2 active:bg-primary-2 duration-200 hover:text-black active:text-black;
-}
-
-.fc-toolbar-chunk .fc-today-button{
-    @apply bg-secondary hover:bg-secondary-2 border-secondary-2;
-}
-
-.fc-toolbar-chunk .fc-today-button:disabled{
-    @apply bg-gray text-white;
-}
-
-.fc-highlight {
-    @apply bg-primary hover:bg-primary-opacity;
-}
-
-.fc .fc-bg-event {
-    @apply opacity-75 z-1;
-}
-
-.fc-bg-event .fc-event-title {
-    @apply text-white opacity-100;
-}
-
-.fc-daygrid-day:has(.fc-bg-event) .fc-daygrid-day-number {
-    @apply text-white;
-}
-
-.fc .fc-bg-event {
-    @apply opacity-75 z-1;
-}
-
-.fc-bg-event .fc-event-title {
-    @apply text-white opacity-100;
-}
-
-.fc-daygrid-day:has(.fc-bg-event) .fc-daygrid-day-number {
-    @apply text-white;
-}
-
-.fc .fc-day-other .fc-daygrid-day-top{
-    @apply relative opacity-45 z-50;
-}

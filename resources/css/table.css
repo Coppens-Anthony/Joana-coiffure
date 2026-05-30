@@ -1,0 +1,16 @@
+.table__tr {
+    @apply flex flex-col border border-primary p-4 rounded-2xl
+    lg:table-row lg:border-0 lg:py-0;
+
+    &:nth-child(even) {
+        @apply lg:bg-primary-opacity
+    }
+
+    .text_td {
+        @apply flex flex-col sm:flex-row sm:justify-between sm:items-center sm:gap-8 sm:text-end lg:text-center py-2 lg:table-cell lg:py-2;
+
+        .title_td {
+            @apply opacity-60 lg:hidden;
+        }
+    }
+}

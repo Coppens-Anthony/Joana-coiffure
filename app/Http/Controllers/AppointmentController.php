@@ -8,7 +8,7 @@ use App\Models\Appointment;
 use App\Models\Client;
 use App\Models\RecurringUnavailability;
 use App\Models\Service;
-use App\Models\Unavailabilities;
+use App\Models\Unavailability;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -79,7 +79,7 @@ class AppointmentController
             ->get()
             ->groupBy(fn ($appointment) => $appointment->start_at->format('Y-m-d'));
 
-        $unavailabilities = Unavailabilities::where('start_at', '<=', $gridEnd)
+        $unavailabilities = Unavailability::where('start_at', '<=', $gridEnd)
             ->where('end_at', '>=', $gridStart)
             ->get();
 

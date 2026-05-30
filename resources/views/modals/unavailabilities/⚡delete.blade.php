@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Unavailabilities;
+use App\Models\Unavailability;
 use Carbon\Carbon;
 use Livewire\Component;
 
@@ -14,7 +14,7 @@ new class extends Component {
 
     public function destroy()
     {
-        Unavailabilities::find($this->unavailability['id'])->delete();
+        Unavailability::find($this->unavailability['id'])->delete();
         $this->dispatch('action_done', message: 'Période off supprimée avec succès !', isDeleted: true);
         $this->dispatch('close_modal');
     }
@@ -32,7 +32,8 @@ new class extends Component {
     <p class="mb-8">
         Êtes-vous sûr(e) de vouloir supprimer
         @if($sameDay && !$isFullDay)
-            la période off de {{ $start->timezone('Europe/Brussels')->format('H\hi') }} à {{ $end->timezone('Europe/Brussels')->format('H\hi') }}
+            la période off de {{ $start->timezone('Europe/Brussels')->format('H\hi') }}
+            à {{ $end->timezone('Europe/Brussels')->format('H\hi') }}
         @elseif($sameDay && $isFullDay)
             la journée off
         @else
@@ -46,10 +47,10 @@ new class extends Component {
 
         <div class="ml-auto w-fit flex gap-6">
             <x-global.linkButton.button
-                type="button"
-                title="Fermer la modale"
-                :isSecondary="true"
-                wire:click="dispatch('close_modal')"
+                    type="button"
+                    title="Fermer la modale"
+                    :isSecondary="true"
+                    wire:click="dispatch('close_modal')"
             >
                 Annuler
             </x-global.linkButton.button>

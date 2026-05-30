@@ -1,0 +1,71 @@
+.fc-daygrid-day {
+    @apply cursor-pointer hover:bg-primary-opacity;
+}
+
+.fc .fc-daygrid-day.fc-day-today {
+    @apply bg-tertiary;
+}
+
+.fc .fc-daygrid-day.fc-day-today .fc-bg-event {
+    background: transparent !important;
+}
+
+.fc .fc-daygrid-day.fc-day-today .fc-daygrid-day-number {
+    @apply text-black;
+}
+
+.fc .fc-daygrid-day.fc-day-today .fc-event-title {
+    @apply text-black opacity-100 z-100 relative;
+}
+
+.selected-day{
+    @apply bg-primary hover:bg-primary;
+}
+
+@utility no-scrollbar {
+    @apply [scrollbar-width:none] [&::-webkit-scrollbar]:hidden;
+}
+
+.fc-toolbar-chunk .fc-button{
+    @apply bg-primary text-black border-primary-2 hover:bg-primary-2 active:bg-primary-2 duration-200 hover:text-black active:text-black;
+}
+
+.fc-toolbar-chunk .fc-today-button{
+    @apply bg-secondary hover:bg-secondary-2 border-secondary-2;
+}
+
+.fc-toolbar-chunk .fc-today-button:disabled{
+    @apply bg-gray text-white;
+}
+
+.fc-highlight {
+    @apply bg-primary hover:bg-primary-opacity;
+}
+
+.fc .fc-bg-event {
+    @apply opacity-75 z-1;
+}
+
+.fc-bg-event .fc-event-title {
+    @apply text-white opacity-100;
+}
+
+.fc-daygrid-day:has(.fc-bg-event) .fc-daygrid-day-number {
+    @apply text-white;
+}
+
+.fc .fc-bg-event {
+    @apply opacity-75 z-1;
+}
+
+.fc-bg-event .fc-event-title {
+    @apply text-white opacity-100;
+}
+
+.fc-daygrid-day:has(.fc-bg-event) .fc-daygrid-day-number {
+    @apply text-white;
+}
+
+.fc .fc-day-other .fc-daygrid-day-top{
+    @apply relative opacity-45 z-50;
+}

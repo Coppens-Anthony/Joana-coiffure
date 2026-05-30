@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Unavailabilities;
+use App\Models\Unavailability;
 use Carbon\Carbon;
 use Livewire\Component;
 

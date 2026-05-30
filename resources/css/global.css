@@ -1,0 +1,47 @@
+.hovered{
+    @apply hover:bg-primary cursor-pointer focus:bg-primary focus:outline-none focus:ring-0;
+}
+
+.alert-success {
+    @apply bg-green-100 border border-green-400 w-fit fixed top-8 right-8 text-green-700 px-5 py-3 rounded-md mb-5 z-100;
+    animation: slideIn 0.3s ease-out, fadeOut 0.5s ease-in 2s forwards;
+}
+.alert-delete {
+    @apply bg-red-100 border border-red-400 w-fit fixed top-8 right-8 text-red-700 px-5 py-3 rounded-md mb-5 z-100;
+    animation: slideIn 0.3s ease-out, fadeOut 0.5s ease-in 2s forwards;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+        transform: translateX(10px);
+    }
+}
+
+.js .js\:block{
+    @apply block
+}
+
+.js .js\:hidden{
+    @apply hidden
+}
+
+.service-remove-btn {
+    @apply relative pr-4 cursor-pointer
+    after:content-['']
+    after:absolute after:top-1/4 after:right-0 after:-translate-y-1/2
+    after:block after:w-4 after:h-4
+    after:bg-[url('../../public/assets/svg/close.svg')]
+    after:bg-no-repeat after:bg-contain;
+}

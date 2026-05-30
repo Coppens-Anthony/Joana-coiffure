@@ -5,7 +5,7 @@ use App\Models\Appointment;
 use App\Models\AppointmentService;
 use App\Models\Client;
 use App\Models\Service;
-use App\Models\Unavailabilities;
+use App\Models\Unavailability;
 use Carbon\Carbon;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
@@ -59,7 +59,7 @@ new class extends Component {
         $appointments = Appointment::whereDate('start_at', $date)
             ->get();
 
-        $unavailabilities = Unavailabilities::where('start_at', '<=', $date->copy()->setTime(18, 0))
+        $unavailabilities = Unavailability::where('start_at', '<=', $date->copy()->setTime(18, 0))
             ->where('end_at', '>=', $date->copy()->setTime(9, 0))
             ->get();
 
@@ -102,7 +102,7 @@ new class extends Component {
             ]);
         }
 
-        $this->dispatch('action_done', message: 'Rendez-vous ajouté avec succès !');
+        $this->dispatch('action_done', message: 'Rendez-vous ajouté avec succès !', closeModal: false);
         $this->dispatch('close_modal');
     }
 };

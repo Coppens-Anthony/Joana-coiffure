@@ -50,7 +50,7 @@ new class extends Component {
 ?>
 
 
-<livewire:admin.modal :modal_title="$this->model_id ? 'Modifier le client' : 'Ajooute un prestation'">
+<livewire:admin.modal :modal_title="$this->model_id ? 'Modifier le client' : 'Ajooute un client'">
     <form wire:click.stop wire:submit="{{ $this->model_id ? 'update' : 'store' }}" class="flex flex-col gap-4">
         @csrf
         <x-global.form.input name="name" wire:model="name" placeholder="John Doe" :isRequired="true">

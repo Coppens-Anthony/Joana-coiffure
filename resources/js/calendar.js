@@ -33,6 +33,13 @@ document.addEventListener('livewire:navigated', () => {
         },
         selectable: true,
 
+        datesSet: function(info) {
+            Livewire.dispatch('data-set', {
+                firstDay: info.startStr,
+                lastDay: info.endStr
+            })
+        },
+
         select(info) {
             const endDate = new Date(info.end);
             endDate.setDate(endDate.getDate() - 1);
@@ -55,7 +62,7 @@ document.addEventListener('livewire:navigated', () => {
             selectedDayEl = info.dayEl;
 
             Livewire.dispatch('date-selected', {
-                date: info.dateStr
+                date: info.dateStr,
             });
         }
     });
