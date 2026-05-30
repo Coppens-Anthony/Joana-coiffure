@@ -6,7 +6,7 @@ use App\Models\Unavailability;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
 
-class UnavailabilitiesFactory extends Factory
+class UnavailabilityFactory extends Factory
 {
     protected $model = Unavailability::class;
 
