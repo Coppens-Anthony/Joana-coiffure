@@ -184,6 +184,18 @@
     @apply text-white;
 }
 
+.fc .fc-bg-event {
+    @apply opacity-75 z-1;
+}
+
+.fc-bg-event .fc-event-title {
+    @apply text-white opacity-100;
+}
+
+.fc-daygrid-day:has(.fc-bg-event) .fc-daygrid-day-number {
+    @apply text-white;
+}
+
 .fc .fc-day-other .fc-daygrid-day-top{
-    @apply relative opacity-75 z-50;
+    @apply relative opacity-45 z-50;
 }

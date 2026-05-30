@@ -51,7 +51,7 @@ class extends Component {
     {
         return $this->baseAppointmentsQuery()
             ->with('services:id,price,name')
-            ->get(['id', 'client_id']);
+            ->get(['id', 'client_id', 'end_at']);
     }
 
     #[Computed]
@@ -87,7 +87,7 @@ class extends Component {
     #[Computed]
     public function totalRevenue()
     {
-        return $this->appointments
+        return $this->appointments->filter(fn($appointment) => $appointment->end_at->isPast())
             ->flatMap->services
             ->sum('price');
     }
@@ -95,7 +95,7 @@ class extends Component {
     #[Computed]
     public function averageRevenue()
     {
-        $count = $this->appointments->count();
+        $count = $this->appointments->filter(fn($appointment) => $appointment->end_at->isPast())->count();
 
         return $count > 0
             ? $this->totalRevenue / $count
