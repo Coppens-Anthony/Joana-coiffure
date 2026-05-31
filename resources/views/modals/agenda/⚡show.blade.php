@@ -51,6 +51,8 @@ new class extends Component {
     #[Computed]
     public function selectedEvents()
     {
+        $date = Carbon::parse($this->selectedDate);
+
         $appointments = Appointment::with('client')
             ->whereDate('start_at', $this->selectedDate)
             ->orderBy('start_at')
@@ -69,26 +71,40 @@ new class extends Component {
             ->map(fn($unavailability) => [
                 'id' => $unavailability->id,
                 'type' => 'unavailability',
+                'allDay' => $unavailability->start_at->format('H:i') === '09:00' && $unavailability->end_at->format('H:i') === '18:00',
                 'start_at' => $unavailability->start_at,
                 'end_at' => $unavailability->end_at,
                 'model' => $unavailability,
             ]);
 
-        $date = Carbon::parse($this->selectedDate);
-
         $recurringRules = $this->recurringRules
             ->map(fn($rule) => [
                 'id' => 'recurring-' . $rule->id . '-' . $date->toDateString(),
                 'type' => 'recurring_unavailability',
-                'start_at' => $date->copy()->setTime('09', '00'),
-                'end_at' => $date->copy()->setTime('18', '00'),
+                'allDay' => $rule->start_time === '09:00' && $rule->end_time === '18:00',
+                'start_at' => $date->copy()->setTimeFromTimeString($rule->start_time),
+                'end_at' => $date->copy()->setTimeFromTimeString($rule->end_time),
                 'model' => $rule,
             ]);
 
+        $hasNormalFullDay = $unavailabilities->contains(fn($e) => $e['allDay']);
+        $hasRecurringFullDay = $recurringRules->contains(fn($e) => $e['allDay']);
+
+        if ($hasNormalFullDay) {
+            $offEvents = $unavailabilities->filter(fn($e) => $e['allDay']);
+        } elseif ($hasRecurringFullDay) {
+            $offEvents = $recurringRules->filter(fn($e) => $e['allDay']);
+        } else {
+            $offEvents = collect()
+                ->merge($unavailabilities)
+                ->merge($recurringRules)
+                ->sortBy('start_at')
+                ->values();
+        }
+
         return collect()
             ->merge($appointments)
-            ->merge($unavailabilities)
-            ->merge($recurringRules)
+            ->merge($offEvents)
             ->sortBy('start_at')
             ->values();
     }
@@ -96,14 +112,16 @@ new class extends Component {
     #[Computed]
     public function isRecurringBlocked(): bool
     {
-        return $this->recurringRules->isNotEmpty();
+        return $this->recurringRules->contains(
+            fn($rule) => Carbon::parse($rule->start_time)->format('H:i') === '09:00'
+                && Carbon::parse($rule->end_time)->format('H:i') === '18:00'
+        );
     }
 
     #[Computed]
     public function isFullDayOff(): bool
     {
-        return $this->selectedEvents->contains(fn($event) =>
-            $event['type'] === 'unavailability' &&
+        return $this->selectedEvents->contains(fn($event) => $event['type'] === 'unavailability' &&
             $event['start_at']->format('H:i') === '09:00' &&
             $event['end_at']->format('H:i') === '18:00'
         );

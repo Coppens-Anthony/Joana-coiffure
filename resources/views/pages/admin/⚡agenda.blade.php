@@ -39,8 +39,8 @@ class extends Component {
     #[On('data-set')]
     public function dataSet($firstDay, $lastDay)
     {
-        $this->firstDay = $firstDay;
-        $this->lastDay = $lastDay;
+        $this->firstDay = Carbon::parse($firstDay)->startOfDay()->toDateString();
+        $this->lastDay = Carbon::parse($lastDay)->endOfDay()->toDateString();
 
         $this->dispatch('refresh-calendar', events: $this->events);
     }
@@ -74,39 +74,75 @@ class extends Component {
                 'end' => $appointment->end_at->timezone('Europe/Brussels')->format('Y-m-d H:i:s'),
             ]);
 
-        $unavailabilities = Unavailability::whereBetween('start_at', [$this->firstDay, $this->lastDay])
+        $unavailabilities = Unavailability::where('start_at', '<=', $this->lastDay)
+            ->where('end_at', '>=', $this->firstDay)
             ->get()
             ->map(function ($unavailability) {
                 $sameDay = $unavailability->start_at->toDateString() === $unavailability->end_at->toDateString();
                 $isPartial = $sameDay && !($unavailability->start_at->format('H:i') === '09:00' && $unavailability->end_at->format('H:i') === '18:00');
 
                 return [
+                    'allDay' => !$isPartial,
                     'title' => $isPartial ? 'Créneau off' : ($sameDay ? 'Journée off' : 'Période off'),
                     'start' => $isPartial ? $unavailability->start_at->timezone('Europe/Brussels')->format('Y-m-d H:i:s') : $unavailability->start_at->toDateString(),
                     'end' => $isPartial ? $unavailability->end_at->timezone('Europe/Brussels')->format('Y-m-d H:i:s') : $unavailability->end_at->clone()->addDay()->toDateString(),
-                    'display' => $isPartial ? 'auto' : 'line',
-                    'color' => '#B92629',
+                    'display' => $isPartial ? 'auto' : 'background',
+                    'color' => '#F9C784',
+                    'classNames' => $isPartial ? [] : ['event-orange'],
                 ];
             });
 
         $recurring = RecurringUnavailability::all()
             ->flatMap(function ($rule) {
+                $isAllDay = $rule->start_time === '09:00' && $rule->end_time === '18:00';
+
                 return collect(CarbonPeriod::create($this->firstDay, $this->lastDay))
                     ->filter(fn($date) => in_array($date->dayOfWeek, $rule->days_of_week))
                     ->filter(fn($date) => !($rule->starts_on && $date->lt($rule->starts_on)))
                     ->map(fn($date) => [
-                        'title' => 'Congés',
-                        'start' => $date->toDateString(),
-                        'end' => $date->copy()->addDay()->toDateString(),
-                        'display' => 'background',
+                        'allDay' => $isAllDay,
+                        'title' => 'Congé récurrent',
+                        'start' => $isAllDay ? $date->toDateString() : $date->toDateString() . ' ' . $rule->start_time,
+                        'end' => $isAllDay ? $date->copy()->addDay()->toDateString() : $date->toDateString() . ' ' . $rule->end_time,
+                        'display' => $isAllDay ? 'background' : 'auto',
                         'color' => '#B92629',
+                        'classNames' => $isAllDay ? ['event-red'] : [],
                     ]);
             });
 
+        $normalFullDays = $unavailabilities
+            ->filter(fn($event) => $event['allDay'])
+            ->flatMap(function ($event) {
+                $start = Carbon::parse($event['start']);
+                $end = Carbon::parse($event['end'])->subDay();
+
+                return collect(CarbonPeriod::create($start, $end))
+                    ->map(fn($date) => $date->toDateString());
+            })
+            ->unique();
+
+        $recurringFullDays = $recurring
+            ->filter(fn($event) => $event['allDay'])
+            ->pluck('start')
+            ->unique();
+
+        $filteredUnavailabilities = $unavailabilities->filter(
+            fn($event) => $event['allDay'] || !$normalFullDays->contains(Carbon::parse($event['start'])->toDateString())
+        );
+
+        $filteredRecurring = $recurring->filter(function ($event) use ($normalFullDays, $recurringFullDays) {
+            $date = $event['allDay'] ? $event['start'] : Carbon::parse($event['start'])->toDateString();
+
+            if ($normalFullDays->contains($date)) return false;
+            if (!$event['allDay'] && $recurringFullDays->contains($date)) return false;
+
+            return true;
+        });
+
         return collect()
             ->merge($appointments)
-            ->merge($unavailabilities)
-            ->merge($recurring);
+            ->merge($filteredUnavailabilities)
+            ->merge($filteredRecurring);
     }
 };
 ?>
@@ -120,5 +156,18 @@ class extends Component {
             {{ session('delete') }}
         </div>
     @endif
+        <div class="w-fit mx-auto mb-4 md:mb-2">
+            <ul class="grid grid-cols-2 sm:flex md:grid lg:flex gap-4">
+                <li class="flex gap-2 items-center">
+                    <span class="w-4 h-4 rounded-full block bg-[#3788d8]"></span>Rendez-vous
+                </li>
+                <li class="flex gap-2 items-center">
+                    <span class="w-4 h-4 rounded-full block bg-unavailability"></span>Période off
+                </li>
+                <li class="flex gap-2 items-center">
+                    <span class="w-4 h-4 rounded-full block bg-error"></span>Congés réccurents
+                </li>
+            </ul>
+        </div>
     <div id="calendar" data-events='@json($this->events)' wire:ignore></div>
 </div>

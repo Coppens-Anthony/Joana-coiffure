@@ -43,28 +43,21 @@
 }
 
 .fc .fc-bg-event {
-    @apply opacity-75 z-1;
+    @apply opacity-100 z-1;
 }
 
 .fc-bg-event .fc-event-title {
-    @apply text-white opacity-100;
-}
-
-.fc-daygrid-day:has(.fc-bg-event) .fc-daygrid-day-number {
-    @apply text-white;
+    @apply  opacity-100;
 }
 
 .fc .fc-bg-event {
-    @apply opacity-75 z-1;
+    @apply opacity-100 z-1;
 }
 
 .fc-bg-event .fc-event-title {
-    @apply text-white opacity-100;
+    @apply  opacity-100;
 }
 
-.fc-daygrid-day:has(.fc-bg-event) .fc-daygrid-day-number {
-    @apply text-white;
-}
 
 .fc .fc-day-other .fc-daygrid-day-top{
     @apply relative opacity-45 z-50;
@@ -74,4 +67,20 @@
     text-decoration: underline;
     cursor: pointer;
     font-size: 1.5rem;
+}
+
+.event-orange{
+    @apply text-black font-bold;
+}
+
+.event-red{
+    @apply text-white font-bold;
+}
+
+.fc-daygrid-day:has(.event-orange) .fc-daygrid-day-number {
+    @apply text-black;
+}
+
+.fc-daygrid-day:has(.event-red) .fc-daygrid-day-number {
+    @apply text-white font-bold;
 }

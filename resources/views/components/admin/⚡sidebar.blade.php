@@ -127,6 +127,17 @@ new class extends Component {
                             Données
                         </x-global.linkbutton.icon_link>
                     </li>
+                    <li>
+                        <x-global.linkbutton.icon_link
+                            tabindex="1"
+                            icon_path="assets/svg/off.svg"
+                            :route="route('recurring_unavailabilities')"
+                            title="Vers les congés récurrents"
+                            :isActive="request()->routeIs('recurring_unavailabilities')"
+                        >
+                            Congés récurrents
+                        </x-global.linkbutton.icon_link>
+                    </li>
                 </ul>
             </nav>
         </div>

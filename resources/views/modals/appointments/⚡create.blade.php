@@ -4,6 +4,7 @@ use App\Mails\NewAppointment;
 use App\Models\Appointment;
 use App\Models\AppointmentService;
 use App\Models\Client;
+use App\Models\RecurringUnavailability;
 use App\Models\Service;
 use App\Models\Unavailability;
 use Carbon\Carbon;
@@ -63,7 +64,7 @@ new class extends Component {
             ->where('end_at', '>=', $date->copy()->setTime(9, 0))
             ->get();
 
-        $reccuringRules = collect();
+        $reccuringRules = RecurringUnavailability::all();
 
         $this->appointmentSlots = collect(generateSlots($date, $totalDuration, $appointments, $unavailabilities, $reccuringRules))
             ->mapWithKeys(fn($appointmentSlot) => [

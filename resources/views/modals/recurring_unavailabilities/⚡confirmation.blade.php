@@ -11,11 +11,17 @@ new class extends Component {
     public array $appointmentIds = [];
     public array $days = [];
     public bool $contactClient = true;
+    public string $start_at;
+    public string $end_at;
+    public ?string $reccuring_unavailabilityId;
 
     public function mount(array $params)
     {
         $this->appointmentIds = $params['appointment_ids'];
         $this->days = $params['days'];
+        $this->start_at = $params['start_at'];
+        $this->end_at = $params['end_at'];
+        $this->reccuring_unavailabilityId = $params['reccuring_unavailabilityId'];
     }
 
     #[Computed]
@@ -42,24 +48,24 @@ new class extends Component {
             $appointment->delete();
         }
 
-        $recurring = RecurringUnavailability::first();
-
-        if ($recurring) {
-            $recurring->update([
+        if ($this->reccuring_unavailabilityId) {
+            $recurring_unavailability = RecurringUnavailability::findOrFail($this->reccuring_unavailabilityId);
+            $recurring_unavailability->update([
                 'days_of_week' => $this->days,
-                'starts_on' => now()
+                'starts_on' => now(),
+                'start_time' => $this->start_at,
+                'end_time' => $this->end_at,
             ]);
         } else {
             RecurringUnavailability::create([
                 'days_of_week' => $this->days,
                 'starts_on' => now(),
-                'start_time' => '09:00',
-                'end_time' => '18:00',
+                'start_time' => $this->start_at,
+                'end_time' => $this->end_at,
             ]);
         }
 
-        return redirect(route('profile'))
-            ->with('success', 'Profil modifié avec succès');
+        return redirect(route('recurring_unavailabilities'))->with('success', 'Congé récurrent ajouté avec succès !');
     }
 };
 ?>
@@ -83,8 +89,8 @@ new class extends Component {
                                         wire:click="dispatch('close_modal')">
                 Annuler
             </x-global.linkButton.button>
-            <x-global.linkButton.button title="Ajouter la période off">
-                Ajouter
+            <x-global.linkButton.button title="Confirmer la période off">
+                Comfirmer
             </x-global.linkButton.button>
         </div>
     </form>

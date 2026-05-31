@@ -22,4 +22,15 @@ class RecurringUnavailability extends Model
         'starts_on' => 'date',
         'ends_on' => 'date',
     ];
+
+    public function getDaysOfWeekLabels(): array
+    {
+        $labels = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+        $order = [1, 2, 3, 4, 5, 6, 0];
+
+        return array_map(
+            fn ($day) => $labels[$day],
+            array_filter($order, fn ($day) => in_array($day, $this->days_of_week))
+        );
+    }
 }
