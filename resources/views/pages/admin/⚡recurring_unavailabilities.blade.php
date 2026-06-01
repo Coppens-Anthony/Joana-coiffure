@@ -2,6 +2,7 @@
 
 use App\Models\Appointment;
 use App\Models\RecurringUnavailability;
+use Carbon\Carbon;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Title;
@@ -28,10 +29,12 @@ class extends Component {
     {
         $this->dispatch('open_modal', ['modal' => 'modals::recurring_unavailabilities.create_edit']);
     }
+
     public function edit(string $id)
     {
         $this->dispatch('open_modal', ['modal' => 'modals::recurring_unavailabilities.create_edit', 'model_id' => $id]);
     }
+
     public function delete(string $id)
     {
         $this->dispatch('open_modal', ['modal' => 'modals::recurring_unavailabilities.delete', 'model_id' => $id]);
@@ -66,11 +69,11 @@ class extends Component {
                         </td>
                         <td class="text_td">
                             <span class="title_td">Heure de début</span>
-                            {{ $unavailability->start_time }}
+                            {{ Carbon::parse($unavailability->start_time)->format('H\hi') }}
                         </td>
                         <td class="text_td">
                             <span class="title_td">Heure de fin</span>
-                            {{ $unavailability->end_time }}
+                            {{ Carbon::parse($unavailability->end_time)->format('H\hi') }}
                         </td>
                         <td class="text_td">
                             <span class="title_td">Actions</span>
