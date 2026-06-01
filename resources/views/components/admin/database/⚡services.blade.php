@@ -65,9 +65,9 @@ new class extends Component {
                     Rechercher une prestation
                 </x-global.form.input>
             </form>
-            <x-global.linkButton.button_link title="Ajouter une prestation" wire:click="create">
+            <x-global.link-button.button-link title="Ajouter une prestation" wire:click="create">
                 + Ajouter une prestation
-            </x-global.linkButton.button_link>
+            </x-global.link-button.button-link>
         </div>
         <x-global.table :titles="['Nom', 'Durée', 'Prix', 'Description', 'Actions']">
             @if(count($this->services) > 0)

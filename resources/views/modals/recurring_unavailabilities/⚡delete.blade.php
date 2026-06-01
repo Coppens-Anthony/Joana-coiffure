@@ -33,18 +33,18 @@ new class extends Component {
         @csrf
 
         <div class="ml-auto w-fit flex gap-6">
-            <x-global.linkButton.button
+            <x-global.link-button.button
                 type="button"
                 title="Fermer la modale"
                 :isSecondary="true"
                 wire:click="dispatch('close_modal')"
             >
                 Annuler
-            </x-global.linkButton.button>
+            </x-global.link-button.button>
 
-            <x-global.linkButton.button title="Supprimer la période récurrente">
+            <x-global.link-button.button title="Supprimer la période récurrente">
                 Supprimer
-            </x-global.linkButton.button>
+            </x-global.link-button.button>
         </div>
     </form>
 </livewire:admin.modal>

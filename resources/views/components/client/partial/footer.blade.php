@@ -32,22 +32,22 @@
             </h3>
             <ul class="flex flex-col gap-4">
                 <li>
-                    <x-global.linkbutton.link :route="route('home')" title="Vers la page d'accueil">Accueil</x-global.linkbutton.link>
+                    <x-global.link-button.link :route="route('home')" title="Vers la page d'accueil">Accueil</x-global.link-button.link>
                 </li>
                 <li>
-                    <x-global.linkbutton.link :route="route('about')" title="Vers la page à propos">À propos</x-global.linkbutton.link>
+                    <x-global.link-button.link :route="route('about')" title="Vers la page à propos">À propos</x-global.link-button.link>
                 </li>
                 <li>
-                    <x-global.linkbutton.link :route="route('prices')" title="Vers la page des tarifs">Tarifs</x-global.linkbutton.link>
+                    <x-global.link-button.link :route="route('prices')" title="Vers la page des tarifs">Tarifs</x-global.link-button.link>
                 </li>
                 <li>
-                    <x-global.linkbutton.link :route="route('gallery')" title="Vers la galerie">Galerie</x-global.linkbutton.link>
+                    <x-global.link-button.link :route="route('gallery')" title="Vers la galerie">Galerie</x-global.link-button.link>
                 </li>
                 <li>
-                    <x-global.linkbutton.link :route="route('contact')" title="Vers la page de contact">Contact</x-global.linkbutton.link>
+                    <x-global.link-button.link :route="route('contact')" title="Vers la page de contact">Contact</x-global.link-button.link>
                 </li>
                 <li>
-                    <x-global.linkbutton.link :route="route('appointment')" title="Prendre un rendez-vous">Rendez-vous</x-global.linkbutton.link>
+                    <x-global.link-button.link :route="route('appointment')" title="Prendre un rendez-vous">Rendez-vous</x-global.link-button.link>
                 </li>
             </ul>
         </nav>
@@ -55,10 +55,10 @@
             <h3 class="text-[1.5rem] mb-4">Mes coordonnées</h3>
             <ul class="flex flex-col gap-4" itemtype="https://schema.org/Organization" itemscope>
                 <li itemprop="email">
-                    <x-global.linkbutton.link route="mailto:joanastofs@gmail.com" title="Envoyez-moi un mail">joanastofs@gmail.com</x-global.linkbutton.link>
+                    <x-global.link-button.link route="mailto:joanastofs@gmail.com" title="Envoyez-moi un mail">joanastofs@gmail.com</x-global.link-button.link>
                 </li>
                 <li itemprop="telephone">
-                    <x-global.linkbutton.link route="tel:+32 466 48 67 77" title="Téléphonez-moi">+32 466 48 67 77</x-global.linkbutton.link>
+                    <x-global.link-button.link route="tel:+32 466 48 67 77" title="Téléphonez-moi">+32 466 48 67 77</x-global.link-button.link>
                 </li>
                 <li itemprop="address">
                     Rue de la Station 57,
@@ -74,9 +74,9 @@
         <p>© 2026 Joana Coiffure - Tous droits réservés.</p>
         <p>
             Réalisé par
-            <x-global.linkbutton.link route="" title="Vers le portfolio d'Anthony Coppens">Anthony Coppens</x-global.linkbutton.link>
+            <x-global.link-button.link route="" title="Vers le portfolio d'Anthony Coppens">Anthony Coppens</x-global.link-button.link>
             -
-            <x-global.linkbutton.link :route="route('notice')" title="Vers les mentions légales">Mentions légales</x-global.linkbutton.link>
+            <x-global.link-button.link :route="route('notice')" title="Vers les mentions légales">Mentions légales</x-global.link-button.link>
         </p>
     </section>
 </footer>

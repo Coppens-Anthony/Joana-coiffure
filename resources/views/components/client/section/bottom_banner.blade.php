@@ -5,12 +5,12 @@
         <p class="text-[2rem] text-white">Prenez rendez-vous en quelques clics ou contactez-moi pour toute
             question.</p>
         <div class="flex gap-4 mx-auto w-fit">
-            <x-global.linkbutton.link_button :route="route('appointment')" title="Prendre rendez-vous">
+            <x-global.link-button.link-button :route="route('appointment')" title="Prendre rendez-vous">
                 Rendez-vous
-            </x-global.linkbutton.link_button>
-            <x-global.linkbutton.link_button :route="route('contact')" title="Vers la page de contact" :isSecondary="true">
+            </x-global.link-button.link-button>
+            <x-global.link-button.link-button :route="route('contact')" title="Vers la page de contact" :isSecondary="true">
                 Contact
-            </x-global.linkbutton.link_button>
+            </x-global.link-button.link-button>
         </div>
     </div>
 </section>

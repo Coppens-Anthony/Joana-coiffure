@@ -168,13 +168,13 @@ new class extends Component {
                 </div>
             @endif
             <div class="ml-auto w-fit flex gap-6">
-                <x-global.linkButton.button type="button" title="Fermer la modale" :isSecondary="true"
+                <x-global.link-button.button type="button" title="Fermer la modale" :isSecondary="true"
                                             wire:click="dispatch('close_modal')">
                     Annuler
-                </x-global.linkButton.button>
-                <x-global.linkButton.button title="Ajouter la période off">
+                </x-global.link-button.button>
+                <x-global.link-button.button title="Ajouter la période off">
                     Ajouter
-                </x-global.linkButton.button>
+                </x-global.link-button.button>
             </div>
         </form>
     </livewire:admin.modal>

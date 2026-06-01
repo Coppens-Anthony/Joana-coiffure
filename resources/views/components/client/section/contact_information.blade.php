@@ -4,13 +4,13 @@
         un message
         via le formulaire ci-contre et je vous répondrai dès que possible.</p>
     <div class="flex flex-col gap-4" itemtype="https://schema.org/Organization" itemscope>
-        <x-global.linkbutton.icon_link route="mailto:joanastofs@gmail.com" title="Envoyez-moi un mail"
+        <x-global.link-button.icon-link route="mailto:joanastofs@gmail.com" title="Envoyez-moi un mail"
                             icon_alt="Envoyez-moi un mail" icon_path="assets/svg/email.svg">
             <span itemprop="email">joanastofs@gmail.com</span>
-        </x-global.linkbutton.icon_link>
-        <x-global.linkbutton.icon_link route="tel:+32 466 48 67 77" title="Téléphonez-moi" icon_path="assets/svg/telephone.svg"
+        </x-global.link-button.icon-link>
+        <x-global.link-button.icon-link route="tel:+32 466 48 67 77" title="Téléphonez-moi" icon_path="assets/svg/telephone.svg"
                             icon_alt="Téléphonez-moi">
             <span itemprop="telephone">+32 466 48 67 77</span>
-        </x-global.linkbutton.icon_link>
+        </x-global.link-button.icon-link>
     </div>
 </div>

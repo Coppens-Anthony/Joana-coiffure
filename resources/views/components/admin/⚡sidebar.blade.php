@@ -69,7 +69,7 @@ new class extends Component {
 
                 <ul class="flex flex-col gap-4 pt-4 border-t border-black">
                     <li>
-                        <x-global.linkbutton.icon_link
+                        <x-global.link-button.icon-link
                             tabindex="1"
                             icon_path="assets/svg/dashboard.svg"
                             :route="route('dashboard')"
@@ -77,11 +77,11 @@ new class extends Component {
                             :isActive="request()->routeIs('dashboard')"
                         >
                             Dashboard
-                        </x-global.linkbutton.icon_link>
+                        </x-global.link-button.icon-link>
                     </li>
 
                     <li>
-                        <x-global.linkbutton.icon_link
+                        <x-global.link-button.icon-link
                             tabindex="1"
                             icon_path="assets/svg/agenda.svg"
                             :route="route('agenda')"
@@ -89,11 +89,11 @@ new class extends Component {
                             :isActive="request()->routeIs('agenda')"
                         >
                             Agenda
-                        </x-global.linkbutton.icon_link>
+                        </x-global.link-button.icon-link>
                     </li>
 
                     <li>
-                        <x-global.linkbutton.icon_link
+                        <x-global.link-button.icon-link
                             tabindex="1"
                             icon_path="assets/svg/clients.svg"
                             :route="route('clients.index')"
@@ -101,11 +101,11 @@ new class extends Component {
                             :isActive="request()->routeIs('clients.*')"
                         >
                             Clients
-                        </x-global.linkbutton.icon_link>
+                        </x-global.link-button.icon-link>
                     </li>
 
                     <li>
-                        <x-global.linkbutton.icon_link
+                        <x-global.link-button.icon-link
                             tabindex="1"
                             icon_path="assets/svg/stats.svg"
                             :route="route('statistics')"
@@ -113,11 +113,11 @@ new class extends Component {
                             :isActive="request()->routeIs('statistics')"
                         >
                             Statistiques
-                        </x-global.linkbutton.icon_link>
+                        </x-global.link-button.icon-link>
                     </li>
 
                     <li>
-                        <x-global.linkbutton.icon_link
+                        <x-global.link-button.icon-link
                             tabindex="1"
                             icon_path="assets/svg/database.svg"
                             :route="route('database.services')"
@@ -125,10 +125,10 @@ new class extends Component {
                             :isActive="request()->routeIs('database.*')"
                         >
                             Données
-                        </x-global.linkbutton.icon_link>
+                        </x-global.link-button.icon-link>
                     </li>
                     <li>
-                        <x-global.linkbutton.icon_link
+                        <x-global.link-button.icon-link
                             tabindex="1"
                             icon_path="assets/svg/off.svg"
                             :route="route('recurring_unavailabilities')"
@@ -136,7 +136,7 @@ new class extends Component {
                             :isActive="request()->routeIs('recurring_unavailabilities')"
                         >
                             Congés récurrents
-                        </x-global.linkbutton.icon_link>
+                        </x-global.link-button.icon-link>
                     </li>
                 </ul>
             </nav>
@@ -145,14 +145,14 @@ new class extends Component {
         <div class="flex flex-col gap-4">
             <x-global.logout/>
 
-            <x-global.linkbutton.icon_link
+            <x-global.link-button.icon-link
                 tabindex="1"
                 icon_path="assets/svg/profile.svg"
                 :route="route('profile')"
                 :isActive="request()->routeIs('profile')"
                 title="Vers le profil">
                 {{ $this->authUser->name }}
-            </x-global.linkbutton.icon_link>
+            </x-global.link-button.icon-link>
         </div>
     </aside>
 </div>

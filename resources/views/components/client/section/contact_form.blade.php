@@ -16,5 +16,5 @@
         <span class="text-error">*</span>
         Champs obligatoires
     </small>
-    <x-global.linkbutton.button title="Envoyer les informations de contact">Envoyer</x-global.linkbutton.button>
+    <x-global.link-button.button title="Envoyer les informations de contact">Envoyer</x-global.link-button.button>
 </form>

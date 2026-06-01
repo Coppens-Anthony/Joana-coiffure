@@ -78,13 +78,13 @@ new class extends Component {
         </small>
         @enderror
         <div class="ml-auto w-fit flex gap-6 mt-8">
-            <x-global.linkButton.button type="button" title="Fermer la modale" :isSecondary="true"
+            <x-global.link-button.button type="button" title="Fermer la modale" :isSecondary="true"
                                         wire:click="dispatch('close_modal')">
                 Annuler
-            </x-global.linkButton.button>
-            <x-global.linkButton.button title="Ajouter la photo">
+            </x-global.link-button.button>
+            <x-global.link-button.button title="Ajouter la photo">
                 Ajouter
-            </x-global.linkButton.button>
+            </x-global.link-button.button>
         </div>
     </form>
 </livewire:admin.modal>

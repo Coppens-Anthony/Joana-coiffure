@@ -53,9 +53,9 @@ class extends Component {
 
     <section class="flex flex-col gap-8">
         <h3 class="sr-only">Tableau des congés récurrent</h3>
-        <x-global.linkButton.button_link class="ml-auto" title="" wire:click="create">
+        <x-global.link-button.button-link class="ml-auto" title="" wire:click="create">
             + Ajouter un congé récurrent
-        </x-global.linkButton.button_link>
+        </x-global.link-button.button-link>
         <x-global.table :titles="['Jour(s)', 'Heure de début', 'Heure de fin', 'Actions']">
             @if(count($this->recurringUnavailabilities) > 0)
                 @foreach($this->recurringUnavailabilities as $unavailability)

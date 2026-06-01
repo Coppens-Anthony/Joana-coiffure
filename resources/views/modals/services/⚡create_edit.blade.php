@@ -82,13 +82,13 @@ new class extends Component {
         </x-global.form.textarea>
 
         <div class="ml-auto w-fit flex gap-6">
-            <x-global.linkButton.button type="button" title="Fermer la modale" :isSecondary="true"
+            <x-global.link-button.button type="button" title="Fermer la modale" :isSecondary="true"
                                         wire:click="dispatch('close_modal')">
                 Annuler
-            </x-global.linkButton.button>
-            <x-global.linkButton.button :title="$this->model_id ? 'Enregistrer les modifications' : 'Ajouter la nouvelle prestation'">
+            </x-global.link-button.button>
+            <x-global.link-button.button :title="$this->model_id ? 'Enregistrer les modifications' : 'Ajouter la nouvelle prestation'">
                 {{ $this->model_id ? 'Enregistrer' : 'Ajouter' }}
-            </x-global.linkButton.button>
+            </x-global.link-button.button>
         </div>
     </form>
 </livewire:admin.modal>

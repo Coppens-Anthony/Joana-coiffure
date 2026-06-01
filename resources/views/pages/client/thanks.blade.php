@@ -18,7 +18,7 @@
                     Paiement sur place en liquide.
                 </li>
             </ul>
-            <x-global.linkButton.link_button :route="route('home')" title="Revenir à l'accueil">Revenir à l'accueil</x-global.linkButton.link_button>
+            <x-global.link-button.link-button :route="route('home')" title="Revenir à l'accueil">Revenir à l'accueil</x-global.link-button.link-button>
         </div>
         <div class="w-full md:w-1/2">
             <iframe class="rounded-[3rem]"

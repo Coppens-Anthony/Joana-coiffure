@@ -56,9 +56,9 @@ new class extends Component {
     <section>
         <div class="flex justify-between items-center my-8">
             <h2 class="text-2xl">Prévisualisation de la galerie</h2>
-            <x-global.linkButton.button_link title="Ajouter une photo" wire:click="create">
+            <x-global.link-button.button-link title="Ajouter une photo" wire:click="create">
                 + Ajouter une photo
-            </x-global.linkButton.button_link>
+            </x-global.link-button.button-link>
         </div>
         @if($this->photos->isEmpty())
             <p>Aucune photo pour le moment dans la galerie. Ajoutez-en afin de les voir ici.</p>

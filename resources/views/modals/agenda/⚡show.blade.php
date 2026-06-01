@@ -153,26 +153,26 @@ new class extends Component {
 
         @if(Carbon::parse($this->selectedDate)->startOfDay() >= now()->startOfDay() && !$this->isFullDayOff && !$this->isRecurringBlocked)
             <div class="bg-white pt-8 sticky bottom-0 flex flex-col gap-4">
-                <x-global.linkButton.button class="w-full" type="button" title="Ajouter un rendez-vous"
+                <x-global.link-button.button class="w-full" type="button" title="Ajouter un rendez-vous"
                                             wire:click="createAppointment">
                     Ajouter un rendez-vous
-                </x-global.linkButton.button>
+                </x-global.link-button.button>
 
-                <x-global.linkButton.button class="w-full" :isSecondary="true" type="button"
+                <x-global.link-button.button class="w-full" :isSecondary="true" type="button"
                                             wire:click="createUnavailability"
                                             title="Définir une période off">
                     Définir une période off
-                </x-global.linkButton.button>
+                </x-global.link-button.button>
             </div>
         @else
-            <x-global.linkButton.button
+            <x-global.link-button.button
                 type="button"
                 title="Fermer la modale"
                 class="ml-auto block mt-8"
                 :isSecondary="true"
                 wire:click="dispatch('close_modal')">
                 Annuler
-            </x-global.linkButton.button>
+            </x-global.link-button.button>
         @endif
     </div>
 </livewire:admin.modal>

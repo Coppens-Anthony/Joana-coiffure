@@ -54,9 +54,9 @@ class extends Component {
                     Rechercher un client
                 </x-global.form.input>
             </form>
-            <x-global.linkButton.button_link title="Ajouter un client" wire:click="create">
+            <x-global.link-button.button-link title="Ajouter un client" wire:click="create">
                 + Ajouter un client
-            </x-global.linkButton.button_link>
+            </x-global.link-button.button-link>
         </div>
         <x-global.table :titles="['Nom', 'Email', 'Téléphone', 'Nombre de rendre-vous']">
             @if(count($this->clients) > 0)

@@ -75,7 +75,7 @@ class extends Component {
                 Nouveau mot de passe
             </x-global.form.input>
         </div>
-        <x-global.linkButton.button title="Enregistrer les modifications" class="mx-auto block mt-8">Enregistrer
-        </x-global.linkButton.button>
+        <x-global.link-button.button title="Enregistrer les modifications" class="mx-auto block mt-8">Enregistrer
+        </x-global.link-button.button>
     </form>
 </div>

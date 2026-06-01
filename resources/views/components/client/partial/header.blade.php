@@ -1,4 +1,5 @@
-<header class="flex items-center justify-between h-30 px-8 py-8 md:px-12 lg:px-16 {{ request()->routeIs('home') ? '' : 'mb-16' }} z-50 bg-white sticky top-0 shadow-md">
+<header
+    class="flex items-center justify-between h-30 px-8 py-8 md:px-12 lg:px-16 {{ request()->routeIs('home') ? '' : 'mb-16' }} z-50 bg-white sticky top-0 shadow-md">
     <div class="relative z-50">
         <a href="{{route('home')}}" class="absolute top-0 left-0 w-full h-full"
            title="Vers la page d'accueil"></a>
@@ -19,47 +20,48 @@
         <ul class="flex flex-col w-full gap-6 origin-center absolute top-[25%] left-1/2 -translate-x-1/2
             md:flex-row md:static md:translate-x-0 md:top-auto md:w-auto md:justify-between md:items-center">
             <li>
-                <x-global.linkbutton.link
+                <x-global.link-button.link
                     route="{{ route('home') }}"
                     title="Vers la page d'accueil"
                     :isActive="request()->routeIs('home')">
                     Accueil
-                </x-global.linkbutton.link>
+                </x-global.link-button.link>
             </li>
             <li>
-                <x-global.linkbutton.link
+                <x-global.link-button.link
                     route="{{ route('about') }}"
                     title="Vers la page à propos"
                     :isActive="request()->routeIs('about')">
                     À propos
-                </x-global.linkbutton.link>
+                </x-global.link-button.link>
             </li>
             <li>
-                <x-global.linkbutton.link
+                <x-global.link-button.link
                     route="{{ route('prices') }}"
                     title="Vers la page des tarifs"
                     :isActive="request()->routeIs('prices')">
                     Tarifs
-                </x-global.linkbutton.link>
+                </x-global.link-button.link>
             </li>
             <li>
-                <x-global.linkbutton.link
+                <x-global.link-button.link
                     route="{{ route('gallery') }}"
                     title="Vers la galerie"
                     :isActive="request()->routeIs('gallery')">
                     Galerie
-                </x-global.linkbutton.link>
+                </x-global.link-button.link>
             </li>
             <li>
-                <x-global.linkbutton.link
+                <x-global.link-button.link
                     route="{{ route('contact') }}"
                     title="Vers la page de contact"
                     :isActive="request()->routeIs('contact')">
                     Contact
-                </x-global.linkbutton.link>
+                </x-global.link-button.link>
             </li>
-            <x-global.linkbutton.link_button class="mx-auto" route="{{ route('appointment') }}" title="Prendre un rendez-vous">Rendez-vous
-            </x-global.linkbutton.link_button>
+            <x-global.link-button.link-button class="mx-auto" route="{{ route('appointment') }}"
+                                              title="Prendre un rendez-vous">Rendez-vous
+            </x-global.link-button.link-button>
         </ul>
     </nav>
 </header>

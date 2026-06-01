@@ -25,9 +25,9 @@
             <div class="flex flex-col gap-2 mt-4">
                 <p><strong>Raison sociale :</strong> Laravel Cloud</p>
                 <p><strong>Site web :</strong>
-                    <x-global.linkButton.link :isTarget="true" route="https://cloud.laravel.com/" title="Envoyer-moi un mail">
+                    <x-global.link-button.link :isTarget="true" route="https://cloud.laravel.com/" title="Envoyer-moi un mail">
                         https://cloud.laravel.com/
-                    </x-global.linkButton.link>
+                    </x-global.link-button.link>
                 </p>
             </div>
         </section>
@@ -59,9 +59,9 @@
                     Conformément au Règlement Général sur la Protection des Données (RGPD),
                     vous disposez d'un droit d'accès, de rectification et de suppression
                     de vos données personnelles. Pour exercer ce droit, vous pouvez contacter :
-                    <x-global.linkButton.link route="mailto:joanastofs@gmail.com" title="Envoyer-moi un mail">
+                    <x-global.link-button.link route="mailto:joanastofs@gmail.com" title="Envoyer-moi un mail">
                         joanastofs@gmail.com
-                    </x-global.linkButton.link>
+                    </x-global.link-button.link>
                     .
                 </p>
             </div>

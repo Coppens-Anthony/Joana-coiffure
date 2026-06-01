@@ -147,11 +147,11 @@ class extends Component {
             </x-global.form.select>
         </form>
 
-        <x-global.linkButton.button_link class="flex gap-2 items-center" title="Télécharger le PDF" type="button"
+        <x-global.link-button.button-link class="flex gap-2 items-center" title="Télécharger le PDF" type="button"
                                          wire:click="download">
             Télécharger le PDF
             <img src="{{ asset('assets/svg/download.svg') }}" alt="">
-        </x-global.linkButton.button_link>
+        </x-global.link-button.button-link>
     </div>
     <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-8">
         <h2 class="sr-only">Statistques pour le bilan</h2>

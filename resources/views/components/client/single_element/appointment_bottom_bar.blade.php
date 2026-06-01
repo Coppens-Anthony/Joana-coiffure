@@ -16,11 +16,11 @@
             </ul>
         </div>
 
-        <x-global.linkbutton.button_link
+        <x-global.link-button.button-link
             class="next-step"
             title="Passer à l'étape du choix de la date">
             Continuer
-        </x-global.linkbutton.button_link>
+        </x-global.link-button.button-link>
 
     </div>
 </div>

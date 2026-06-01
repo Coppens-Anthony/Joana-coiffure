@@ -106,9 +106,9 @@ class extends Component {
             @else
                 <p>Pas encore de note pour {{ $client->name }}</p>
             @endif
-            <x-global.linkbutton.button_link class="mt-4" title="Ajouter une note" wire:click="create">
+            <x-global.link-button.button-link class="mt-4" title="Ajouter une note" wire:click="create">
                 + Ajouter une note
-            </x-global.linkbutton.button_link>
+            </x-global.link-button.button-link>
         </div>
     </section>
     <section>
