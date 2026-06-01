@@ -191,10 +191,13 @@ class AppointmentController
         session(['confirmed_appointment_id' => $appointment->id]);
         session()->forget('appointment');
 
-        $mail = Mail::to(config('mail.from.address'));
+        Mail::to(config('mail.reply_to.address'))->send(
+            new NewAppointment($appointment)
+        );
 
-        $mail->send(new NewAppointment($appointment));
-        $mail->send(new NewAppointmentRecap($appointment));
+        Mail::to($appointment->client->email)->send(
+            new NewAppointmentRecap($appointment)
+        );
 
         return redirect(route('thanks', $appointment));
     }

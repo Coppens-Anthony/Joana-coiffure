@@ -14,13 +14,11 @@ class RecurringUnavailability extends Model
         'start_time',
         'end_time',
         'starts_on',
-        'ends_on',
     ];
 
     protected $casts = [
         'days_of_week' => 'array',
         'starts_on' => 'date',
-        'ends_on' => 'date',
     ];
 
     public function getDaysOfWeekLabels(): array

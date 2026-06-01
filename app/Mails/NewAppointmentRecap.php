@@ -20,7 +20,6 @@ class NewAppointmentRecap extends Mailable
     {
         return new Envelope(
             from: config('mail.from.address'),
-            to: $this->appointment->client->email,
             replyTo: config('mail.reply_to.address'),
             subject: 'Confirmation de votre rendez-vous chez Joana-Coiffure',
         );

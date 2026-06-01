@@ -17,7 +17,7 @@ class ContactController
             'message' => 'required|max:255',
         ]);
 
-        Mail::to(config('mail.to.address'))->send(
+        Mail::to(config('mail.reply_to.address'))->send(
             new ContactForm($validated)
         );
 

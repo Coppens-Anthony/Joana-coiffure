@@ -54,7 +54,7 @@ new class extends Component {
         <x-global.form.textarea name="content" wire:model="content" placeholder="Elle est allergique au lait">
             Contenu
         </x-global.form.textarea>
-        <div class="ml-auto w-fit flex gap-6">
+        <div class="ml-auto w-fit flex gap-6 mt-4">
             <x-global.linkButton.button type="button" title="Fermer la modale" :isSecondary="true"
                                         wire:click="dispatch('close_modal')">
                 Annuler

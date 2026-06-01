@@ -37,11 +37,10 @@ class extends Component {
     private function baseAppointmentsQuery()
     {
         $query = Appointment::query()
-            ->whereYear('updated_at', $this->year);
+            ->whereYear('end_at', $this->year)
+            ->whereMonth('end_at', $this->month);
 
-        if ($this->month !== 0) {
-            $query->whereMonth('updated_at', $this->month);
-        }
+        $query->where('end_at', '<=', now());
 
         return $query;
     }
@@ -74,7 +73,6 @@ class extends Component {
     public function newClients()
     {
         $query = Client::query()
-            ->whereHas('appointments')
             ->whereYear('created_at', $this->year);
 
         if ($this->month !== 0) {
@@ -87,7 +85,7 @@ class extends Component {
     #[Computed]
     public function totalRevenue()
     {
-        return $this->appointments->filter(fn($appointment) => $appointment->end_at->isPast())
+        return $this->appointments
             ->flatMap->services
             ->sum('price');
     }

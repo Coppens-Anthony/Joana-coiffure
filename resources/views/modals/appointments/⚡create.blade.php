@@ -1,6 +1,7 @@
 <?php
 
 use App\Mails\NewAppointment;
+use App\Mails\NewAppointmentRecap;
 use App\Models\Appointment;
 use App\Models\AppointmentService;
 use App\Models\Client;
@@ -92,16 +93,20 @@ new class extends Component {
             'end_at' => $end_at,
         ]);
 
-        Mail::to(config('mail.from.address'))->send(
-            new NewAppointment($appointment)
-        );
-
         foreach ($validated['services_id'] as $service) {
             AppointmentService::create([
                 'appointment_id' => $appointment->id,
                 'service_id' => $service
             ]);
         }
+
+        Mail::to(config('mail.reply_to.address'))->send(
+            new NewAppointment($appointment)
+        );
+
+        Mail::to($appointment->client->email)->send(
+            new NewAppointmentRecap($appointment)
+        );
 
         $this->dispatch('action_done', message: 'Rendez-vous ajouté avec succès !', closeModal: false);
         $this->dispatch('close_modal');
@@ -143,7 +148,7 @@ new class extends Component {
             </x-global.form.select>
         @endif
 
-        <div class="ml-auto w-fit flex gap-6">
+        <div class="ml-auto w-fit flex gap-6 mt-4">
             <x-global.linkButton.button
                 type="button"
                 title="Fermer la modale"
