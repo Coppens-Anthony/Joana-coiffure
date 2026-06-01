@@ -133,7 +133,7 @@ class DatabaseSeeder extends Seeder
         $recurring = [
             ['days_of_week' => [0, 6], 'start_time' => '09:00', 'end_time' => '18:00'],
             ['days_of_week' => [3], 'start_time' => '12:00', 'end_time' => '18:00'],
-            ['days_of_week' => [0, 1, 2, 4, 5], 'start_time' => '12:00', 'end_time' => '13:00'],
+            ['days_of_week' => [1, 2, 4, 5], 'start_time' => '12:00', 'end_time' => '13:00'],
         ];
 
         $startsOn = Carbon::now()->subMonth()->startOfMonth();
