@@ -66,8 +66,8 @@ function generateSlots(Carbon $date, int $duration, Collection $appointments, Co
 
         if (! $overlapAppointment && ! $overlapUnavailability && ! $overlapRecurring) {
             $slots[] = [
-                'start' => $start->format('H:i'),
-                'end' => $slotEnd->format('H:i'),
+                'start' => $start->format('H\hi'),
+                'end' => $slotEnd->format('H\hi'),
             ];
         }
 
