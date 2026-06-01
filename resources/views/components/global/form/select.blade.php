@@ -9,7 +9,7 @@
         </small>
         @enderror
     </label>
-    <select name="{{ $name }}" {{ $attributes }} id="{{ $name }}" class="border-2 border-primary p-4 rounded-2xl focus:border-primary-2 focus:outline-none cursor-pointer">
+    <select name="{{ $name }}" {{ $attributes }} id="{{ $name }}" class="border-2 border-primary p-4 rounded-2xl focus:border-primary focus:outline-none cursor-pointer">
         @if($isDefaultOption)
             <option value="">Sélectionner</option>
         @endif

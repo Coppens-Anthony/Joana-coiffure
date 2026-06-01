@@ -118,7 +118,7 @@ new class extends Component {
         @if (empty($services_id))
             <div class="flex flex-col gap-2">
                 <p>Horaire <span class="text-error">*</span></p>
-                <p class="border-2 border-primary p-4 rounded-2xl focus:border-primary-2 focus:outline-none">
+                <p class="border-2 border-primary p-4 rounded-2xl focus:border-primary focus:outline-none">
                     Veuillez d’abord choisir un/des service(s)
                 </p>
             </div>
@@ -126,7 +126,7 @@ new class extends Component {
         @elseif ($this->hasServices && empty($this->appointmentSlots))
             <div class="flex flex-col gap-2">
                 <p>Horaire <span class="text-error">*</span></p>
-                <p class="border-2 border-primary p-4 rounded-2xl focus:border-primary-2 focus:outline-none">
+                <p class="border-2 border-primary p-4 rounded-2xl focus:border-primary focus:outline-none">
                     Aucun horaire disponible
                 </p>
             </div>

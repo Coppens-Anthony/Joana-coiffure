@@ -71,7 +71,7 @@ new class extends Component {
         <div @click="open = true"
              @focus="open = true"
              tabindex="0"
-             class="border-2 w-full border-primary p-4 rounded-2xl focus:border-primary-2 focus:outline-none relative cursor-pointer">
+             class="border-2 w-full border-primary p-4 rounded-2xl focus:border-primary focus:outline-none relative cursor-pointer">
             <span :class="value.length === 0 ? 'opacity-50' : ''"
                   x-text="value.length === 0 ? 'Sélectionner' : selectedLabels">
             </span>
@@ -90,7 +90,7 @@ new class extends Component {
                 type="text"
                 x-model="search"
                 placeholder="Rechercher..."
-                class="border-2 w-full border-primary p-2 rounded-2xl focus:border-primary-2 focus:outline-none"
+                class="border-2 w-full border-primary p-2 rounded-2xl focus:border-primary focus:outline-none"
                 x-ref="searchInput"
                 x-init="$watch('open', val => val && $nextTick(() => $refs.searchInput.focus()))"
             >

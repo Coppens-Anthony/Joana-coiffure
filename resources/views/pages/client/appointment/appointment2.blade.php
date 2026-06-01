@@ -66,7 +66,7 @@
                                class="w-full py-2 flex items-center justify-center rounded-full transition hover:bg-primary
                                 {{ !$isCurrentMonth ? 'opacity-20 pointer-events-none' : '' }}
                                 {{ $isPast ? 'opacity-30 pointer-events-none' : '' }}
-                                {{ $isSelected ? 'bg-primary-2 hover:bg-primary-2 text-black font-bold' : '' }}
+                                {{ $isSelected ? 'bg-primary hover:bg-primary text-black font-bold' : '' }}
                                 {{ !$isPast && $isCurrentMonth && !$hasSlots ? 'text-error font-bold pointer-events-none' : '' }}">
                                 {{ $day->day }}
                             </a>
@@ -80,7 +80,7 @@
                                     <input type="hidden" name="date" value="{{ $dateValue }}">
                                     <input type="hidden" name="slot" value="{{ $slot['start'] }}">
                                     <button type="submit"
-                                            class="text-center w-full px-2 md:px-0 py-2 hover:bg-primary-2 duration-200 cursor-pointer bg-primary rounded-xl">{{ $slot['start'] }}</button>
+                                            class="text-center w-full px-2 md:px-0 py-2 hover:bg-white border-2 border-primary duration-200 cursor-pointer bg-primary rounded-xl">{{ $slot['start'] }}</button>
                                 </form>
                             @endforeach
                         </div>

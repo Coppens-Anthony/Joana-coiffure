@@ -65,7 +65,7 @@ new class extends Component {
         </x-global.form.input>
 
 
-        <div class="ml-auto w-fit flex gap-6">
+        <div class="ml-auto w-fit flex gap-6 mt-4">
             <x-global.linkButton.button type="button" title="Fermer la modale" :isSecondary="true"
                                         wire:click="dispatch('close_modal')">
                 Annuler

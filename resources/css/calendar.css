@@ -27,11 +27,11 @@
 }
 
 .fc-toolbar-chunk .fc-button{
-    @apply bg-primary text-black border-primary-2 hover:bg-primary-2 active:bg-primary-2 duration-200 hover:text-black active:text-black;
+    @apply bg-primary text-black border-primary hover:bg-primary active:bg-primary duration-200 hover:text-black active:text-black;
 }
 
 .fc-toolbar-chunk .fc-today-button{
-    @apply bg-secondary hover:bg-secondary-2 border-secondary-2;
+    @apply bg-secondary hover:bg-secondary border-secondary;
 }
 
 .fc-toolbar-chunk .fc-today-button:disabled{

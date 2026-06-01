@@ -10,7 +10,7 @@
 @if($isAppointment)
     <div class="flex flex-row gap-2 items-center">
         <label for="{{ $service->id }}" tabindex="0"
-               class="service-label px-8 py-4 duration-200 w-fit rounded-full cursor-pointer bg-primary hover:bg-primary-2">
+               class="service-label px-8 py-4 duration-200 w-fit rounded-full cursor-pointer bg-primary hover:bg-primary">
             Sélectionner
         </label>
         <input type="checkbox" name="services[]" id="{{ $service->id }}" value="{{ $service->id }}"
