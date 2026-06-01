@@ -1,6 +1,6 @@
 @props(['name', 'isRequired' => true, 'type' => 'text', 'placeholder' => '', 'value' => '', 'class' => ''])
 
-<div class="flex flex-col gap-2 {{ $class }}">
+<div class="flex flex-col gap-2 {{ $class }} password-wrapper relative">
     <label for="{{$name}}">
         {{$slot}} <span class="text-error">{{$isRequired ? '*' : ''}}</span>
         @error($name)
@@ -16,5 +16,8 @@
            {{ $isRequired ? 'required' : '' }}
            placeholder="{{ $placeholder }}"
            value="{{@old($name) ?? $value}}"
-           {{ $attributes }}>
+        {{ $attributes }}>
+    @if($type === 'password')
+        <img src="{{ asset('assets/svg/eye.svg') }}" alt="Afficher le mote de passe" class="toggle_password hidden js:block absolute bottom-3 right-4 w-8 h-8 cursor-pointer">
+    @endif
 </div>

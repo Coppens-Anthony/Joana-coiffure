@@ -7,6 +7,7 @@
     <meta name="keywords"
           content="Joana Monteiro, Coiffeuse, Coiffure, Orp-Jauche, Indépendante, Visagiste, À domicile, Orp-Le-Grand, Coupes, Rendez-vous, Chaleureux, Joana Coiffure">
     <meta name="description" content="Joana Monteiro, coiffeuse et visagiste indépendante à Orp-Jauche">
+    <link rel="icon" href="{{ asset('assets/svg/logo.svg') }}">
     <title>{{ config('app.name', 'Joana Coiffure') }}</title>
 
     <!-- Fonts -->

@@ -58,7 +58,7 @@
                     <x-global.linkbutton.link route="mailto:joanastofs@gmail.com" title="Envoyez-moi un mail">joanastofs@gmail.com</x-global.linkbutton.link>
                 </li>
                 <li itemprop="telephone">
-                    <x-global.linkbutton.link route="tel:0466486777" title="Téléphonez-moi">0466 48 67 77</x-global.linkbutton.link>
+                    <x-global.linkbutton.link route="tel:+32 466 48 67 77" title="Téléphonez-moi">+32 466 48 67 77</x-global.linkbutton.link>
                 </li>
                 <li itemprop="address">
                     Rue de la Station 57,
