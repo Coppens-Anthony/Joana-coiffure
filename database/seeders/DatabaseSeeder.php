@@ -72,6 +72,7 @@ class DatabaseSeeder extends Seeder
             Service::create($service);
         }
 
+
         Client::factory(10)->create();
 
         $this->seedUnavailabilities();
