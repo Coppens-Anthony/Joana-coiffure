@@ -2,9 +2,11 @@
 
 namespace Database\Seeders;
 
+use App\Jobs\ProcessUploadedPicture;
 use App\Models\Appointment;
 use App\Models\AppointmentService;
 use App\Models\Client;
+use App\Models\Photo;
 use App\Models\RecurringUnavailability;
 use App\Models\Service;
 use App\Models\Unavailability;
@@ -12,6 +14,7 @@ use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class DatabaseSeeder extends Seeder
 {
@@ -24,6 +27,36 @@ class DatabaseSeeder extends Seeder
             'email' => 'john@doe.com',
             'password' => Hash::make('password'),
         ]);
+
+        $photos = [
+            'gallery_example2.jpg',
+            'gallery_example1.jpg',
+            'gallery_example3.jpg',
+            'gallery_example5.jpg',
+            'gallery_example4.jpg',
+            'gallery_example6.jpg',
+            'gallery_example7.jpg',
+        ];
+
+        foreach ($photos as $photo) {
+
+            $newName = uniqid().'.jpg';
+
+            $sourcePath = public_path("assets/img/originals/$photo");
+
+            $relativePath = config('pictures.original_path').'/'.$newName;
+
+            Storage::disk('public')->put(
+                $relativePath,
+                file_get_contents($sourcePath)
+            );
+
+            ProcessUploadedPicture::dispatchSync($relativePath, $newName);
+
+            Photo::factory()->create([
+                'picture' => $newName,
+            ]);
+        }
 
         $services = [
             ['name' => 'Homme', 'duration' => 20, 'price' => 15, 'desc' => 'Coupe homme aux ciseaux et/ou à la tondeuse selon le style souhaité. Travail des longueurs, des contours et finition soignée.'],
@@ -58,7 +91,7 @@ class DatabaseSeeder extends Seeder
             ['type' => 'slot', 'date' => $base->copy()->addDays(5), 'from' => '10:00', 'to' => '12:00'],
             ['type' => 'slot', 'date' => $base->copy()->addDays(7), 'from' => '14:00', 'to' => '16:30'],
             ['type' => 'slot', 'date' => $base->copy()->addDays(14), 'from' => '09:00', 'to' => '11:00'],
-            ['type' => 'slot', 'date' => $base->copy()->addDays(50), 'from' => '13:00', 'to' => '15:00'],
+            ['type' => 'slot', 'date' => $base->copy()->addDays(46), 'from' => '13:00', 'to' => '15:00'],
             ['type' => 'slot', 'date' => $base->copy()->addDays(70), 'from' => '09:00', 'to' => '10:30'],
 
             ['type' => 'period', 'from' => $base->copy()->addDays(18), 'to' => $base->copy()->addDays(21)],
