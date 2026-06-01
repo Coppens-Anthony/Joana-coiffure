@@ -94,7 +94,8 @@ class extends Component {
 
         $recurring = RecurringUnavailability::all()
             ->flatMap(function ($rule) {
-                $isAllDay = $rule->start_time === '09:00' && $rule->end_time === '18:00';
+                $isAllDay = Carbon::parse($rule->start_time)->format('H:i') === '09:00'
+                    && Carbon::parse($rule->end_time)->format('H:i') === '18:00';
 
                 return collect(CarbonPeriod::create($this->firstDay, $this->lastDay))
                     ->filter(fn($date) => in_array($date->dayOfWeek, $rule->days_of_week))

@@ -22,7 +22,7 @@ new class extends Component {
 
 <div>
     <li class="pb-8 border-b border-b-black flex flex-col gap-4 {{ $this->isDashboard ? 'sm:flex-row sm:justify-between sm:gap-8 sm:items-center' : ''}}">
-        <div class="flex text-2xl {{ $isDashboard ? 'flex-row sm:flex-col' : 'flex-row items-center' }}">
+        <div class="flex text-2xl {{ $isDashboard ? 'flex-row sm:flex-col sm:items-center' : 'flex-row items-center' }}">
             <p>{{ Carbon::parse($appointment->start_at)->format('H\hi') }}</p>
             <span class="{{ $this->isDashboard ? 'sm:hidden' : 'block' }}">&nbsp;-&nbsp;</span>
             <p>{{ Carbon::parse($appointment->end_at)->format('H\hi') }}</p>
