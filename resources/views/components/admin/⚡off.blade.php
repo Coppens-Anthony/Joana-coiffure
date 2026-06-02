@@ -32,7 +32,7 @@ new class extends Component {
 ?>
 
 <div>
-    <li class="{{ $this->unavailability['type'] === 'unavailability' ?? 'border-b border-b-black pb-8' }} flex flex-col gap-4">
+    <li class="{{ $this->unavailability['allDay'] === false ? 'border-b border-b-black pb-8' : '' }} flex flex-col gap-4">
         @if($this->unavailability['allDay'] === false)
             <div class="flex text-2xl flex-row items-center">
                 <p>{{ Carbon::parse($this->unavailability['start_at'])->format('H\hi') }}</p>

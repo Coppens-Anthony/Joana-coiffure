@@ -13,7 +13,7 @@ new class extends Component {
     public bool $contactClient = true;
     public string $start_at;
     public string $end_at;
-    public ?string $reccuring_unavailabilityId;
+    public ?string $reccuring_unavailabilityId = null;
 
     public function mount(array $params)
     {
@@ -21,7 +21,9 @@ new class extends Component {
         $this->days = $params['days'];
         $this->start_at = $params['start_at'];
         $this->end_at = $params['end_at'];
-        $this->reccuring_unavailabilityId = $params['reccuring_unavailabilityId'];
+        if ($this->reccuring_unavailabilityId) {
+            $this->reccuring_unavailabilityId = $params['reccuring_unavailabilityId'];
+        }
     }
 
     #[Computed]
