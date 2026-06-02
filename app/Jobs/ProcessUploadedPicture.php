@@ -21,7 +21,7 @@ class ProcessUploadedPicture implements ShouldQueue
      */
     public function handle(): void
     {
-        $image = Image::decode(
+        $image = Image::decodeBinary(
             Storage::disk(config('filesystems.default'))->get($this->full_path_to_original)
         );
 
