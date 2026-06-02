@@ -25,10 +25,10 @@ new class extends Component {
                 config('filesystems.default')
             );
 
-            logger()->info('JOB READ', [
+            logger()->info('UPLOAD', [
                 'disk' => config('filesystems.default'),
-                'path' => $this->full_path_to_original,
-                'exists' => Storage::disk(config('filesystems.default'))->exists($this->full_path_to_original),
+                'path' => $full_path_to_original,
+                'exists' => Storage::disk(config('filesystems.default'))->exists($full_path_to_original),
             ]);
 
             if ($full_path_to_original) {
