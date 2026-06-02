@@ -19,12 +19,6 @@ new class extends Component {
         if ($this->picture) {
             $new_original_file_name = uniqid() . '.' . config('pictures.picture_type');
 
-            /*$full_path_to_original = Storage::disk('public')
-                ->putFileAs(config('pictures.original_path'),
-                    $validated['picture'],
-                    $new_original_file_name
-                );*/
-
             $full_path_to_original = $this->picture->storeAs(
                 config('pictures.original_path'),
                 $new_original_file_name,
