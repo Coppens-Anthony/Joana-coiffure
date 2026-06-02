@@ -16,6 +16,12 @@ new class extends Component {
             'picture' => 'required|mimes:jpeg,png,jpg,gif,webp|max:2048'
         ]);
 
+        logger()->info('UPLOAD', [
+            'disk' => config('filesystems.default'),
+            'path' => $full_path_to_original,
+            'exists' => Storage::disk(config('filesystems.default'))->exists($full_path_to_original),
+        ]);
+
         if ($this->picture) {
             $new_original_file_name = uniqid() . '.' . config('pictures.picture_type');
 
