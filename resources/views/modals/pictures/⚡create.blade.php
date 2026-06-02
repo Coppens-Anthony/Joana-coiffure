@@ -31,6 +31,11 @@ new class extends Component {
             } else {
                 $validated['picture'] = '';
             }
+            dd([
+                'disk' => config('filesystems.default'),
+                'path' => $full_path_to_original,
+                'exists' => Storage::disk(config('filesystems.default'))->exists($full_path_to_original),
+            ]);
         }
 
         Photo::create([
