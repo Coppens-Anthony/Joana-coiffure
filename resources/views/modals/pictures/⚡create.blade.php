@@ -25,17 +25,17 @@ new class extends Component {
                 config('filesystems.default')
             );
 
+            dd([
+                'disk' => config('filesystems.default'),
+                'path' => $full_path_to_original,
+                'exists' => Storage::disk(config('filesystems.default'))->exists($full_path_to_original),
+            ]);
             if ($full_path_to_original) {
                 $validated['picture'] = $new_original_file_name;
                 ProcessUploadedPicture::dispatchSync($full_path_to_original, $new_original_file_name, config('filesystems.default'));
             } else {
                 $validated['picture'] = '';
             }
-            dd([
-                'disk' => config('filesystems.default'),
-                'path' => $full_path_to_original,
-                'exists' => Storage::disk(config('filesystems.default'))->exists($full_path_to_original),
-            ]);
         }
 
         Photo::create([
