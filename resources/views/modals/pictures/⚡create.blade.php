@@ -25,10 +25,10 @@ new class extends Component {
                 $new_original_file_name,
                 $disk
             );
-            \Log::info('[Upload] storeAs result: ' . var_export($full_path_to_original, true));
+
             if ($full_path_to_original) {
                 $validated['picture'] = $new_original_file_name;
-                ProcessUploadedPicture::dispatchSync($full_path_to_original, $new_original_file_name, $disk);
+                ProcessUploadedPicture::dispatchSync($full_path_to_original, $new_original_file_name);
             } else {
                 $validated['picture'] = '';
             }

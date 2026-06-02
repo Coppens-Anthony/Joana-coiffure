@@ -14,7 +14,7 @@ class ProcessUploadedPicture implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct(public string $full_path_to_original, public string $new_original_path_name, public string $disk) {}
+    public function __construct(public string $full_path_to_original, public string $new_original_path_name) {}
 
     /**
      * Execute the job.
@@ -22,14 +22,7 @@ class ProcessUploadedPicture implements ShouldQueue
     public function handle(): void
     {
 
-        \Log::info('[Job] Disk: ' . $this->disk . ' | Path: ' . $this->full_path_to_original);
-        $binary = Storage::disk($this->disk)->get($this->full_path_to_original);
-
-        if (!$binary) {
-            throw new \RuntimeException(
-                "Cannot read file [{$this->full_path_to_original}] on disk [{$this->disk}]"
-            );
-        }
+        $binary = Storage::disk(config('filesystems.default'))->get($this->full_path_to_original);
 
         $image = Image::decodeBinary(
             $binary
@@ -45,7 +38,7 @@ class ProcessUploadedPicture implements ShouldQueue
             $variant->scale($size['width']);
 
             $path = sprintf($variant_pattern, $size['width'], $size['height']);
-            Storage::disk($this->disk)->put(
+            Storage::disk(config('filesystems.default'))->put(
                 $path.'/'.$this->new_original_path_name,
                 $variant->encodeUsingFileExtension($extension, quality: $jpg_compression)
             );
