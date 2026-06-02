@@ -18,6 +18,8 @@
            value="{{@old($name) ?? $value}}"
         {{ $attributes }}>
     @if($type === 'password')
-        <img src="{{ asset('assets/svg/eye.svg') }}" alt="Afficher le mote de passe" class="toggle_password hidden js:block absolute bottom-3 right-4 w-8 h-8 cursor-pointer">
+        <button type="button" class="toggle_password hidden js:block absolute bottom-3 right-4 w-8 h-8 cursor-pointer">
+            <img src="{{ asset('assets/svg/eye.svg') }}" alt="Afficher le mote de passe">
+        </button>
     @endif
 </div>
