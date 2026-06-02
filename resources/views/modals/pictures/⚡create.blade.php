@@ -18,23 +18,16 @@ new class extends Component {
 
         if ($this->picture) {
             $new_original_file_name = uniqid() . '.' . config('pictures.picture_type');
-            $s3_disk = config('filesystems.default');
+            $disk = config('filesystems.default');
 
-            // Lire le fichier depuis le disk local temporaire
-            $tempPath = $this->picture->getRealPath();
-
-            // Uploader manuellement sur S3
             $full_path_to_original = config('pictures.original_path') . '/' . $new_original_file_name;
 
-            $uploaded = Storage::disk($s3_disk)->put(
-                $full_path_to_original,
-                file_get_contents($tempPath)
-            );
+            $full_path_to_original = $this->picture->storeAs(
+                config('pictures.original_path'),
+                $new_original_file_name,
+                $disk);
 
-            \Log::info('[Upload] uploaded: ' . var_export($uploaded, true));
-            \Log::info('[Upload] path: ' . $full_path_to_original);
-
-            if ($uploaded) {
+            if ($full_path_to_original) {
                 $validated['picture'] = $new_original_file_name;
                 ProcessUploadedPicture::dispatchSync($full_path_to_original, $new_original_file_name);
             } else {

@@ -23,17 +23,8 @@ class ProcessUploadedPicture implements ShouldQueue
     {
         $disk = config('filesystems.default');
 
-        \Log::info('[Job] exists: ' . var_export(
-                Storage::disk($disk)->exists($this->full_path_to_original), true
-            ));
-
-        $files = Storage::disk($disk)->files('pictures/originals');
-        \Log::info('[Job] files in pictures/originals: ' . json_encode($files));
-
-        $binary = Storage::disk($disk)->get($this->full_path_to_original);
-
         $image = Image::decodeBinary(
-            $binary
+            Storage::disk($disk)->get($this->full_path_to_original)
         );
 
         $sizes = config('pictures.sizes');
@@ -46,12 +37,11 @@ class ProcessUploadedPicture implements ShouldQueue
             $variant->scale($size['width']);
 
             $path = sprintf($variant_pattern, $size['width'], $size['height']);
-            Storage::disk(config('filesystems.default'))->put(
+            Storage::disk($disk)->put(
                 $path.'/'.$this->new_original_path_name,
                 $variant->encodeUsingFileExtension($extension, quality: $jpg_compression)
             );
         }
-
 
     }
 }
