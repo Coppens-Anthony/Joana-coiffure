@@ -21,6 +21,14 @@ class ProcessUploadedPicture implements ShouldQueue
      */
     public function handle(): void
     {
+
+        logger()->info('IMAGE DEBUG', [
+            'disk' => $this->disk,
+            'path' => $this->full_path_to_original,
+            'exists' => Storage::disk($this->disk)->exists($this->full_path_to_original),
+            'size' => Storage::disk($this->disk)->size($this->full_path_to_original) ?? null,
+        ]);
+        
         $image = Image::decodeBinary(
             Storage::disk($this->disk)->get($this->full_path_to_original)
         );
@@ -40,5 +48,7 @@ class ProcessUploadedPicture implements ShouldQueue
                 $variant->encodeUsingFileExtension($extension, quality: $jpg_compression)
             );
         }
+
+
     }
 }
