@@ -2,34 +2,23 @@
 
 namespace App\Jobs;
 
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Laravel\Facades\Image;
 
-class ProcessUploadedPicture implements ShouldQueue
+class ProcessUploadedPicture
 {
-    use Queueable;
-
     /**
      * Create a new job instance.
      */
-    public function __construct(public string $full_path_to_original, public string $new_original_path_name) {}
+    public function __construct(public string $full_path_to_original, public string $new_original_path_name, public string $disk) {}
 
     /**
      * Execute the job.
      */
     public function handle(): void
     {
-
-        logger()->info('JOB READ', [
-            'disk' => config('filesystems.default'),
-            'path' => $this->full_path_to_original,
-            'exists' => Storage::disk(config('filesystems.default'))->exists($this->full_path_to_original),
-        ]);
-
         $image = Image::decodeBinary(
-            Storage::disk(config('filesystems.default'))->get($this->full_path_to_original)
+            Storage::disk($this->disk)->get($this->full_path_to_original)
         );
 
         $sizes = config('pictures.sizes');
