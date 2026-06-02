@@ -21,8 +21,16 @@ class ProcessUploadedPicture implements ShouldQueue
      */
     public function handle(): void
     {
+        $disk = config('filesystems.default');
 
-        $binary = Storage::disk(config('filesystems.default'))->get($this->full_path_to_original);
+        \Log::info('[Job] exists: ' . var_export(
+                Storage::disk($disk)->exists($this->full_path_to_original), true
+            ));
+
+        $files = Storage::disk($disk)->files('pictures/originals');
+        \Log::info('[Job] files in pictures/originals: ' . json_encode($files));
+
+        $binary = Storage::disk($disk)->get($this->full_path_to_original);
 
         $image = Image::decodeBinary(
             $binary
