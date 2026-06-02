@@ -19,11 +19,17 @@ new class extends Component {
         if ($this->picture) {
             $new_original_file_name = uniqid() . '.' . config('pictures.picture_type');
 
-            $full_path_to_original = Storage::disk('public')
+            /*$full_path_to_original = Storage::disk('public')
                 ->putFileAs(config('pictures.original_path'),
                     $validated['picture'],
                     $new_original_file_name
-                );
+                );*/
+
+            $full_path_to_original = $this->picture->storeAs(
+                config('pictures.original_path'),
+                $new_original_file_name,
+                config('filesystems.default')
+            );
 
             if ($full_path_to_original) {
                 $validated['picture'] = $new_original_file_name;
@@ -37,6 +43,9 @@ new class extends Component {
             'picture' => $validated['picture'],
             'position' => (Photo::max('position') ?? -1) + 1,
         ]);
+
+        $this->reset('picture');
+
         $this->dispatch('action_done', message: 'Photo ajoutée avec succès !');
         $this->dispatch('close_modal');
 
@@ -66,7 +75,7 @@ new class extends Component {
                     </svg>
                     <p class="mx-auto">Sélectionnez une photo</p>
                 </div>
-                @if($this->picture)
+                @if($this->picture instanceof \Livewire\Features\SupportFileUploads\TemporaryUploadedFile)
                     <img src="{{$this->picture->temporaryUrl()}}" alt="{!! __('admin/table.image_alt') !!}"
                          class="object-contain absolute w-[33vw] h-75 rounded-2xl">
                 @endif

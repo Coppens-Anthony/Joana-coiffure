@@ -22,7 +22,7 @@ class ProcessUploadedPicture implements ShouldQueue
     public function handle(): void
     {
         $image = Image::decode(
-            Storage::disk('public')->get($this->full_path_to_original)
+            Storage::disk(config('filesystems.default'))->get($this->full_path_to_original)
         );
 
         $sizes = config('pictures.sizes');
@@ -35,7 +35,7 @@ class ProcessUploadedPicture implements ShouldQueue
             $variant->scale($size['width']);
 
             $path = sprintf($variant_pattern, $size['width'], $size['height']);
-            Storage::disk('public')->put(
+            Storage::disk(config('filesystems.default'))->put(
                 $path.'/'.$this->new_original_path_name,
                 $variant->encodeUsingFileExtension($extension, quality: $jpg_compression)
             );
