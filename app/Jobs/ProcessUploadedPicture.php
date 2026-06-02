@@ -35,7 +35,7 @@ class ProcessUploadedPicture implements ShouldQueue
             $variant->scale($size['width']);
 
             $path = sprintf($variant_pattern, $size['width'], $size['height']);
-            Storage::disk(config('filesystems.default'))->put(
+            Storage::disk($this->disk)->put(
                 $path.'/'.$this->new_original_path_name,
                 $variant->encodeUsingFileExtension($extension, quality: $jpg_compression)
             );

@@ -27,7 +27,7 @@ new class extends Component {
 
             if ($full_path_to_original) {
                 $validated['picture'] = $new_original_file_name;
-                ProcessUploadedPicture::dispatchSync($full_path_to_original, $new_original_file_name);
+                ProcessUploadedPicture::dispatchSync($full_path_to_original, $new_original_file_name, config('filesystems.default'));
             } else {
                 $validated['picture'] = '';
             }
