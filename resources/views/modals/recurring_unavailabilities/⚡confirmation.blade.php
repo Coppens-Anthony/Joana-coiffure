@@ -21,7 +21,7 @@ new class extends Component {
         $this->days = $params['days'];
         $this->start_at = $params['start_at'];
         $this->end_at = $params['end_at'];
-        if ($this->reccuring_unavailabilityId) {
+        if (isset($params['reccuring_unavailabilityId'])) {
             $this->reccuring_unavailabilityId = $params['reccuring_unavailabilityId'];
         }
     }

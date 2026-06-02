@@ -94,7 +94,7 @@ class DatabaseSeeder extends Seeder
             ['type' => 'slot', 'date' => $base->copy()->addDays(7), 'from' => '14:00', 'to' => '16:30'],
             ['type' => 'slot', 'date' => $base->copy()->addDays(14), 'from' => '09:00', 'to' => '11:00'],
             ['type' => 'slot', 'date' => $base->copy()->addDays(46), 'from' => '13:00', 'to' => '15:00'],
-            ['type' => 'slot', 'date' => $base->copy()->addDays(70), 'from' => '09:00', 'to' => '10:30'],
+            ['type' => 'slot', 'date' => $base->copy()->addDays(67), 'from' => '09:00', 'to' => '10:30'],
 
             ['type' => 'period', 'from' => $base->copy()->addDays(18), 'to' => $base->copy()->addDays(21)],
             ['type' => 'period', 'from' => $base->copy()->addDays(60), 'to' => $base->copy()->addDays(64)],
@@ -137,7 +137,7 @@ class DatabaseSeeder extends Seeder
             ['days_of_week' => [1, 2, 4, 5], 'start_time' => '12:00', 'end_time' => '13:00'],
         ];
 
-        $startsOn = Carbon::now()->subMonth()->startOfMonth();
+        $startsOn = Carbon::now()->subMonths(1)->startOfMonth();
 
         foreach ($recurring as $r) {
             RecurringUnavailability::create([

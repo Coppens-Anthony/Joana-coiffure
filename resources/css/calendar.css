@@ -35,7 +35,7 @@
 }
 
 .fc-toolbar-chunk .fc-today-button{
-    @apply bg-secondary hover:bg-secondary border-secondary;
+    @apply bg-tertiary hover:bg-tertiary border-tertiary;
 }
 
 .fc-toolbar-chunk .fc-today-button:disabled{
