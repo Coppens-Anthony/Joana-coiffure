@@ -18,16 +18,17 @@ new class extends Component {
 
         if ($this->picture) {
             $new_original_file_name = uniqid() . '.' . config('pictures.picture_type');
+            $disk = config('filesystems.default');
 
             $full_path_to_original = $this->picture->storeAs(
                 config('pictures.original_path'),
                 $new_original_file_name,
-                config('filesystems.default')
+                $disk
             );
-
+            \Log::info('[Upload] storeAs result: ' . var_export($full_path_to_original, true));
             if ($full_path_to_original) {
                 $validated['picture'] = $new_original_file_name;
-                ProcessUploadedPicture::dispatchSync($full_path_to_original, $new_original_file_name, config('filesystems.default'));
+                ProcessUploadedPicture::dispatchSync($full_path_to_original, $new_original_file_name, $disk);
             } else {
                 $validated['picture'] = '';
             }

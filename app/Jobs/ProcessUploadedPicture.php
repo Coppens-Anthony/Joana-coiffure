@@ -21,8 +21,18 @@ class ProcessUploadedPicture implements ShouldQueue
      */
     public function handle(): void
     {
+
+        \Log::info('[Job] Disk: ' . $this->disk . ' | Path: ' . $this->full_path_to_original);
+        $binary = Storage::disk($this->disk)->get($this->full_path_to_original);
+
+        if (!$binary) {
+            throw new \RuntimeException(
+                "Cannot read file [{$this->full_path_to_original}] on disk [{$this->disk}]"
+            );
+        }
+
         $image = Image::decodeBinary(
-            Storage::disk($this->disk)->get($this->full_path_to_original)
+            $binary
         );
 
         $sizes = config('pictures.sizes');
