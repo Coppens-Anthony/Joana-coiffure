@@ -2,6 +2,7 @@
 
 use App\Models\Appointment;
 use App\Models\RecurringUnavailability;
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
@@ -24,8 +25,8 @@ new class extends Component {
     {
         if ($model_id) {
             $this->reccuring_unavailability = RecurringUnavailability::findOrFail($model_id);
-            $this->start_at = $this->reccuring_unavailability->start_time;
-            $this->end_at = $this->reccuring_unavailability->end_time;
+            $this->start_at = Carbon::parse($this->reccuring_unavailability->start_time)->format('H:i');
+            $this->end_at = Carbon::parse($this->reccuring_unavailability->end_time)->format('H:i');
             $this->monday = in_array(1, $this->reccuring_unavailability->days_of_week);
             $this->tuesday = in_array(2, $this->reccuring_unavailability->days_of_week);
             $this->wednesday = in_array(3, $this->reccuring_unavailability->days_of_week);
@@ -185,7 +186,7 @@ new class extends Component {
 
         <div class="ml-auto w-fit flex gap-6 mt-8">
             <x-global.link-button.button type="button" title="Fermer la modale" :isSecondary="true"
-                                        wire:click="dispatch('close_modal')">
+                                         wire:click="dispatch('close_modal')">
                 Annuler
             </x-global.link-button.button>
             <x-global.link-button.button
