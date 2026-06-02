@@ -2,11 +2,15 @@
 
 namespace App\Jobs;
 
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Laravel\Facades\Image;
 
-class ProcessUploadedPicture
+class ProcessUploadedPicture implements ShouldQueue
 {
+    use Queueable;
+
     /**
      * Create a new job instance.
      */
