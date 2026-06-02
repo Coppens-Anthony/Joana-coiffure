@@ -45,8 +45,9 @@ class DatabaseSeeder extends Seeder
             $sourcePath = public_path("assets/img/originals/$photo");
 
             $relativePath = config('pictures.original_path').'/'.$newName;
-
-            Storage::disk('public')->put(
+            $disk = config('filesystems.default');
+            
+            Storage::disk($disk)->put(
                 $relativePath,
                 file_get_contents($sourcePath)
             );
