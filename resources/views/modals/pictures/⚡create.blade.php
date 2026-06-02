@@ -18,15 +18,23 @@ new class extends Component {
 
         if ($this->picture) {
             $new_original_file_name = uniqid() . '.' . config('pictures.picture_type');
-            $disk = config('filesystems.default');
+            $s3_disk = config('filesystems.default');
 
-            $full_path_to_original = $this->picture->storeAs(
-                config('pictures.original_path'),
-                $new_original_file_name,
-                $disk
+            // Lire le fichier depuis le disk local temporaire
+            $tempPath = $this->picture->getRealPath();
+
+            // Uploader manuellement sur S3
+            $full_path_to_original = config('pictures.original_path') . '/' . $new_original_file_name;
+
+            $uploaded = Storage::disk($s3_disk)->put(
+                $full_path_to_original,
+                file_get_contents($tempPath)
             );
 
-            if ($full_path_to_original) {
+            \Log::info('[Upload] uploaded: ' . var_export($uploaded, true));
+            \Log::info('[Upload] path: ' . $full_path_to_original);
+
+            if ($uploaded) {
                 $validated['picture'] = $new_original_file_name;
                 ProcessUploadedPicture::dispatchSync($full_path_to_original, $new_original_file_name);
             } else {
@@ -40,10 +48,8 @@ new class extends Component {
         ]);
 
         $this->reset('picture');
-
         $this->dispatch('action_done', message: 'Photo ajoutée avec succès !');
         $this->dispatch('close_modal');
-
     }
 };
 ?>
