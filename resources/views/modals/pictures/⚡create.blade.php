@@ -16,12 +16,6 @@ new class extends Component {
             'picture' => 'required|mimes:jpeg,png,jpg,gif,webp|max:2048'
         ]);
 
-        logger()->info('UPLOAD', [
-            'disk' => config('filesystems.default'),
-            'path' => $full_path_to_original,
-            'exists' => Storage::disk(config('filesystems.default'))->exists($full_path_to_original),
-        ]);
-
         if ($this->picture) {
             $new_original_file_name = uniqid() . '.' . config('pictures.picture_type');
 
@@ -30,6 +24,12 @@ new class extends Component {
                 $new_original_file_name,
                 config('filesystems.default')
             );
+
+            logger()->info('JOB READ', [
+                'disk' => config('filesystems.default'),
+                'path' => $this->full_path_to_original,
+                'exists' => Storage::disk(config('filesystems.default'))->exists($this->full_path_to_original),
+            ]);
 
             if ($full_path_to_original) {
                 $validated['picture'] = $new_original_file_name;
