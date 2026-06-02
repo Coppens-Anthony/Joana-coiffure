@@ -15,11 +15,11 @@
                         'col-start-1 row-start-4 md:col-start-4 md:row-start-2'                          => $index % 7 === 5,
                         'col-start-2 row-start-4 md:col-start-5 md:row-start-1 md:row-span-2'            => $index % 7 === 6,
                     ])>
-                                <img src="{{ asset('pictures/originals/' . $photo->picture) }}"
+                                <img src="{{ Storage::url('pictures/originals/' . $photo->picture) }}"
                                      srcset="
-                                {{ asset('pictures/variants/300x300/' . $photo->picture) }} 300w,
-                                {{ asset('pictures/variants/600x600/' . $photo->picture) }} 600w,
-                                {{ asset('pictures/variants/900x900/' . $photo->picture) }} 900w"
+                                {{ Storage::url('pictures/variants/300x300/' . $photo->picture) }} 300w,
+                                {{ Storage::url('pictures/variants/600x600/' . $photo->picture) }} 600w,
+                                {{ Storage::url('pictures/variants/900x900/' . $photo->picture) }} 900w"
                                      sizes="(max-width: 768px) 100vw, 50vw"
                                      alt=""
                                      class="h-full w-full object-cover rounded-2xl">
