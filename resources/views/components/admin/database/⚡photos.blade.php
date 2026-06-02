@@ -66,11 +66,11 @@ new class extends Component {
             <ul class="grid grid-cols-2 md:grid-cols-4 gap-4" data-sortable>
                 @foreach($this->photos as $photo)
                     <li data-id="{{ $photo->id }}" class="relative cursor-move">
-                        <img src="{{ asset('pictures/originals/' . $photo->picture) }}"
+                        <img src="{{ Storage::url('pictures/originals/' . $photo->picture) }}"
                              srcset="
-                                {{ asset('pictures/variants/300x300/' . $photo->picture) }} 300w,
-                                {{ asset('pictures/variants/600x600/' . $photo->picture) }} 600w,
-                                {{ asset('pictures/variants/900x900/' . $photo->picture) }} 900w"
+                                {{ Storage::url('pictures/variants/300x300/' . $photo->picture) }} 300w,
+                                {{ Storage::url('pictures/variants/600x600/' . $photo->picture) }} 600w,
+                                {{ Storage::url('pictures/variants/900x900/' . $photo->picture) }} 900w"
                              sizes="(max-width: 768px) 20vw, 25vw"
                              alt=""
                              class="h-full w-full object-cover rounded-2xl">
