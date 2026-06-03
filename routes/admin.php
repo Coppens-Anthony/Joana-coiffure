@@ -24,7 +24,7 @@ Route::prefix('admin')->group(function () {
     Route::livewire('/galerie', 'pages::admin.database.photos.⚡index')
         ->name('database.gallery')->middleware('auth');
 
-    Route::livewire('/congés-récurents', 'pages::admin.⚡recurring_unavailabilities')
+    Route::livewire('/congés-récurrents', 'pages::admin.⚡recurring_unavailabilities')
         ->name('recurring_unavailabilities')->middleware('auth');
 
     Route::livewire('/profil', 'pages::admin.⚡profile')

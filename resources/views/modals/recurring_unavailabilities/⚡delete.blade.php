@@ -18,15 +18,15 @@ new class extends Component {
     public function destroy()
     {
         $this->recurringUnavailability->delete();
-        $this->dispatch('action_done', message: 'Période récurente supprimée avec succès !', isDeleted: true);
+        $this->dispatch('action_done', message: 'Période récurrente supprimée avec succès !', isDeleted: true);
         $this->dispatch('close_modal');
     }
 };
 ?>
 
-<livewire:admin.modal modal_title="Supprimer la période récurente">
+<livewire:admin.modal modal_title="Supprimer la période récurrente">
     <p class="mb-8">
-        Êtes-vous sûr(e) de vouloir supprimer la période récurent ?
+        Êtes-vous sûr(e) de vouloir supprimer la période récurrent ?
     </p>
 
     <form wire:submit="destroy" class="flex flex-col gap-4">
@@ -42,7 +42,7 @@ new class extends Component {
                 Annuler
             </x-global.link-button.button>
 
-            <x-global.link-button.button title="Supprimer la période récurente">
+            <x-global.link-button.button title="Supprimer la période récurrente">
                 Supprimer
             </x-global.link-button.button>
         </div>

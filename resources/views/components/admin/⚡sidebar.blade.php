@@ -143,10 +143,10 @@ new class extends Component {
                             tabindex="1"
                             icon_path="assets/svg/off.svg"
                             :route="route('recurring_unavailabilities')"
-                            title="Vers les congés récurents"
+                            title="Vers les congés récurrents"
                             :isActive="request()->routeIs('recurring_unavailabilities')"
                         >
-                            Congés récurents
+                            Congés récurrents
                         </x-global.link-button.icon-link>
                     </li>
                 </ul>

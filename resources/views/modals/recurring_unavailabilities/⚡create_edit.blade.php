@@ -114,7 +114,7 @@ new class extends Component {
                     'end_time' => $validated['end_at'],
                 ]);
 
-                $this->dispatch('action_done', message: 'Congé récurent ajouté avec succès !');
+                $this->dispatch('action_done', message: 'Congé récucrent ajouté avec succès !');
                 $this->dispatch('close_modal');
             }
         }
@@ -160,7 +160,7 @@ new class extends Component {
                 'end_time' => $validated['end_at'],
             ]);
 
-            $this->dispatch('action_done', message: 'Congé récurent modifié avec succès !');
+            $this->dispatch('action_done', message: 'Congé récurrent modifié avec succès !');
             $this->dispatch('close_modal');
         }
     }

@@ -102,7 +102,7 @@ class extends Component {
                     ->filter(fn($date) => !($rule->starts_on && $date->lt($rule->starts_on)))
                     ->map(fn($date) => [
                         'allDay' => $isAllDay,
-                        'title' => 'Congé récurent',
+                        'title' => 'Congé récurrent',
                         'start' => $isAllDay ? $date->toDateString() : $date->toDateString() . ' ' . $rule->start_time,
                         'end' => $isAllDay ? $date->copy()->addDay()->toDateString() : $date->toDateString() . ' ' . $rule->end_time,
                         'display' => $isAllDay ? 'background' : 'auto',
@@ -176,7 +176,7 @@ class extends Component {
                         <span class="w-4 h-4 rounded-full block bg-unavailability"></span>Période off
                     </li>
                     <li class="flex gap-2 items-center">
-                        <span class="w-4 h-4 rounded-full block bg-error"></span>Congés réccurents
+                        <span class="w-4 h-4 rounded-full block bg-error"></span>Congés récurrents
                     </li>
                 </ul>
                 <ul class="flex flex-col gap-2">
