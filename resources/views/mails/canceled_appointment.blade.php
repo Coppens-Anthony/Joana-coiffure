@@ -17,22 +17,6 @@
             padding: 20px;
             border-radius: 8px;
         }
-
-        .box {
-            background: #FEEDBF;
-            padding: 16px;
-            border-radius: 16px;
-            margin-top: 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            list-style: none;
-        }
-
-        .label {
-            font-weight: bold;
-            margin: 0 0 4px;
-        }
     </style>
 </head>
 <body>

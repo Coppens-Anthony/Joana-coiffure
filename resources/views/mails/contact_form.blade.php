@@ -23,10 +23,17 @@
             padding: 16px;
             border-radius: 16px;
             margin-top: 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            list-style: none;
+            width: 100%;
+            border-collapse: separate;
+        }
+
+        .box-cell {
+            padding: 0 0 16px 0;
+            vertical-align: top;
+        }
+
+        .box-cell:last-child {
+            padding-bottom: 0;
         }
 
         .label {
@@ -43,24 +50,32 @@
 
     <p>Vous avez reçu un message depuis le formulaire de contact.</p>
 
-    <ol class="box">
-        <li>
-            <p class="label">Nom :</p>
-            <p>{{ $validated['name'] }}</p>
-        </li>
-        <li>
-            <p class="label">Email :</p>
-            <p>{{ $validated['email'] }}</p>
-        </li>
-        <li>
-            <p class="label">Téléphone :</p>
-            <p>{{ $validated['telephone'] }}</p>
-        </li>
-        <li>
-            <p class="label">Message :</p>
-            <p>{{ $validated['message'] }}</p>
-        </li>
-    </ol>
+    <table class="box">
+        <tr>
+            <td class="box-cell">
+                <p class="label">Nom&nbsp;:</p>
+                <p>{{ $validated['name'] }}</p>
+            </td>
+        </tr>
+        <tr>
+            <td class="box-cell">
+                <p class="label">Email&nbsp;:</p>
+                <p>{{ $validated['email'] }}</p>
+            </td>
+        </tr>
+        <tr>
+            <td class="box-cell">
+                <p class="label">Téléphone&nbsp;:</p>
+                <p>{{ $validated['telephone'] }}</p>
+            </td>
+        </tr>
+        <tr>
+            <td class="box-cell">
+                <p class="label">Message&nbsp;:</p>
+                <p>{{ $validated['message'] }}</p>
+            </td>
+        </tr>
+    </table>
 </div>
 
 </body>

@@ -124,7 +124,7 @@ new class extends Component {
             <div class="flex flex-col gap-2">
                 <p>Horaire <span class="text-error">*</span></p>
                 <p class="border-2 border-primary p-4 rounded-2xl focus:border-primary focus:outline-none">
-                    Veuillez d’abord choisir un/des service(s)
+                    Veuillez d’abord choisir une/des prestations(s)
                 </p>
             </div>
 
