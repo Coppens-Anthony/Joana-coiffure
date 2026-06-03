@@ -168,7 +168,7 @@ class extends Component {
                      :class="{'rotate-180': expanded}">
             </div>
             <div x-show="expanded" class="flex flex-col gap-4 mt-4">
-                <ul class="grid grid-cols-2 sm:flex md:grid lg:flex gap-4">
+                <ul class="flex flex-col sm:flex-row lg:flex gap-4">
                     <li class="flex gap-2 items-center">
                         <span class="w-4 h-4 rounded-full block bg-[#3788d8]"></span>Rendez-vous
                     </li>
@@ -184,7 +184,8 @@ class extends Component {
                         Au clic d'un jour, appraîtra toutes les informations liées à ce jour
                     </li>
                     <li>
-                        Pour ajouter une période off de plusieurs jours, cliquez et sélectionnez les jours en question
+                        Pour ajouter une période off de plusieurs jours, cliquez et glissez sur les jours en question
+                        <small>(restez appuyer en survolant les jours)</small>
                     </li>
                 </ul>
             </div>
