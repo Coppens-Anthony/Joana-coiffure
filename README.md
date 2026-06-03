@@ -101,3 +101,20 @@ Joana vient de finir la coupe de Sabrine et celle-ci demande à prendre rendez-v
 
 - Profil
   Modification des informations personnelles.
+
+## 4. Installation
+```bash
+# Mise en place des dépendances
+composer install
+npm install
+
+# Mise en place du fichier d'environnement
+cp .env.example .env
+php artisan key:generate
+
+# Mise en place de la base de données
+## initialiser la base de donnée avec le fichier 'database.sqlite'
+php artisan migrate --seed
+
+# Compilation
+npm run dev
