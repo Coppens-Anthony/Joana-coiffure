@@ -6,6 +6,7 @@ Le site comportera une partie destinée au public et une autre pour la coiffeuse
 
 La partie publique sera une vitrine avec la possibilité de prendre des rendez-vous.
 
+---
 
 ## 2. Personas et scénarios
 
@@ -48,6 +49,8 @@ Joana reçoit alors l’information d’une nouvelle prise de rendez-vous.
 
 Joana vient de finir la coupe de Sabrine et celle-ci demande à prendre rendez-vous pour le mois prochain. Joana accède alors à son interface d’administratrice et ajoute elle-même le nouveau rendez-vous qu’elle convînt avec Sabrine. Elle n'aura qu'à choisir Sabrine parmis les clients et convenir le crénau ainsi que la prestation souhaitée. Sabrine prend également rendez-vous pour son fils Mathieu qui n’est encore jamais venu et donc n’est pas dans la base de données, Joana pourra l’y ajouter avec les informations transmises via Sabrine.
 
+---
+
 ## 3. Fonctionnalités
 **Partie publique**
 - Présentaion de Joana ;
@@ -55,6 +58,8 @@ Joana vient de finir la coupe de Sabrine et celle-ci demande à prendre rendez-v
 - Galerie dynamique ;
 - Formulaire de contact
 - Prise de rendez-vous (prestations, date & heure, coordonnées).
+
+
 
 **Partie administrative**
 - Dashboard
@@ -101,6 +106,8 @@ Joana vient de finir la coupe de Sabrine et celle-ci demande à prendre rendez-v
 
 - Profil
   Modification des informations personnelles.
+
+---
 
 ## 4. Installation
 ```bash
