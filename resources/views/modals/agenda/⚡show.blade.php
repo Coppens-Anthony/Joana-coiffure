@@ -130,8 +130,8 @@ new class extends Component {
 ?>
 
 <livewire:admin.modal :modal_title="Carbon::parse($this->selectedDate)->translatedFormat('d F Y')">
-    <div class="max-h-120 flex flex-col">
-        <div class="flex-1 overflow-y-scroll scroll no-scrollbar">
+    <div class="max-h-[70vh] flex flex-col">
+        <div class="flex-1 overflow-y-scroll scroll no-scrollbar min-h-0">
             @if($this->selectedEvents->count() > 0)
                 <ol class="flex flex-col gap-4">
                     @foreach($this->selectedEvents as $event)
@@ -152,7 +152,7 @@ new class extends Component {
         </div>
 
         @if(Carbon::parse($this->selectedDate)->startOfDay() >= now()->startOfDay() && !$this->isFullDayOff && !$this->isRecurringBlocked)
-            <div class="bg-white pt-8 sticky bottom-0 flex flex-col gap-4">
+            <div class="bg-white pt-8 flex flex-col gap-4">
                 <x-global.link-button.button class="w-full" type="button" title="Ajouter un rendez-vous"
                                             wire:click="createAppointment">
                     Ajouter un rendez-vous

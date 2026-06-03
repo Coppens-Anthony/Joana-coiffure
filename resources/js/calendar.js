@@ -1,5 +1,6 @@
 import { Calendar as FullCalendar } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import listPlugin from '@fullcalendar/list';
 
@@ -16,15 +17,34 @@ export const Calendar = {
         const events = JSON.parse(calendarEl.dataset.events);
 
         calendar = new FullCalendar(calendarEl, {
-            plugins: [dayGridPlugin, interactionPlugin, listPlugin],
+            plugins: [dayGridPlugin, interactionPlugin, listPlugin, timeGridPlugin],
             initialView: 'dayGridMonth',
             locale: 'fr',
             timeZone: 'Europe/Brussels',
             firstDay: 1,
             events: events,
+            headerToolbar: {
+                left: 'dayGridMonth,timeGridWeek,timeGridDay',
+                right: 'today,prev,next',
+                center: 'title',
+            },
             dayMaxEvents: true,
-            buttonText: { today: "Aujourd'hui" },
+            buttonText: {
+                today: "Aujourd'hui",
+                month: 'Mois',
+                week: 'Semaine',
+                day: 'Jour',
+            },
             selectable: true,
+
+            eventClick(info) {
+                const id   = info.event.id;
+                const type = info.event.extendedProps.type;
+
+                if (type === 'appointment') {
+                    Livewire.dispatch('show-appointment', { id });
+                }
+            },
 
             datesSet(info) {
                 Livewire.dispatch('data-set', {

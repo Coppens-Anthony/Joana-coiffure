@@ -50,7 +50,9 @@ it('creates an appointment', function () {
 
 it('shows appointments of the day', function () {
     Client::factory()->create();
-    Appointment::factory()->create();
+    Appointment::factory()->create([
+        'start_at' => '10:00',
+    ]);
 
     $page = Livewire::test('pages::admin.agenda');
 

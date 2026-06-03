@@ -35,6 +35,11 @@ class extends Component {
         $this->dispatch('refresh-calendar', events: $this->events);
     }
 
+    #[On('show-appointment')]
+    public function showEvent($id)
+    {
+        $this->dispatch('open_modal', ['modal'  => 'modals::appointments.show', 'model_id' => $id]);
+    }
 
     #[On('data-set')]
     public function dataSet($firstDay, $lastDay)
@@ -69,6 +74,8 @@ class extends Component {
             ->whereBetween('start_at', [$this->firstDay, $this->lastDay])
             ->get()
             ->map(fn($appointment) => [
+                'id' => $appointment->id,
+                'type' => 'appointment',
                 'title' => $appointment->client->name,
                 'start' => $appointment->start_at->timezone('Europe/Brussels')->format('Y-m-d H:i:s'),
                 'end' => $appointment->end_at->timezone('Europe/Brussels')->format('Y-m-d H:i:s'),
@@ -82,6 +89,8 @@ class extends Component {
                 $isPartial = $sameDay && !($unavailability->start_at->format('H:i') === '09:00' && $unavailability->end_at->format('H:i') === '18:00');
 
                 return [
+                    'id' => $unavailability->id,
+                    'type' => 'unavailability',
                     'allDay' => !$isPartial,
                     'title' => $isPartial ? 'Créneau off' : ($sameDay ? 'Journée off' : 'Période off'),
                     'start' => $isPartial ? $unavailability->start_at->timezone('Europe/Brussels')->format('Y-m-d H:i:s') : $unavailability->start_at->toDateString(),

@@ -34,12 +34,8 @@
     @apply bg-primary text-black border-primary hover:bg-primary active:bg-primary duration-200 hover:text-black active:text-black;
 }
 
-.fc-toolbar-chunk .fc-today-button{
-    @apply bg-tertiary hover:bg-tertiary border-tertiary;
-}
-
-.fc-toolbar-chunk .fc-today-button:disabled{
-    @apply bg-gray text-white;
+.fc-toolbar-chunk .fc-today-button, .fc-toolbar-chunk .fc-today-button:disabled{
+    @apply bg-tertiary hover:bg-tertiary border-tertiary text-black opacity-100;
 }
 
 .fc-highlight {
@@ -87,4 +83,8 @@
 
 .fc-daygrid-day:has(.event-red) .fc-daygrid-day-number {
     @apply text-white font-bold;
+}
+
+.fc .fc-button-primary:not(:disabled).fc-button-active, .fc .fc-button-primary:not(:disabled):active {
+    @apply bg-tertiary border border-tertiary text-black hover:border hover:border-black;
 }
