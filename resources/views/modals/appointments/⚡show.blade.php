@@ -41,6 +41,6 @@ new class extends Component {
                 {{ $appointment->services->sum('price') }}€
             </p>
         </div>
-        <x-global.link-button.button class="ml-auto" title="Fermer la modale" :isSecondary="true" wire:click="dispatch('close_modal')">Fermer</x-global.link-button.button>
     </div>
+    <x-global.link-button.button class="ml-auto block mt-4" title="Fermer la modale" :isSecondary="true" wire:click="dispatch('close_modal')">Fermer</x-global.link-button.button>
 </livewire:admin.modal>

@@ -62,7 +62,7 @@ class extends Component {
         </div>
     @endif
     <section>
-        <div class="flex gap-4 items-center wi-full">
+        <div class="flex gap-4 items-center w-full">
             <h2 class="text-2xl">{{ $client->name }}</h2>
             <button wire:click="clientEdit({{ $client->id }})" class="cursor-pointer">
                 <img src="{{ asset('assets/svg/edit.svg') }}" alt="Modifier les informations du client">
