@@ -1,3 +1,7 @@
+html{
+    @apply scroll-smooth;
+}
+
 .hovered{
     @apply hover:bg-primary cursor-pointer focus:bg-primary focus:outline-none focus:ring-0;
 }

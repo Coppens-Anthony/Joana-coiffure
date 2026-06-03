@@ -99,7 +99,7 @@ new class extends Component {
         <ul class="overflow-y-scroll flex items-center gap-4 md:grid md:grid-cols-2 p-4">
             <li class="hover:bg-primary rounded-xl">
                 <button type="button" class="focus:bg-primary cursor-pointer focus:outline-none p-2 w-full text-start"
-                        wire:click="create">+ Ajouter un service
+                        wire:click="create">+ Ajouter une prestation
                 </button>
             </li>
             <template x-for="item in filteredItems" :key="item.id">

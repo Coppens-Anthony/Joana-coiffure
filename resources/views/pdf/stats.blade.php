@@ -73,7 +73,7 @@
         <div class="card-body">
             <ul>
                 <li>{{ $totalClients->count() }} clients</li>
-                <li>{{ $recurringClients->count() }} clients récurrents</li>
+                <li>{{ $recurringClients->count() }} clients récurents</li>
                 <li>{{ $newClients->count() }} nouveaux clients</li>
             </ul>
         </div>

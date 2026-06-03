@@ -23,10 +23,17 @@
             padding: 16px;
             border-radius: 16px;
             margin-top: 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            list-style: none;
+            width: 100%;
+            border-collapse: separate;
+        }
+
+        .box-cell {
+            padding: 0 0 16px 0;
+            vertical-align: top;
+        }
+
+        .box-cell:last-child {
+            padding-bottom: 0;
         }
 
         .label {
@@ -44,41 +51,54 @@
     <p>Vous avez un nouveau rendez-vous
         le {{ $appointment->formatDate('start_at') . ' à ' . $appointment->start_at->format('H:i') }}.</p>
 
-    <ol class="box">
-        <li>
-            <p class="label">Nom du client :</p>
-            <p>{{ $appointment->client->name }}</p>
-        </li>
-        <li>
-            <p class="label">Email du client :</p>
-            <p>{{ $appointment->client->email }}</p>
-        </li>
-        <li>
-            <p class="label">Téléphone du client :</p>
-            <p>{{ $appointment->client->telephone }}</p>
-        </li>
-    </ol>
-    <ol class="box">
-        <li>
-            <p class="label">Prestation(s) :</p>
-            <p>{!! $appointment->services->pluck('name')->implode(', ') !!}</p>
-        </li>
-        <li>
-            <p class="label">Durée moyenne :</p>
-            <p>{{ $appointment->durationFormat($appointment->services->sum('duration')) }}</p>
-        </li>
-        <li>
-            <p class="label">Prix :</p>
-            <p>{{ $appointment->services->sum('price') }}€</p>
-        </li>
+    <table class="box">
+        <tr>
+            <td class="box-cell">
+                <p class="label">Nom du client&nbsp;:</p>
+                <p>{{ $appointment->client->name }}</p>
+            </td>
+        </tr>
+        <tr>
+            <td class="box-cell">
+                <p class="label">Email du client&nbsp;:</p>
+                <p>{{ $appointment->client->email }}</p>
+            </td>
+        </tr>
+        <tr>
+            <td class="box-cell">
+                <p class="label">Téléphone du client&nbsp;:</p>
+                <p>{{ $appointment->client->telephone }}</p>
+            </td>
+        </tr>
+    </table>
+    <table class="box">
+        <tr>
+            <td class="box-cell">
+                <p class="label">Prestation(s)&nbsp;:</p>
+                <p>{!! $appointment->services->pluck('name')->implode(', ') !!}</p>
+            </td>
+        </tr>
+        <tr>
+            <td class="box-cell">
+                <p class="label">Durée moyenne&nbsp;:</p>
+                <p>{{ $appointment->durationFormat($appointment->services->sum('duration')) }}</p>
+            </td>
+        </tr>
+        <tr>
+            <td class="box-cell">
+                <p class="label">Prix&nbsp;:</p>
+                <p>{{ $appointment->services->sum('price') }}€</p>
+            </td>
+        </tr>
         @if($appointment->message)
-            <li>
-                <p class="label">Message :</p>
-                <p>{{ $appointment->message }}</p>
-            </li>
+            <tr>
+                <td class="box-cell">
+                    <p class="label">Message&nbsp;:</p>
+                    <p>{{ $appointment->message }}</p>
+                </td>
+            </tr>
         @endif
-    </ol>
+    </table>
 </div>
-
 </body>
 </html>

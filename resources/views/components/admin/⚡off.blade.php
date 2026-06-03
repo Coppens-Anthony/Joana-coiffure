@@ -43,7 +43,7 @@ new class extends Component {
 
         <div class="{{ $this->unavailability['type'] === 'unavailability' ? 'bg-unavailability text-black' : 'bg-error text-white' }} w-full p-4 rounded-2xl flex flex-col gap-2">
             <p class="flex-1">
-                {{ $this->unavailability['type'] === 'unavailability' ? 'Période off' : ($this->unavailability['allDay'] ? 'Jour de congé récurrent' : 'Créneau off récurrent') }}
+                {{ $this->unavailability['type'] === 'unavailability' ? 'Période off' : ($this->unavailability['allDay'] ? 'Jour de congé récurent' : 'Créneau off récurent') }}
             </p>
             @if($this->unavailability['type'] === 'unavailability')
                 <div class="flex gap-4 items-center">

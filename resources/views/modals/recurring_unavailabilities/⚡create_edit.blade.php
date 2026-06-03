@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
+use function PHPUnit\Framework\isEmpty;
 
 new class extends Component {
     public RecurringUnavailability $reccuring_unavailability;
@@ -90,24 +91,32 @@ new class extends Component {
             6 => $this->saturday,
         ]));
 
-        $this->conflictingAppointments = $this->appointments(
-            $validated['start_at'],
-            $validated['end_at'],
-            $days
-        );
 
-        if ($this->conflictingAppointments->isNotEmpty()) {
-            $this->dispatch('open_modal', ['modal' => 'modals::recurring_unavailabilities.confirmation', 'params' => ['appointment_ids' => $this->conflictingAppointments->pluck('id')->toArray(), 'days' => $days, 'start_at' => $validated['start_at'], 'end_at' => $validated['end_at']]]);
-        } else {
-            RecurringUnavailability::create([
-                'days_of_week' => $days,
-                'starts_on' => now(),
-                'start_time' => $validated['start_at'],
-                'end_time' => $validated['end_at'],
-            ]);
-
-            $this->dispatch('action_done', message: 'Congé récurrent ajouté avec succès !');
+        if (empty($days)) {
+            $this->dispatch('action_done', message: 'Aucun jour n\'a été selectionnée.', isDeleted: true);
             $this->dispatch('close_modal');
+
+        } else {
+
+            $this->conflictingAppointments = $this->appointments(
+                $validated['start_at'],
+                $validated['end_at'],
+                $days
+            );
+
+            if ($this->conflictingAppointments->isNotEmpty()) {
+                $this->dispatch('open_modal', ['modal' => 'modals::recurring_unavailabilities.confirmation', 'params' => ['appointment_ids' => $this->conflictingAppointments->pluck('id')->toArray(), 'days' => $days, 'start_at' => $validated['start_at'], 'end_at' => $validated['end_at']]]);
+            } else {
+                RecurringUnavailability::create([
+                    'days_of_week' => $days,
+                    'starts_on' => now(),
+                    'start_time' => $validated['start_at'],
+                    'end_time' => $validated['end_at'],
+                ]);
+
+                $this->dispatch('action_done', message: 'Congé récurent ajouté avec succès !');
+                $this->dispatch('close_modal');
+            }
         }
     }
 
@@ -151,7 +160,7 @@ new class extends Component {
                 'end_time' => $validated['end_at'],
             ]);
 
-            $this->dispatch('action_done', message: 'Congé récurrent modifié avec succès !');
+            $this->dispatch('action_done', message: 'Congé récurent modifié avec succès !');
             $this->dispatch('close_modal');
         }
     }

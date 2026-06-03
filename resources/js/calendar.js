@@ -74,3 +74,11 @@ export const Calendar = {
         return window.innerWidth >= 1024 ? 'dayGridMonth' : 'listWeek';
     }
 };
+
+
+const slots = document.getElementById('slots');
+if (slots && window.location.hash === '#slots') {
+    const navHeight = document.querySelector('nav')?.offsetHeight;
+    const y = slots.getBoundingClientRect().top + window.scrollY - (navHeight + 300);
+    window.scrollTo({ top: y, behavior: 'smooth' });
+}
