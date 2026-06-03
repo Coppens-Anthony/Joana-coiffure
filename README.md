@@ -47,3 +47,57 @@ Joana reçoit alors l’information d’une nouvelle prise de rendez-vous.
 🧩 **Scénario 2 - Reprise de rendez-vous :**
 
 Joana vient de finir la coupe de Sabrine et celle-ci demande à prendre rendez-vous pour le mois prochain. Joana accède alors à son interface d’administratrice et ajoute elle-même le nouveau rendez-vous qu’elle convînt avec Sabrine. Elle n'aura qu'à choisir Sabrine parmis les clients et convenir le crénau ainsi que la prestation souhaitée. Sabrine prend également rendez-vous pour son fils Mathieu qui n’est encore jamais venu et donc n’est pas dans la base de données, Joana pourra l’y ajouter avec les informations transmises via Sabrine.
+
+## 3. Fonctionnalités
+**Partie publique**
+- Présentaion de Joana ;
+- Présentaion des prestations proposées ;
+- Galerie dynamique ;
+- Formulaire de contact
+- Prise de rendez-vous (prestations, date & heure, coordonnées).
+
+**Partie administrative**
+- Dashboard
+  - Liste des rendez-vous de la journée ;
+  - Affichage détaillé d'un rendez-vous ;
+  - Annulation d'un rendez-vous avec ou sans mail au client.
+ 
+- Agenda
+  - Affichage des évènements (rendez-vous et périodes d'indisponibilité) ;
+  - Affichage détaillé d'un rendez-vous ;
+  - Annulation d'un rendez-vous avec ou sans mail au client ;
+  - Ajout d'un rendez-vous avec possibilité d'ajouter un client et une prestation directement ;
+  - Gestion des indisponibilités (ajoout, modification et suppression).
+
+ - Grstion des clients
+   - Liste des clients ;
+   - Champ de recherche ;
+   - Ajout d'un client ;
+   - Modification d'un client ;
+   - Fiche d'un client avec
+     - Coordonnées ;
+     - Gestion de notes personnelles ;
+     - Historique des rendez-vous.
+
+- Statistiques
+  - Affichage du mois en cours par défaut ;
+  - Filtre sur mois et année ;
+  - Total des rendez-vous ;
+  - Total des clients ;
+  - Total des clients récurrents ;
+  - Total des nouveaux clients ;
+  - Total des revenus ;
+  - Revenu moyen par client ;
+  - Prestation la plus demandée.
+
+- Données
+  - Gestion des prestations (ajout, modification, suppression) ;
+  - Gestion des images de la galerie (ajout, supression, changement d'ordre).
+
+- Congés récurents
+  - Ajout ;
+  - Modification ;
+  - Suppression.
+
+- Profil
+  Modification des informations personnelles.
