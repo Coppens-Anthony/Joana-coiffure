@@ -25,7 +25,7 @@
 <x-client.layout title="Coiffeuse indépendante à Orp-Jauche" :isContactOrAppointment="false">
     <x-client.single_element.icon_content :isTitle="false" :items="$items" :isLink="true"
                                           link_button_label="Toutes mes prestations"
-                                          link_button_title="Voir toutes mes prestations"
+                                          link_button_title="Vers la page des tarifs"
                                           :link_button_route="route('prices')">
         Mes prestations
     </x-client.single_element.icon_content>
