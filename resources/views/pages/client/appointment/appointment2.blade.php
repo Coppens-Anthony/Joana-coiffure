@@ -9,7 +9,7 @@
                 <div class="p-8 rounded-3xl shadow-[0_0_10px_rgba(0,0,0,0.1)]">
                     <div class="flex gap-2 items-center mb-4">
                         <span class="w-2 h-2 bg-error rounded-full"></span>
-                        <small>Jours indisponibles</small>
+                        <small class="text-[.85rem] italic">Jours indisponibles</small>
                     </div>
                     <div class="grid grid-cols-3 items-center mb-8">
                         <div class="relative w-fit">
@@ -67,11 +67,11 @@
 
                             <a href="?date={{ $day->format('Y-m-d') }}#slots"
                                tabindex="{{ $isPast || !$hasSlots || !$isCurrentMonth ? '-1' : '0' }}"
-                               class="w-full py-2 flex items-center justify-center rounded-full transition hover:bg-primary
+                               class="w-full py-2 flex items-center justify-center rounded-full font-bold transition hover:bg-primary
                                 {{ !$isCurrentMonth ? 'opacity-20 pointer-events-none' : '' }}
                                 {{ $isPast ? 'opacity-30 pointer-events-none' : '' }}
-                                {{ $isSelected ? 'bg-primary hover:bg-primary text-black font-bold' : '' }}
-                                {{ !$isPast && $isCurrentMonth && !$hasSlots ? 'text-error font-bold pointer-events-none' : '' }}">
+                                {{ $isSelected ? 'bg-primary hover:bg-primary text-black' : '' }}
+                                {{ !$isPast && $isCurrentMonth && !$hasSlots ? 'text-error pointer-events-none' : '' }}">
                                 {{ $day->day }}
                             </a>
                         @endforeach
