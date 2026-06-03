@@ -2,7 +2,7 @@
     class="flex items-center justify-between h-30 px-8 py-8 md:px-12 lg:px-16 {{ request()->routeIs('home') ? '' : 'mb-16' }} z-50 bg-white sticky top-0 shadow-md">
     <div class="relative z-50">
         <a href="{{route('home')}}" class="absolute top-0 left-0 w-full h-full"
-           title="Vers la page d'accueil"></a>
+           title="Vers la page d'accueil" aria-label="Vers la page d'accueil"></a>
         <x-global.logo/>
     </div>
     <input type="checkbox" id="menu-toggle" class="peer hidden"/>
@@ -59,9 +59,11 @@
                     Contact
                 </x-global.link-button.link>
             </li>
-            <x-global.link-button.link-button class="mx-auto" route="{{ route('appointment') }}"
-                                              title="Prendre un rendez-vous">Rendez-vous
-            </x-global.link-button.link-button>
+            <li>
+                <x-global.link-button.link-button class="mx-auto" route="{{ route('appointment') }}"
+                                                  title="Prendre un rendez-vous">Rendez-vous
+                </x-global.link-button.link-button>
+            </li>
         </ul>
     </nav>
 </header>
