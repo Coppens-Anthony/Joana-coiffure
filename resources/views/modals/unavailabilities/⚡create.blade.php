@@ -34,6 +34,22 @@ new class extends Component {
         }
     }
 
+    public function updatedStartDate()
+    {
+        if (empty($this->end_date) || $this->end_date < $this->start_date) {
+            $this->end_date = $this->start_date;
+        }
+        $this->isMultipleDays = $this->start_date !== $this->end_date;
+    }
+
+    public function updatedEndDate(): void
+    {
+        if (empty($this->end_date)) {
+            $this->end_date = $this->start_date;
+        }
+        $this->isMultipleDays = $this->end_date !== $this->start_date;
+    }
+
     #[Computed]
     public function conflictingAppointments()
     {
@@ -64,7 +80,7 @@ new class extends Component {
     {
         $validated = $this->validate([
             'start_date' => 'required|date',
-            'end_date' => 'required|date|after_or_equal:start_date',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
             'isFullDay' => $this->isMultipleDays ? 'sometimes' : 'boolean',
             'start_at' => $this->isMultipleDays ? 'sometimes' : 'nullable|required_if:isFullDay,false|date_format:H:i',
             'end_at' => $this->isMultipleDays ? 'sometimes' : 'nullable|required_if:isFullDay,false|date_format:H:i|after:start_at',
@@ -89,7 +105,7 @@ new class extends Component {
 
         $endAt = $this->isMultipleDays
             ? $this->end_date . ' 18:00'
-            : $this->start_date . ' ' . ($this->isFullDay ? '18:00' : $this->end_at);
+            : $this->end_date . ' ' . ($this->isFullDay ? '18:00' : $this->end_at);
 
         $overlapping = Unavailability::where(function ($query) use ($startAt, $endAt) {
             $query->whereBetween('start_at', [$startAt, $endAt])
@@ -130,16 +146,15 @@ new class extends Component {
 <div>
     <livewire:admin.modal modal_title="Ajout d'une période off">
         <form wire:submit="store">
-            @if($this->isMultipleDays)
-                <div class="flex gap-4 my-8">
-                    <x-global.form.input class="w-full" type="date" name="start" wire:model.live="start_date">
-                        Date de début
-                    </x-global.form.input>
-                    <x-global.form.input class="w-full" type="date" name="end" wire:model.live="end_date">
-                        Date de fin
-                    </x-global.form.input>
-                </div>
-            @else
+            <div class="flex gap-4 my-8">
+                <x-global.form.input class="w-full" type="date" name="start_date" wire:model.live="start_date">
+                    Date de début
+                </x-global.form.input>
+                <x-global.form.input class="w-full" type="date" name="end_date" wire:model.live="end_date">
+                    Date de fin
+                </x-global.form.input>
+            </div>
+            @if(!$this->isMultipleDays)
                 <x-global.form.checkbox name="isFullDay" wire:model.live="isFullDay">
                     Journée entière off
                 </x-global.form.checkbox>
@@ -169,11 +184,11 @@ new class extends Component {
             @endif
             <div class="ml-auto w-fit flex gap-6">
                 <x-global.link-button.button type="button" title="Fermer la modale" :isSecondary="true"
-                                            wire:click="dispatch('close_modal')">
+                                             wire:click="dispatch('close_modal')">
                     Annuler
                 </x-global.link-button.button>
                 <x-global.link-button.button title="Confirmer l'ajoute de la période off">
-                    Confirmmer
+                    Confirmer
                 </x-global.link-button.button>
             </div>
         </form>

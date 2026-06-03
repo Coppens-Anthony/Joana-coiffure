@@ -168,7 +168,7 @@ class extends Component {
             <div class="rounded-b-2xl bg-white my-6 mx-4">
                 <ul class="flex flex-col gap-4">
                     <li>{{ $this->totalClients->count() }} clients</li>
-                    <li>{{ $this->recurringClients->count() }} clients réccurents</li>
+                    <li>{{ $this->recurringClients->count() }} clients récurrents</li>
                     <li>{{ $this->newClients->count() }} nouveaux clients</li>
                 </ul>
             </div>

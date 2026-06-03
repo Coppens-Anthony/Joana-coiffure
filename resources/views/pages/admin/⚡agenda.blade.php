@@ -102,7 +102,7 @@ class extends Component {
                     ->filter(fn($date) => !($rule->starts_on && $date->lt($rule->starts_on)))
                     ->map(fn($date) => [
                         'allDay' => $isAllDay,
-                        'title' => 'Congé récurent',
+                        'title' => 'Congé récurrent',
                         'start' => $isAllDay ? $date->toDateString() : $date->toDateString() . ' ' . $rule->start_time,
                         'end' => $isAllDay ? $date->copy()->addDay()->toDateString() : $date->toDateString() . ' ' . $rule->end_time,
                         'display' => $isAllDay ? 'background' : 'auto',
@@ -168,7 +168,7 @@ class extends Component {
                      :class="{'rotate-180': expanded}">
             </div>
             <div x-show="expanded" class="flex flex-col gap-4 mt-4">
-                <ul class="grid grid-cols-2 sm:flex md:grid lg:flex gap-4">
+                <ul class="flex flex-col sm:flex-row lg:flex gap-4">
                     <li class="flex gap-2 items-center">
                         <span class="w-4 h-4 rounded-full block bg-[#3788d8]"></span>Rendez-vous
                     </li>
@@ -176,7 +176,7 @@ class extends Component {
                         <span class="w-4 h-4 rounded-full block bg-unavailability"></span>Période off
                     </li>
                     <li class="flex gap-2 items-center">
-                        <span class="w-4 h-4 rounded-full block bg-error"></span>Congés réccurents
+                        <span class="w-4 h-4 rounded-full block bg-error"></span>Congés récurrents
                     </li>
                 </ul>
                 <ul class="flex flex-col gap-2">
@@ -184,7 +184,8 @@ class extends Component {
                         Au clic d'un jour, appraîtra toutes les informations liées à ce jour
                     </li>
                     <li>
-                        Pour ajouter une période off de plusieurs jours, cliquez et sélectionnez les jours en question
+                        Pour ajouter une période off de plusieurs jours, cliquez et glissez sur les jours en question
+                        <small>(restez appuyer en survolant les jours)</small>
                     </li>
                 </ul>
             </div>
