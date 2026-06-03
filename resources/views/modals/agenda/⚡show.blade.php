@@ -130,8 +130,8 @@ new class extends Component {
 ?>
 
 <livewire:admin.modal :modal_title="Carbon::parse($this->selectedDate)->translatedFormat('d F Y')">
-    <div class="max-h-95 flex flex-col">
-        <div class="flex-1 overflow-y-scroll scroll no-scrollbar min-h-0">
+    <div class="max-h-120 flex flex-col">
+        <div class="flex-1 overflow-y-scroll scroll no-scrollbar">
             @if($this->selectedEvents->count() > 0)
                 <ol class="flex flex-col gap-4">
                     @foreach($this->selectedEvents as $event)

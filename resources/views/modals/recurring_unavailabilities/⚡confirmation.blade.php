@@ -67,7 +67,7 @@ new class extends Component {
             ]);
         }
 
-        return redirect(route('recurring_unavailabilities'))->with('success', 'Congé récurrent ajouté avec succès !');
+        return redirect(route('recurring_unavailabilities'))->with('success', 'Congé récrrent ajouté avec succès !');
     }
 };
 ?>

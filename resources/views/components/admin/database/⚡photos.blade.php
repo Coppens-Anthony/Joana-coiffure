@@ -55,7 +55,10 @@ new class extends Component {
     @endif
     <section>
         <div class="flex justify-between items-center my-8">
-            <h2 class="text-2xl">Prévisualisation de la galerie</h2>
+            <div class="flex flex-col gap-2">
+                <h2 class="text-2xl">Prévisualisation de la galerie</h2>
+                <p>Vous pouvez échanger les photos de place en les faisant glisser.</p>
+            </div>
             <x-global.link-button.button-link title="Ajouter une photo" wire:click="create">
                 + Ajouter une photo
             </x-global.link-button.button-link>

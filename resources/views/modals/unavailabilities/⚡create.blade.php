@@ -172,8 +172,8 @@ new class extends Component {
                                             wire:click="dispatch('close_modal')">
                     Annuler
                 </x-global.link-button.button>
-                <x-global.link-button.button title="Ajouter la période off">
-                    Ajouter
+                <x-global.link-button.button title="Confirmer l'ajoute de la période off">
+                    Confirmmer
                 </x-global.link-button.button>
             </div>
         </form>

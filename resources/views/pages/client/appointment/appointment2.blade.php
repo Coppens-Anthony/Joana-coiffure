@@ -7,6 +7,10 @@
             <section class="w-full md:w-1/2">
                 <h3 class="text-[2rem] mb-8">Sélectionnez une date et une heure</h3>
                 <div class="p-8 rounded-3xl shadow-[0_0_10px_rgba(0,0,0,0.1)]">
+                    <div class="flex gap-2 items-center mb-4">
+                        <span class="w-2 h-2 bg-error rounded-full"></span>
+                        <small>Jours indisponibles</small>
+                    </div>
                     <div class="grid grid-cols-3 items-center mb-8">
                         <div class="relative w-fit">
                             @if(!$currentMonth->isSameMonth(today()))
@@ -61,7 +65,7 @@
                                 $hasSlots = $availableDays[$day->format('Y-m-d')] ?? true;
                             @endphp
 
-                            <a href="?date={{ $day->format('Y-m-d') }}"
+                            <a href="?date={{ $day->format('Y-m-d') }}#slots"
                                tabindex="{{ $isPast || !$hasSlots || !$isCurrentMonth ? '-1' : '0' }}"
                                class="w-full py-2 flex items-center justify-center rounded-full transition hover:bg-primary
                                 {{ !$isCurrentMonth ? 'opacity-20 pointer-events-none' : '' }}
@@ -73,7 +77,7 @@
                         @endforeach
                     </div>
                     @if(count($slots))
-                        <div class="grid grid-cols-4 md:grid-cols-6 gap-4 mt-4">
+                        <div class="grid grid-cols-4 md:grid-cols-6 gap-4 mt-4" id="slots">
                             @foreach($slots as $slot)
                                 <form method="POST" action="{{ route('appointment2.store') }}">
                                     @csrf

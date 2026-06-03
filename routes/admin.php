@@ -19,12 +19,12 @@ Route::prefix('admin')->group(function () {
     Route::livewire('/statistiques', 'pages::admin.⚡statistics')
         ->name('statistics')->middleware('auth');
 
-    Route::livewire('/donnes/services', 'pages::admin.database.services.⚡index')
+    Route::livewire('/prestations', 'pages::admin.database.services.⚡index')
         ->name('database.services')->middleware('auth');
-    Route::livewire('/donnes/photos', 'pages::admin.database.photos.⚡index')
-        ->name('database.photos')->middleware('auth');
+    Route::livewire('/galerie', 'pages::admin.database.photos.⚡index')
+        ->name('database.gallery')->middleware('auth');
 
-    Route::livewire('/congés-récurrents', 'pages::admin.⚡recurring_unavailabilities')
+    Route::livewire('/congés-récurents', 'pages::admin.⚡recurring_unavailabilities')
         ->name('recurring_unavailabilities')->middleware('auth');
 
     Route::livewire('/profil', 'pages::admin.⚡profile')

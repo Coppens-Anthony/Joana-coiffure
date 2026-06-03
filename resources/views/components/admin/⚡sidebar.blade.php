@@ -122,9 +122,20 @@ new class extends Component {
                             icon_path="assets/svg/database.svg"
                             :route="route('database.services')"
                             title="Vers les données"
-                            :isActive="request()->routeIs('database.*')"
+                            :isActive="request()->routeIs('database.services')"
                         >
-                            Données
+                            Prestations
+                        </x-global.link-button.icon-link>
+                    </li>
+                    <li>
+                        <x-global.link-button.icon-link
+                            tabindex="1"
+                            icon_path="assets/svg/gallery.svg"
+                            :route="route('database.gallery')"
+                            title="Vers les données"
+                            :isActive="request()->routeIs('database.gallery')"
+                        >
+                            Galerie
                         </x-global.link-button.icon-link>
                     </li>
                     <li>
@@ -132,10 +143,10 @@ new class extends Component {
                             tabindex="1"
                             icon_path="assets/svg/off.svg"
                             :route="route('recurring_unavailabilities')"
-                            title="Vers les congés récurrents"
+                            title="Vers les congés récurents"
                             :isActive="request()->routeIs('recurring_unavailabilities')"
                         >
-                            Congés récurrents
+                            Congés récurents
                         </x-global.link-button.icon-link>
                     </li>
                 </ul>

@@ -102,7 +102,7 @@ class extends Component {
                     ->filter(fn($date) => !($rule->starts_on && $date->lt($rule->starts_on)))
                     ->map(fn($date) => [
                         'allDay' => $isAllDay,
-                        'title' => 'Congé récurrent',
+                        'title' => 'Congé récurent',
                         'start' => $isAllDay ? $date->toDateString() : $date->toDateString() . ' ' . $rule->start_time,
                         'end' => $isAllDay ? $date->copy()->addDay()->toDateString() : $date->toDateString() . ' ' . $rule->end_time,
                         'display' => $isAllDay ? 'background' : 'auto',
@@ -157,18 +157,37 @@ class extends Component {
             {{ session('delete') }}
         </div>
     @endif
-        <div class="w-fit mx-auto mb-4 md:mb-2">
-            <ul class="grid grid-cols-2 sm:flex md:grid lg:flex gap-4">
-                <li class="flex gap-2 items-center">
-                    <span class="w-4 h-4 rounded-full block bg-[#3788d8]"></span>Rendez-vous
-                </li>
-                <li class="flex gap-2 items-center">
-                    <span class="w-4 h-4 rounded-full block bg-unavailability"></span>Période off
-                </li>
-                <li class="flex gap-2 items-center">
-                    <span class="w-4 h-4 rounded-full block bg-error"></span>Congés réccurents
-                </li>
-            </ul>
-        </div>
+        <section x-data="{expanded: false}" class="mb-4 md:mb-8 bg-white shadow-[0_0_10px_rgba(0,0,0,0.25)] w-full p-8 rounded-2xl">
+            <div class="flex items-center justify-between cursor-pointer"
+                 tabindex="0"
+                 @click="expanded = !expanded"
+                 @keydown.enter="expanded = !expanded"
+                 @keydown.space.prevent="expanded = !expanded">
+                <h2 class="text-2xl">Légende</h2>
+                <img src="{{ asset('assets/svg/chevron.svg') }}" alt="Étendre le menu" class="transition-transform duration-200"
+                     :class="{'rotate-180': expanded}">
+            </div>
+            <div x-show="expanded" class="flex flex-col gap-4 mt-4">
+                <ul class="grid grid-cols-2 sm:flex md:grid lg:flex gap-4">
+                    <li class="flex gap-2 items-center">
+                        <span class="w-4 h-4 rounded-full block bg-[#3788d8]"></span>Rendez-vous
+                    </li>
+                    <li class="flex gap-2 items-center">
+                        <span class="w-4 h-4 rounded-full block bg-unavailability"></span>Période off
+                    </li>
+                    <li class="flex gap-2 items-center">
+                        <span class="w-4 h-4 rounded-full block bg-error"></span>Congés réccurents
+                    </li>
+                </ul>
+                <ul class="flex flex-col gap-2">
+                    <li>
+                        Au clic d'un jour, appraîtra toutes les informations liées à ce jour
+                    </li>
+                    <li>
+                        Pour ajouter une période off de plusieurs jours, cliquez et sélectionnez les jours en question
+                    </li>
+                </ul>
+            </div>
+        </section>
     <div id="calendar" data-events='@json($this->events)' wire:ignore></div>
 </div>

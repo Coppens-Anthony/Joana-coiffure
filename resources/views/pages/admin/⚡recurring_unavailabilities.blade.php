@@ -8,7 +8,7 @@ use Livewire\Attributes\On;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 
-new #[Title('Congés récurrents')]
+new #[Title('Congés récurents')]
 class extends Component {
 
     #[On('action_done')]
@@ -55,9 +55,9 @@ class extends Component {
     @endif
 
     <section class="flex flex-col gap-8">
-        <h3 class="sr-only">Tableau des congés récurrent</h3>
+        <h3 class="sr-only">Tableau des congés récurent</h3>
         <x-global.link-button.button-link class="ml-auto" title="" wire:click="create">
-            + Ajouter un congé récurrent
+            + Ajouter un congé récurent
         </x-global.link-button.button-link>
         <x-global.table :titles="['Jour(s)', 'Heure de début', 'Heure de fin', 'Actions']">
             @if(count($this->recurringUnavailabilities) > 0)

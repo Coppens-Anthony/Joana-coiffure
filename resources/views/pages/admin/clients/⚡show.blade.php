@@ -83,7 +83,7 @@ class extends Component {
              @keydown.enter="expanded = !expanded"
              @keydown.space.prevent="expanded = !expanded">
             <h2 class="text-2xl">Notes personnelles</h2>
-            <img src="{{ asset('assets/svg/chevron.svg') }}" alt="" class="transition-transform duration-200"
+            <img src="{{ asset('assets/svg/chevron.svg') }}" alt="Étendre le menu" class="transition-transform duration-200"
                  :class="{'rotate-180': expanded}">
         </div>
         <div x-show="expanded" class="mt-4">
