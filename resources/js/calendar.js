@@ -99,6 +99,6 @@ export const Calendar = {
 const slots = document.getElementById('slots');
 if (slots && window.location.hash === '#slots') {
     const navHeight = document.querySelector('nav')?.offsetHeight;
-    const y = slots.getBoundingClientRect().top + window.scrollY - (navHeight + 300);
+    const y = slots.getBoundingClientRect().top + window.scrollY - (navHeight + 360);
     window.scrollTo({ top: y, behavior: 'smooth' });
 }

@@ -10,11 +10,11 @@
          alt="{{ $img_alt }}"
          class="w-full md:w-1/2 rounded-[3rem]">
     <div class="flex flex-col gap-4 md:gap-8 md:w-1/2">
-        <h2 class="text-[2rem]" {{ $itemtype ? $itemtype . ' ' . 'itemscope' : ''}}>{{ $slot }}</h2>
+        <h2 class="text-[2rem]" {{ $itemtype ? 'itemtype=' . $itemtype  . ' ' . 'itemscope' : ''}}>{{ $slot }}</h2>
         <p>{{ $content }}</p>
         @if($isLink)
             <x-global.link-button.link-button title="{{ $link_button_title }}"
-                                             route="{{ $link_button_route }} ">{{ $link_button_label }}</x-global.link-button.link-button>
+                                              route="{{ $link_button_route }} ">{{ $link_button_label }}</x-global.link-button.link-button>
         @endif
     </div>
 </section>

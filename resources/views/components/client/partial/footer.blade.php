@@ -7,7 +7,7 @@
                 <x-global.logo/>
             </div>
             <div class="relative w-fit mx-auto">
-                <a href="https://www.facebook.com/profile.php?id=100040838886459&locale=fr_FR" target="_blank"
+                <a href="https://www.facebook.com/groups/1837434023235164/user/100040838886459/?locale=fr_FR" target="_blank"
                    class="absolute top-0 left-0 h-full w-full" title="Vers ma page Facebook" aria-label="Vers ma page Facebook"></a>
                 <img src="{{asset('assets/svg/facebook.svg')}}" alt="Vers ma page Facebook" width="32" height="32">
             </div>
