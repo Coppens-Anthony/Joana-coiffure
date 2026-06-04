@@ -20,9 +20,10 @@
                                 {{ Storage::url('pictures/variants/300x300/' . $photo->picture) }} 300w,
                                 {{ Storage::url('pictures/variants/600x600/' . $photo->picture) }} 600w,
                                 {{ Storage::url('pictures/variants/900x900/' . $photo->picture) }} 900w"
-                                     sizes="(max-width: 768px) 100vw, 50vw"
+                                     sizes="(max-width: 768px) 50vw, 20vw"
                                      alt=""
-                                     class="h-full w-full object-cover rounded-2xl">
+                                     class="h-full w-full object-cover rounded-2xl"
+                                    {{ $loop->index >= 7 ? 'loading=lazy' : '' }}>
                             </li>
                         @endforeach
                     </ul>
