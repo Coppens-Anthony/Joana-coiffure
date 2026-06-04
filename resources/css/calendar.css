@@ -88,3 +88,7 @@
 .fc .fc-button-primary:not(:disabled).fc-button-active, .fc .fc-button-primary:not(:disabled):active {
     @apply bg-tertiary border border-tertiary text-black hover:border hover:border-black;
 }
+
+.fc-header-toolbar, .fc-toolbar, .fc-toolbar-ltr {
+    @apply flex flex-col gap-4 lg:flex-row lg:justify-between lg:gap-0;
+}
