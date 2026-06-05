@@ -148,54 +148,33 @@ class extends Component {
         </form>
 
         <x-global.link-button.button-link class="flex gap-2 items-center" title="Télécharger le PDF" type="button"
-                                         wire:click="download">
+                                          wire:click="download">
             Télécharger le PDF
-            <img src="{{ asset('assets/svg/download.svg') }}" alt="">
+            <img src="{{ asset('assets/svg/download.svg') }}" alt="Télécharger le PDF">
         </x-global.link-button.button-link>
     </div>
     <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-8">
         <h2 class="sr-only">Statistques pour le bilan</h2>
-        <article class="w-full shadow-[0_0_10px_rgba(0,0,0,0.25)] rounded-2xl">
-            <h3 class="text-2xl rounded-t-2xl bg-tertiary py-6 w-full text-center">Rendez-vous</h3>
-            <div class="rounded-b-2xl bg-white my-6 mx-4">
-                <ul class="flex flex-col gap-4">
-                    <li>{{ $this->appointments->count() }} rendez-vous</li>
-                </ul>
-            </div>
-        </article>
-        <article class="w-full shadow-[0_0_10px_rgba(0,0,0,0.25)] rounded-2xl">
-            <h3 class="text-2xl rounded-t-2xl bg-tertiary py-6 w-full text-center">Clients</h3>
-            <div class="rounded-b-2xl bg-white my-6 mx-4">
-                <ul class="flex flex-col gap-4">
-                    <li>{{ $this->totalClients->count() }} clients</li>
-                    <li>{{ $this->recurringClients->count() }} clients récurrents</li>
-                    <li>{{ $this->newClients->count() }} nouveaux clients</li>
-                </ul>
-            </div>
-        </article>
-        <article class="w-full shadow-[0_0_10px_rgba(0,0,0,0.25)] rounded-2xl">
-            <h3 class="text-2xl rounded-t-2xl bg-tertiary py-6 w-full text-center">Revenus</h3>
-            <div class="rounded-b-2xl bg-white my-6 mx-4">
-                <ul class="flex flex-col gap-4">
-                    <li>{{ number_format($this->totalRevenue, 0, '', ' ') }}€ de revenu total</li>
-                    <li>{{ number_format($this->averageRevenue, 2, ',', ' ') }}€ de revenu moyen par rendez-vous</li>
-                </ul>
-            </div>
-        </article>
-        <article class="w-full shadow-[0_0_10px_rgba(0,0,0,0.25)] rounded-2xl">
-            <h3 class="text-2xl rounded-t-2xl bg-tertiary py-6 w-full text-center">Prestations</h3>
-            <div class="rounded-b-2xl bg-white my-6 mx-4">
-                <ul class="flex flex-col gap-4">
-                    <li>
-                        @if($this->mostRequestedService)
-                            {{ $this->mostRequestedService['name'] }} est la prestation la plus demandée
-                        @else
-                            Aucune prestation durant cette période
-                        @endif
-                    </li>
-                </ul>
-            </div>
-        </article>
-
+        <livewire:admin.stats.article title="Rendez-vous">
+            <li>{{ $this->appointments->count() }} rendez-vous</li>
+        </livewire:admin.stats.article>
+        <livewire:admin.stats.article title="Clients">
+            <li>{{ $this->totalClients->count() }} clients</li>
+            <li>{{ $this->recurringClients->count() }} clients récurrents</li>
+            <li>{{ $this->newClients->count() }} nouveaux clients</li>
+        </livewire:admin.stats.article>
+        <livewire:admin.stats.article title="Revenus">
+            <li>{{ number_format($this->totalRevenue, 0, '', ' ') }}€ de revenu total</li>
+            <li>{{ number_format($this->averageRevenue, 2, ',', ' ') }}€ de revenu moyen par rendez-vous</li>
+        </livewire:admin.stats.article>
+        <livewire:admin.stats.article title="Prestations">
+            <li>
+                @if($this->mostRequestedService)
+                    {{ $this->mostRequestedService['name'] }} est la prestation la plus demandée
+                @else
+                    Aucune prestation durant cette période
+                @endif
+            </li>
+        </livewire:admin.stats.article>
     </section>
 </div>

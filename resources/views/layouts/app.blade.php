@@ -12,7 +12,7 @@
 
 </head>
 <body class="overflow-x-hidden mx-auto font-sans text-black">
-<main class="md:flex md:flex-row-reverse md:gap-8">
+<main class="md:flex md:flex-row-reverse md:gap-8 max-w-650 mx-auto">
     <div class="md:flex-1 md:mr-8 py-8 mx-8 md:mx-auto">
         <h1 class="text-[2rem] mb-8">{{ $title }}</h1>
         {{ $slot }}
