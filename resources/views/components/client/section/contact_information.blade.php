@@ -8,7 +8,7 @@
                             icon_alt="Envoyez-moi un mail" icon_path="assets/svg/email.svg">
             <span itemprop="email">joanastofs@gmail.com</span>
         </x-global.link-button.icon-link>
-        <x-global.link-button.icon-link route="tel:+32 466 48 67 77" title="Téléphonez-moi" icon_path="assets/svg/telephone.svg"
+        <x-global.link-button.icon-link route="tel:+32466486777" title="Téléphonez-moi" icon_path="assets/svg/telephone.svg"
                             icon_alt="Téléphonez-moi">
             <span itemprop="telephone">+32 466 48 67 77</span>
         </x-global.link-button.icon-link>

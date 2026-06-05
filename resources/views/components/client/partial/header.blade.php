@@ -5,7 +5,7 @@
            title="Vers la page d'accueil" aria-label="Vers la page d'accueil"></a>
         <x-global.logo/>
     </div>
-    <input type="checkbox" id="menu-toggle" class="peer hidden"/>
+    <input type="checkbox" id="menu-toggle" class="peer hidden">
     <label for="menu-toggle" class="flex flex-col gap-1 justify-between cursor-pointer z-50 md:invisible">
         <span class="span_burger_menu"></span>
         <span class="span_burger_menu"></span>

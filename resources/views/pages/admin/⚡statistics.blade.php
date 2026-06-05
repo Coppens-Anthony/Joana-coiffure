@@ -93,25 +93,22 @@ class extends Component {
     #[Computed]
     public function averageRevenue()
     {
-        $count = $this->appointments->filter(fn($appointment) => $appointment->end_at->isPast())->count();
+        $count = $this->appointments->count();
 
-        return $count > 0
-            ? $this->totalRevenue / $count
-            : 0;
+        return $count > 0 ? $this->totalRevenue / $count : 0;
     }
 
     #[Computed]
     public function mostRequestedService()
     {
-        return $this->appointments
+        $services = $this->appointments
             ->flatMap->services
             ->groupBy('id')
-            ->map(fn($service) => [
-                'name' => $service->first()->name,
-                'count' => $service->count(),
-            ])
-            ->sortByDesc('count')
-            ->first();
+            ->map(fn($service) => ['name' => $service->first()->name, 'count' => $service->count()])
+            ->sortByDesc('count');
+
+        return $services->filter(fn($service) => $service['count'] === ($services->first()['count'] ?? 0))
+            ->pluck('name');
     }
 
     public function download()
@@ -169,8 +166,9 @@ class extends Component {
         </livewire:admin.stats.article>
         <livewire:admin.stats.article title="Prestations">
             <li>
-                @if($this->mostRequestedService)
-                    {{ $this->mostRequestedService['name'] }} est la prestation la plus demandée
+                @if($this->mostRequestedService->isNotEmpty())
+                    <span
+                        class="italic">{{ $this->mostRequestedService->implode(', ') }}</span> {{ $this->mostRequestedService->count() > 1 ? 'sont les prestations les plus demandées' : 'est la prestation la plus demandée' }}
                 @else
                     Aucune prestation durant cette période
                 @endif

@@ -18,15 +18,15 @@ class extends Component {
         }
     }
 
+    public function mount(Client $client): void
+    {
+        $this->client = $client->load(['appointments.services:name,duration,price']);
+    }
+
     #[Computed]
     public function notes()
     {
         return $this->client->notes()->orderByDesc('updated_at')->get();
-    }
-
-    public function mount(Client $client): void
-    {
-        $this->client = $client->load(['appointments.services']);
     }
 
     public function create()
