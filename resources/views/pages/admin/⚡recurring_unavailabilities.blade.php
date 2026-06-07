@@ -55,7 +55,7 @@ class extends Component {
     @endif
 
     <section class="flex flex-col gap-8">
-        <h3 class="sr-only">Tableau des congés récurrents</h3>
+        <h2 class="sr-only">Tableau des congés récurrents</h2>
         <x-global.link-button.button-link class="ml-auto" title="" wire:click="create">
             + Ajouter un congé récurrent
         </x-global.link-button.button-link>

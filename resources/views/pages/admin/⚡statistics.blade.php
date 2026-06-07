@@ -139,7 +139,7 @@ class extends Component {
             <x-global.form.select class="w-full" name="month" wire:model.live="month" :options="$this->monthOptions">
                 Mois
             </x-global.form.select>
-            <x-global.form.select class="w-full" name="month" wire:model.live="year" :options="$this->yearOptions">
+            <x-global.form.select class="w-full" name="year" wire:model.live="year" :options="$this->yearOptions">
                 Année
             </x-global.form.select>
         </form>

@@ -70,8 +70,7 @@ new class extends Component {
                 @foreach($this->photos as $photo)
                     <li data-id="{{ $photo->id }}" class="relative cursor-move">
                         <img src="{{ Storage::url('pictures/originals/' . $photo->picture) }}"
-                             srcset="
-                                {{ Storage::url('pictures/variants/300x300/' . $photo->picture) }} 300w,
+                             srcset="{{ Storage::url('pictures/variants/300x300/' . $photo->picture) }} 300w,
                                 {{ Storage::url('pictures/variants/600x600/' . $photo->picture) }} 600w,
                                 {{ Storage::url('pictures/variants/900x900/' . $photo->picture) }} 900w"
                              sizes="(max-width: 768px) 20vw, 25vw"

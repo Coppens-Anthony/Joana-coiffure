@@ -70,9 +70,9 @@ class extends Component {
         </div>
         <ul class="flex flex-col md:flex-row gap-2 md:items-center mt-2">
             <li>{{ $client->email }}</li>
-            <span class="hidden md:inline-block w-1 h-1 rounded-full bg-black"></span>
+            <li class="hidden md:inline-block w-1 h-1 rounded-full bg-black"></li>
             <li>{{ $client->telephone }}</li>
-            <span class="hidden md:inline-block w-1 h-1 rounded-full bg-black"></span>
+            <li class="hidden md:inline-block w-1 h-1 rounded-full bg-black"></li>
             <li>{{ $client->appointments->count() }} rendez-vous</li>
         </ul>
     </section>
