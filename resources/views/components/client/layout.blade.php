@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="Anthony Coppens">
     <meta name="keywords"
-          content="Joana Monteiro, Coiffeuse, Coiffure, Orp-Jauche, Indépendante, Visagiste, À domicile, Orp-Le-Grand, Coupes, Rendez-vous, Chaleureux, Joana Coiffure">
+          content="Joana Monteiro, Coiffeuse, Coiffure, Orp-Jauche, Indépendante, Visagiste, À domicile, Orp-Le-Grand,
+          Coupes, Rendez-vous, Chaleureux, Joana Coiffure">
     <meta name="description" content="Joana Monteiro, coiffeuse et visagiste indépendante à Orp-Jauche">
     <link rel="icon" href="{{ asset('assets/svg/logo.svg') }}">
     <title>{{ config('app.name', 'Joana Coiffure') }}</title>
