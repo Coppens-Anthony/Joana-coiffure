@@ -1,6 +1,6 @@
 @if ($paginator->hasPages())
     <nav role="navigation" class="ml-auto" aria-label="{{ __('Pagination Navigation') }}">
-        <h4 class="sr-only">{{ __('Pagination Navigation') }}</h4>
+        <h3 class="sr-only">{{ __('Pagination Navigation') }}</h3>
         <div class="flex gap-2 items-center justify-between sm:hidden">
             @if ($paginator->onFirstPage())
                 <span class="inline-flex items-center px-4 py-2 text-sm font-medium opacity-50 cursor-not-allowed rounded-xl">

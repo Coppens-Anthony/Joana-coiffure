@@ -6,14 +6,13 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
 
-it('redirects to last step after clicking on a slot', function () {
+it('redirects to the thanks page after filling the form', function () {
     $services = Service::factory(10)->create();
     $selectedServices = $services->random(rand(1, 2));
     $selectedIds = $selectedServices->pluck('id')->toArray();
+    $date = today()->addDays(3)->format('Y-m-d');
 
     $this->post(route('appointment'), ['services' => $selectedIds]);
-
-    $date = today()->addDays(3)->format('Y-m-d');
 
     $this->post(route('appointment2.store', ['date' => $date, 'slot' => '10:00']));
 
