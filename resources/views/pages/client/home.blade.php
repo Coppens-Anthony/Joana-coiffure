@@ -21,7 +21,6 @@
 ];
 @endphp
 
-
 <x-client.layout title="Coiffeuse indépendante à Orp-Jauche" :isContactOrAppointment="false">
     <x-client.single_element.icon_content :isTitle="false" :items="$items" :isLink="true"
                                           link_button_label="Toutes mes prestations"
@@ -31,7 +30,7 @@
     </x-client.single_element.icon_content>
     <x-client.section.text_content
         img_path="me.jpg"
-        img_alt=""
+        img_alt="Portrait de Joana Monteiro"
         content="Je m'appelle Joana Monteiro, je suis coiffeuse et visagiste depuis 2013. Je me suis mise en tant qu'indépendante afin d'aller chercher un vrai contact avec le client. Je fais en sorte que mon client soit mon centre d'intérêt, je ne veux pas simplement avoir des clients à la chaîne."
         :isLink="true"
         link_button_title="Vers la page à propos"

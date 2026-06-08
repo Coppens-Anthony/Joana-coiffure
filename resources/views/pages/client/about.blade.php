@@ -24,21 +24,21 @@
 <x-client.layout title="À propos de moi" :isContactOrAppointment="false">
     <x-client.section.text_content
         img_path="about.jpg"
-        img_alt=""
+        img_alt="Portrait de Joana Monteiro"
         itemtype="https://schema.org/Person"
         content="Maman de plusieurs petits enfants (qui pourraient venir passer une tête de temps en temps lors du rendez-vous), je mets tout en avant afin que le client soit roi. Je conseille et adapte mes services en fonction du client afin de lui proposer le meilleur pour lui.">
         <span itemprop="name">Joana Monteiro</span>, <span itemprop="jobTitle">coiffeuse et visagiste</span>
     </x-client.section.text_content>
     <x-client.section.text_content
         img_path="room.jpg"
-        img_alt=""
+        img_alt="Image montrant l'espace coiffure avec le siège devant un miroir."
         :isReverse="true"
         content="Mon petit coin coiffure est très cocooning. Je voulais vraiment faire en sorte que le client soit directement à l'aise, qu'il se sente comme chez lui. J'ai alors aloué une petite pièce de chez moi que j'ai transformer en mini salon de coiffure. J'y ai placé un lavabo pour les lavages de cheveux et les colorations. ">
         Mon espace coiffure
     </x-client.section.text_content>
     <x-client.section.text_content
         img_path="school.jpg"
-        img_alt=""
+        img_alt="Image de l'école fréquentée."
         content="J’ai réalisé mes études en coiffure à l’École d’Ixelles, où j’ai suivi une formation de 5 ans me permettant d’obtenir également le titre de visagiste, ainsi que ma gestion. J’ai ensuite travaillé pendant 13 ans en salon de coiffure. Par la suite, j’ai choisi de devenir indépendante afin de développer une relation plus authentique avec mes clients.">
         Mon parcours
     </x-client.section.text_content>

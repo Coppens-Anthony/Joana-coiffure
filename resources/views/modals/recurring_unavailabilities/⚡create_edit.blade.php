@@ -167,7 +167,7 @@ new class extends Component {
 };
 ?>
 
-<livewire:admin.modal modal_title="Ajout">
+<livewire:admin.modal modal_title="{{ $model_id ? 'Modification d\'un congé récurrent' : 'Ajout d\'un congé récurrent' }}">
     <form wire:submit="{{ $model_id ? 'update' : 'store' }}">
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mt-3">
             @foreach($this->days() as $id => $value)
@@ -199,8 +199,8 @@ new class extends Component {
                 Annuler
             </x-global.link-button.button>
             <x-global.link-button.button
-                title="{{ $model_id ? 'Modifier' : 'Ajouter' }}">
-                {{ $model_id ? 'Modfier' : 'Ajouter' }}
+                title="{{ $model_id ? 'Enregistrer' : 'Ajouter' }}">
+                {{ $model_id ? 'Enregistrer' : 'Ajouter' }}
             </x-global.link-button.button>
         </div>
     </form>
