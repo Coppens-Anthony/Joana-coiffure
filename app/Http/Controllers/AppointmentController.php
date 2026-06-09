@@ -157,7 +157,7 @@ class AppointmentController
         $validated = $request->validate([
             'name' => 'required',
             'email' => 'email',
-            'telephone' => 'required',
+            'telephone' => 'required|regex:/^\+?[0-9\s\-\(\)]{7,20}$/',
             'message' => 'nullable',
         ]);
 

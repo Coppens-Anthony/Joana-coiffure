@@ -14,7 +14,7 @@ class ContactController
         $validated = $request->validate([
             'name' => 'required',
             'email' => 'required|email',
-            'telephone' => 'required',
+            'telephone' => 'required|regex:/^\+?[0-9\s\-\(\)]{7,20}$/',
             'message' => 'required|max:255',
         ]);
 

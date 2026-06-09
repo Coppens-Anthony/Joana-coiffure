@@ -167,7 +167,7 @@ new class extends Component {
 };
 ?>
 
-<livewire:admin.modal modal_title="{{ $model_id ? 'Modification d\'un congé récurrent' : 'Ajout d\'un congé récurrent' }}">
+<livewire:admin.modal modal_title="{{ $model_id ? 'Modification d’un congé récurrent' : 'Ajout d’un congé récurrent' }}">
     <form wire:submit="{{ $model_id ? 'update' : 'store' }}">
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mt-3">
             @foreach($this->days() as $id => $value)

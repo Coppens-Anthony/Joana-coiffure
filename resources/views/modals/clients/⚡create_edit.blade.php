@@ -26,7 +26,7 @@ new class extends Component {
         $validated = $this->validate([
             'name' => 'required',
             'email' => 'required|email|unique:clients,email',
-            'telephone' => 'required',
+            'telephone' => 'required|regex:/^\+?[0-9\s\-\(\)]{7,20}$/',
         ]);
 
         $client = Client::create($validated);
@@ -39,7 +39,7 @@ new class extends Component {
         $validated = $this->validate([
             'name' => 'required',
             'email' => 'required|email|unique:clients,email,' . $this->client->id,
-            'telephone' => 'required',
+            'telephone' => 'required|regex:/^\+?[0-9\s\-\(\)]{7,20}$/',
         ]);
 
         $this->client->update($validated);
