@@ -2,7 +2,7 @@
 
 <div class="flex flex-col gap-2 {{ $class }} password-wrapper relative">
     <label for="{{$name}}">
-        {{$slot}} <span class="text-error">{{$isRequired ? '*' : ''}}</span>
+        {{$slot}} <span class="text-error" aria-hidden="true">{{$isRequired ? '*' : ''}}</span>
         @error($name)
         <small class="text-error">
             {{ $message }}

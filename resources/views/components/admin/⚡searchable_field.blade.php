@@ -70,7 +70,7 @@ new class extends Component {
             {{ $label }}
         </x-global.form.input>
         <svg class="w-4 h-4 opacity-50 transition-transform absolute bottom-6 right-4"
-             :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+             :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
         </svg>
     </div>

@@ -58,7 +58,7 @@ new class extends Component {
                 <div
                     class="w-full h-fit flex flex-col gap-8 items-center m-auto absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
                     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                         class="w-16 h-16 mx-auto">
+                         class="w-16 h-16 mx-auto" aria-hidden="true">
                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                         <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                         <g id="SVGRepo_iconCarrier">

@@ -3,12 +3,12 @@
         <h2 class="sr-only">Pied de page</h2>
         <div class="w-fit">
             <div class="relative" itemtype="https://schema.org/Organization" itemscope>
-                <a href="/" class="absolute h-full w-full" aria-label="Vers la page d'accueil" title="Vers la page d'accueil"></a>
+                <a href="/" class="absolute h-full w-full" aria-label="Accueil" title="Vers la page d'accueil"></a>
                 <x-global.logo/>
             </div>
             <div class="relative w-fit mx-auto">
                 <a href="https://www.facebook.com/groups/1837434023235164/user/100040838886459/?locale=fr_FR" target="_blank"
-                   class="absolute top-0 left-0 h-full w-full" title="Vers ma page Facebook" aria-label="Vers ma page Facebook"></a>
+                   class="absolute top-0 left-0 h-full w-full" title="Vers ma page Facebook" aria-label="Facebook"></a>
                 <img src="{{asset('assets/svg/facebook.svg')}}" alt="Vers ma page Facebook" width="32" height="32">
             </div>
         </div>
@@ -74,7 +74,7 @@
         <p>© 2026 Joana Coiffure - Tous droits réservés.</p>
         <p>
             Réalisé par
-            <x-global.link-button.link route="" title="Vers le portfolio d'Anthony Coppens">Anthony Coppens</x-global.link-button.link>
+            <x-global.link-button.link route="https://portfolio.anthony-coppens.be/" title="Vers le portfolio d'Anthony Coppens">Anthony Coppens</x-global.link-button.link>
             -
             <x-global.link-button.link :route="route('notice')" title="Vers les mentions légales">Mentions légales</x-global.link-button.link>
         </p>

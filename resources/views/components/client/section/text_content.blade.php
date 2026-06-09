@@ -9,8 +9,12 @@
          sizes="(max-width: 768px) 100vw, 50vw"
          alt="{{ $img_alt }}"
          class="w-full md:w-1/2 rounded-[3rem]">
-    <div class="flex flex-col gap-4 md:gap-8 md:w-1/2">
-        <h2 class="text-[2rem]" {{ $itemtype ? 'itemtype=' . $itemtype  . ' ' . 'itemscope' : ''}}>{{ $slot }}</h2>
+    <div class="flex flex-col gap-4 md:gap-8 md:w-1/2"
+         @if($itemtype)
+             itemtype="{{ $itemtype }}"
+         itemscope
+        @endif>
+        <h2 class="text-[2rem]">{{ $slot }}</h2>
         <p>{{ $content }}</p>
         @if($isLink)
             <x-global.link-button.link-button title="{{ $link_button_title }}"

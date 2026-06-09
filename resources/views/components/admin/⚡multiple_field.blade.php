@@ -75,7 +75,7 @@ new class extends Component {
             <span :class="value.length === 0 ? 'opacity-50' : ''"
                   x-text="value.length === 0 ? 'Sélectionner' : selectedLabels">
             </span>
-            <svg class="w-4 h-4 opacity-50 transition-transform absolute -translate-y-1/2 top-1/2 right-4"
+            <svg aria-hidden="true" class="w-4 h-4 opacity-50 transition-transform absolute -translate-y-1/2 top-1/2 right-4"
                  :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
             </svg>
