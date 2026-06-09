@@ -9,6 +9,7 @@ use App\Models\Client;
 use App\Models\RecurringUnavailability;
 use App\Models\Service;
 use App\Models\Unavailability;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -190,6 +191,14 @@ class AppointmentController
 
         session(['confirmed_appointment_id' => $appointment->id]);
         session()->forget('appointment');
+
+        $users = User::pluck('email', 'id');
+
+        foreach ($users as $user) {
+            Mail::to($user)->send(
+                new NewAppointment($appointment)
+            );
+        }
 
         Mail::to(config('mail.reply_to.address'))->send(
             new NewAppointment($appointment)

@@ -1,5 +1,6 @@
 <?php
 
+use App\Mails\ContactForm;
 use App\Mails\NewAppointment;
 use App\Mails\NewAppointmentRecap;
 use App\Models\Appointment;
@@ -8,6 +9,7 @@ use App\Models\Client;
 use App\Models\RecurringUnavailability;
 use App\Models\Service;
 use App\Models\Unavailability;
+use App\Models\User;
 use Carbon\Carbon;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
@@ -98,6 +100,14 @@ new class extends Component {
                 'appointment_id' => $appointment->id,
                 'service_id' => $service
             ]);
+        }
+
+        $users = User::pluck('email', 'id');
+
+        foreach ($users as $user) {
+            Mail::to($user)->send(
+                new NewAppointment($appointment)
+            );
         }
 
         Mail::to(config('mail.reply_to.address'))->send(

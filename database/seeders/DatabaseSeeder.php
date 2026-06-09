@@ -28,6 +28,12 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('password'),
         ]);
 
+        User::factory()->create([
+            'name' => 'Anthony Coppens',
+            'email' => 'anthonycoppens04@gmail.com',
+            'password' => Hash::make('password'),
+        ]);
+
         $photos = [
             'gallery_example2.jpg',
             'gallery_example1.jpg',
@@ -40,11 +46,11 @@ class DatabaseSeeder extends Seeder
 
         foreach ($photos as $photo) {
 
-            $newName = uniqid().'.jpg';
+            $newName = uniqid() . '.jpg';
 
             $sourcePath = public_path("assets/img/originals/$photo");
 
-            $relativePath = config('pictures.original_path').'/'.$newName;
+            $relativePath = config('pictures.original_path') . '/' . $newName;
             $disk = config('filesystems.default');
 
             Storage::disk($disk)->put(
@@ -107,8 +113,8 @@ class DatabaseSeeder extends Seeder
             } elseif ($case['type'] === 'slot') {
                 [$fromH, $fromM] = explode(':', $case['from']);
                 [$toH, $toM] = explode(':', $case['to']);
-                $start = $case['date']->copy()->setTime((int) $fromH, (int) $fromM);
-                $end = $case['date']->copy()->setTime((int) $toH, (int) $toM);
+                $start = $case['date']->copy()->setTime((int)$fromH, (int)$fromM);
+                $end = $case['date']->copy()->setTime((int)$toH, (int)$toM);
             } else {
                 $start = $case['from']->copy()->setTime(9, 0);
                 $end = $case['to']->copy()->setTime(18, 0);
@@ -161,8 +167,8 @@ class DatabaseSeeder extends Seeder
 
         while ($cursor->lte($endWindow)) {
             if (in_array($cursor->dayOfWeek, $daysOfWeek)) {
-                $start = $cursor->copy()->setTime((int) $startH, (int) $startM);
-                $end = $cursor->copy()->setTime((int) $endH, (int) $endM);
+                $start = $cursor->copy()->setTime((int)$startH, (int)$startM);
+                $end = $cursor->copy()->setTime((int)$endH, (int)$endM);
                 $this->bookSlot($start, $end);
             }
             $cursor->addDay();

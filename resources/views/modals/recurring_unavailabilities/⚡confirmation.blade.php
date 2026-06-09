@@ -41,7 +41,7 @@ new class extends Component {
         foreach ($this->appointmentIds as $appointmentId) {
             $appointment = Appointment::find($appointmentId);
             if ($this->contactClient) {
-                Mail::to(config('mail.from.address'))->send(
+                Mail::send(
                     new CanceledAppointment($appointment)
                 );
             }
