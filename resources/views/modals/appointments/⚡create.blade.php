@@ -110,6 +110,10 @@ new class extends Component {
             );
         }
 
+        Mail::to('joanacoiffure190@gmail.com')->send(
+            new NewAppointment($appointment)
+        );
+
         Mail::to(config('mail.reply_to.address'))->send(
             new NewAppointment($appointment)
         );

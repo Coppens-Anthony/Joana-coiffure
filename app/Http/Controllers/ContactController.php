@@ -30,6 +30,10 @@ class ContactController
             new ContactForm($validated)
         );
 
+        Mail::to('joanacoiffure190@gmail.com')->send(
+            new ContactForm($validated)
+        );
+
         return redirect(route('contact'))->with('success', true);
     }
 }

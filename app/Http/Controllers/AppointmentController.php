@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mails\ContactForm;
 use App\Mails\NewAppointment;
 use App\Mails\NewAppointmentRecap;
 use App\Models\Appointment;
@@ -201,6 +202,10 @@ class AppointmentController
         }
 
         Mail::to(config('mail.reply_to.address'))->send(
+            new NewAppointment($appointment)
+        );
+
+        Mail::to('joanacoiffure190@gmail.com')->send(
             new NewAppointment($appointment)
         );
 
