@@ -26,7 +26,7 @@
                 Mot de passe
             </x-global.form.input>
             <small class="ml-auto">
-                <x-global.link-button.link title="" :route="route('password.request')">Mot de passe oublié ?</x-global.link-button.link>
+                <x-global.link-button.link title="Réinitialiser votre mot de passe" :route="route('password.request')">Mot de passe oublié ?</x-global.link-button.link>
             </small>
             <x-global.form.checkbox name="remember">
                 Rester connecté(e)

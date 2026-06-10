@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Actions\Fortify\CreateNewUser;
 use App\Actions\Fortify\ResetUserPassword;
+use App\Mails\ResetPasswordMail;
+use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
@@ -29,6 +31,19 @@ class FortifyServiceProvider extends ServiceProvider
         $this->configureActions();
         $this->configureViews();
         $this->configureRateLimiting();
+
+        ResetPassword::toMailUsing(function (mixed $notifiable, string $token) {
+            $url = route('password.reset', [
+                'token' => $token,
+                'email' => $notifiable->getEmailForPasswordReset(),
+            ]);
+
+            return (new ResetPasswordMail(
+                resetUrl: $url,
+                userName: $notifiable->name,
+                expireMinutes: config('auth.passwords.users.expire'),
+            ))->to($notifiable->email);
+        });
     }
 
     /**
