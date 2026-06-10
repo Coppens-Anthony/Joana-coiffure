@@ -46,6 +46,12 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('password'),
         ]);*/
 
+        User::factory()->create([
+            'name' => 'Jury 2026',
+            'email' => 'jury2026@gmail.com',
+            'password' => Hash::make('password'),
+        ]);
+
         $photos = [
             'gallery_example2.jpg',
             'gallery_example1.jpg',

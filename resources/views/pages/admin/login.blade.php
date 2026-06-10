@@ -16,7 +16,7 @@
 <body class="overflow-x-hidden max-w-350 mx-auto font-sans text-black">
 <main class="min-h-screen w-full flex items-center justify-center">
     <div class="p-8 md:w-1/3 mx-auto md:shadow-[0_0_10px_rgba(0,0,0,0.25)] md:rounded-2xl">
-        <h1 class="text-[2rem] mb-16">Se connecter</h1>
+        <h1 class="text-[2rem] mb-8">Se connecter</h1>
         <form action="{{ route('login.store') }}" method="post" class="flex flex-col gap-4">
             @csrf
             <x-global.form.input name="email" type="email" placeholder="john@doe.com">
@@ -25,6 +25,9 @@
             <x-global.form.input name="password" type="password">
                 Mot de passe
             </x-global.form.input>
+            <small class="ml-auto">
+                <x-global.link-button.link title="" :route="route('password.request')">Mot de passe oublié ?</x-global.link-button.link>
+            </small>
             <x-global.form.checkbox name="remember">
                 Rester connecté(e)
             </x-global.form.checkbox>

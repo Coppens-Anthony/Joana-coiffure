@@ -1,52 +1,45 @@
-<x-layouts::auth :title="__('Reset password')">
-    <div class="flex flex-col gap-6">
-        <x-auth-header :title="__('Reset password')" :description="__('Please enter your new password below')" />
+<!doctype html>
+<html lang="{!! App::getLocale() !!}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <!-- Session Status -->
-        <x-auth-session-status class="text-center" :status="session('status')" />
+    <title>{{ config('app.name', 'Joana Coiffure') }}</title>
 
-        <form method="POST" action="{{ route('password.update') }}" class="flex flex-col gap-6">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet"/>
+
+    <!-- Styles / Scripts -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+</head>
+<body class="overflow-x-hidden max-w-350 mx-auto font-sans text-black">
+<main class="min-h-screen w-full flex items-center justify-center">
+    <div class="p-8 md:w-1/3 mx-auto md:shadow-[0_0_10px_rgba(0,0,0,0.25)] md:rounded-2xl">
+        <h1 class="text-[2rem] mb-8">Réinitialiser votre mot de passe</h1>
+        <form method="POST" action="{{ route('password.update') }}" class="flex flex-col gap-4">
             @csrf
-            <!-- Token -->
             <input type="hidden" name="token" value="{{ request()->route('token') }}">
 
-            <!-- Email Address -->
-            <flux:input
-                name="email"
-                value="{{ request('email') }}"
-                :label="__('Email')"
-                type="email"
-                required
-                autocomplete="email"
-            />
+            <x-global.form.input type="email" name="email" value="{{ request('email') }}">
+                Email
+            </x-global.form.input>
+            <x-global.form.input type="password" name="password">
+                Mot de passe
+            </x-global.form.input>
+            <x-global.form.input type="password" name="password_confirmation">
+                Confirmer le mot de passe
+            </x-global.form.input>
 
-            <!-- Password -->
-            <flux:input
-                name="password"
-                :label="__('Password')"
-                type="password"
-                required
-                autocomplete="new-password"
-                :placeholder="__('Password')"
-                viewable
-            />
-
-            <!-- Confirm Password -->
-            <flux:input
-                name="password_confirmation"
-                :label="__('Confirm password')"
-                type="password"
-                required
-                autocomplete="new-password"
-                :placeholder="__('Confirm password')"
-                viewable
-            />
-
-            <div class="flex items-center justify-end">
-                <flux:button type="submit" variant="primary" class="w-full" data-test="reset-password-button">
-                    {{ __('Reset password') }}
-                </flux:button>
-            </div>
+            <small class="text-[.875rem] mb-8">
+                <span class="text-error">*</span>
+                Champs obligatoires
+            </small>
+            <x-global.link-button.button title="Réinitialiser votre mot de passe">
+                Réinitialiser
+            </x-global.link-button.button>
         </form>
     </div>
-</x-layouts::auth>
+</main>
+</body>
+</html>
