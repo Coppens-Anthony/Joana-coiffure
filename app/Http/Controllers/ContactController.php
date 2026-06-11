@@ -18,21 +18,23 @@ class ContactController
             'message' => 'required|max:255',
         ]);
 
-        $users = User::pluck('email', 'id');
+        $users = [
+            config('mail.reply_to.address'),
+            'joanacoiffure190@gmail.com',
+            'anthonycoppens04@gmail.com',
+            'maud.wera@hepl.be',
+            'francois.parmentier@hepl.be',
+            /*'dominique.vilain@hepl.be',
+            'myriam.dupont@hepl.be',
+            'daniel.schreurs@hepl.be',
+            'dylan.jacquet@hepl.be',*/
+        ];
 
         foreach ($users as $user) {
             Mail::to($user)->send(
                 new ContactForm($validated)
             );
         }
-
-        Mail::to(config('mail.reply_to.address'))->send(
-            new ContactForm($validated)
-        );
-
-        Mail::to('joanacoiffure190@gmail.com')->send(
-            new ContactForm($validated)
-        );
 
         return redirect(route('contact'))->with('success', true);
     }

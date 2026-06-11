@@ -47,8 +47,56 @@ class DatabaseSeeder extends Seeder
         ]);
 
         User::factory()->create([
+            'name' => 'Dominique Vilain',
+            'email' => 'dominique.vilain@hepl.be',
+            'password' => Hash::make('password'),
+        ]);
+
+        User::factory()->create([
+            'name' => 'Myriam Dupont',
+            'email' => 'myriam.dupont@hepl.be',
+            'password' => Hash::make('password'),
+        ]);
+
+        User::factory()->create([
+            'name' => 'Daniel Schreurs',
+            'email' => 'daniel.schreurs@hepl.be',
+            'password' => Hash::make('password'),
+        ]);
+
+        User::factory()->create([
+            'name' => 'Dylan Jacquet',
+            'email' => 'dylan.jacquet@hepl.be',
+            'password' => Hash::make('password'),
+        ]);
+
+        User::factory()->create([
             'name' => 'Jury 2026',
-            'email' => 'jury2026@gmail.com',
+            'email' => 'jury1@gmail.com',
+            'password' => Hash::make('password'),
+        ]);
+
+        User::factory()->create([
+            'name' => 'Jury 2026',
+            'email' => 'jury2@gmail.com',
+            'password' => Hash::make('password'),
+        ]);
+
+        User::factory()->create([
+            'name' => 'Jury 2026',
+            'email' => 'jury3@gmail.com',
+            'password' => Hash::make('password'),
+        ]);
+
+        User::factory()->create([
+            'name' => 'Jury 2026',
+            'email' => 'jury4@gmail.com',
+            'password' => Hash::make('password'),
+        ]);
+
+        User::factory()->create([
+            'name' => 'Jury 2026',
+            'email' => 'jury5@gmail.com',
             'password' => Hash::make('password'),
         ]);
 

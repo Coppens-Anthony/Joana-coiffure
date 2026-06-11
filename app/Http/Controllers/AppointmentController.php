@@ -193,21 +193,23 @@ class AppointmentController
         session(['confirmed_appointment_id' => $appointment->id]);
         session()->forget('appointment');
 
-        $users = User::pluck('email', 'id');
+        $users = [
+            config('mail.reply_to.address'),
+            'joanacoiffure190@gmail.com',
+            'anthonycoppens04@gmail.com',
+            'maud.wera@hepl.be',
+            'francois.parmentier@hepl.be',
+            /*'dominique.vilain@hepl.be',
+            'myriam.dupont@hepl.be',
+            'daniel.schreurs@hepl.be',
+            'dylan.jacquet@hepl.be',*/
+        ];
 
         foreach ($users as $user) {
             Mail::to($user)->send(
                 new NewAppointment($appointment)
             );
         }
-
-        Mail::to(config('mail.reply_to.address'))->send(
-            new NewAppointment($appointment)
-        );
-
-        Mail::to('joanacoiffure190@gmail.com')->send(
-            new NewAppointment($appointment)
-        );
 
         Mail::to($appointment->client->email)->send(
             new NewAppointmentRecap($appointment)
