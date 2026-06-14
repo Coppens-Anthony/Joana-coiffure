@@ -37,8 +37,11 @@ class extends Component {
     private function baseAppointmentsQuery()
     {
         $query = Appointment::query()
-            ->whereYear('end_at', $this->year)
-            ->whereMonth('end_at', $this->month);
+            ->whereYear('end_at', $this->year);
+
+        if ($this->month !== 0) {
+            $query->whereMonth('end_at', $this->month);
+        }
 
         $query->where('end_at', '<=', now());
 
