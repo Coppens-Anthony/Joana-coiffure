@@ -18,9 +18,12 @@ class extends Component {
         }
     }
 
-    public function mount(Client $client): void
+    public function mount(Client $client)
     {
-        $this->client = $client->load(['appointments.services:name,duration,price']);
+        $this->client = $client->load([
+            'appointments' => fn($q) => $q->orderByDesc('start_at'),
+            'appointments.services:name,duration,price'
+        ]);
     }
 
     #[Computed]
@@ -63,17 +66,20 @@ class extends Component {
     @endif
     <section>
         <div class="flex gap-4 items-center w-full">
-            <h2 class="text-2xl">{{ $client->name }}</h2>
-            <button wire:click="clientEdit({{ $client->id }})" class="cursor-pointer">
+            <h2 class="text-2xl">{{ $this->client->name }}</h2>
+            <button wire:click="clientEdit({{ $this->client->id }})" class="cursor-pointer">
                 <img src="{{ asset('assets/svg/edit.svg') }}" alt="Modifier les informations du client">
             </button>
         </div>
         <ul class="flex flex-col md:flex-row gap-2 md:items-center mt-2">
-            <li>{{ $client->email }}</li>
+            <li>{{ $this->client->email }}</li>
             <li class="hidden md:inline-block w-1 h-1 rounded-full bg-black"></li>
-            <li>{{ $client->telephone }}</li>
+            <li>{{ $this->client->telephone }}</li>
             <li class="hidden md:inline-block w-1 h-1 rounded-full bg-black"></li>
-            <li>{{ $client->appointments->count() }} rendez-vous</li>
+            <li>{{ $this->client->appointments->count() }} rendez-vous
+                @if($this->client->appointments->where('start_at', '>', now())->count() > 0)
+                    dont {{ $this->client->appointments->where('start_at', '>', now())->count() }} à venir
+                @endif</li>
         </ul>
     </section>
     <section class="mt-8 mb-16 bg-tertiary p-6 rounded-2xl" x-data="{expanded: false}">
@@ -83,7 +89,8 @@ class extends Component {
              @keydown.enter="expanded = !expanded"
              @keydown.space.prevent="expanded = !expanded">
             <h2 class="text-2xl">Notes personnelles</h2>
-            <img src="{{ asset('assets/svg/chevron.svg') }}" alt="Étendre le menu" class="transition-transform duration-200"
+            <img src="{{ asset('assets/svg/chevron.svg') }}" alt="Étendre le menu"
+                 class="transition-transform duration-200"
                  :class="{'rotate-180': expanded}">
         </div>
         <div x-show="expanded" class="mt-4">
@@ -104,7 +111,7 @@ class extends Component {
                     @endforeach
                 </ol>
             @else
-                <p>Pas encore de note pour {{ $client->name }}</p>
+                <p>Pas encore de note pour {{ $this->client->name }}</p>
             @endif
             <x-global.link-button.button-link class="mt-4" title="Ajouter une note" wire:click="create">
                 + Ajouter une note
@@ -114,12 +121,15 @@ class extends Component {
     <section>
         <h2 class="text-2xl mb-4">Historique des rendez-vous</h2>
         <x-global.table :titles="['Date', 'Prestation(s)', 'Durée', 'Prix', 'Informations supplémentaires']">
-            @if($client->appointments->count() > 0)
-                @foreach($client->appointments as $appointment)
+            @if($this->client->appointments->count() > 0)
+                @foreach($this->client->appointments as $appointment)
                     <tr class="table__tr">
                         <td class="text_td">
                             <span class="title_td">Date</span>
                             {{ $appointment->formatDate('start_at') }}
+                            @if($appointment->start_at > now())
+                                <small class="text-[.85rem]">(À venir)</small>
+                            @endif
                         </td>
                         <td class="text_td">
                             <span class="title_td">Prestation(s)</span>
