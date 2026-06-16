@@ -123,4 +123,9 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'hours' => [
+        'hour_start' => env('HOUR_START', '09:00'),
+        'hour_end' => env('HOUR_END', '18:00'),
+    ],
+
 ];

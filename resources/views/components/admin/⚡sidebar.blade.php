@@ -76,6 +76,7 @@ new class extends Component {
                             :route="route('dashboard')"
                             title="Vers le dashboard"
                             :isActive="request()->routeIs('dashboard')"
+                            :noSvg="true"
                         >
                             Dashboard
                         </x-global.link-button.icon-link>
@@ -88,6 +89,7 @@ new class extends Component {
                             :route="route('agenda')"
                             title="Vers votre agenda"
                             :isActive="request()->routeIs('agenda')"
+                            :noSvg="true"
                         >
                             Agenda
                         </x-global.link-button.icon-link>
@@ -100,6 +102,7 @@ new class extends Component {
                             :route="route('clients.index')"
                             title="Vers le tableau des clients"
                             :isActive="request()->routeIs('clients.*')"
+                            :noSvg="true"
                         >
                             Clients
                         </x-global.link-button.icon-link>
@@ -112,6 +115,7 @@ new class extends Component {
                             :route="route('statistics')"
                             title="Vers la page de vos statistiques"
                             :isActive="request()->routeIs('statistics')"
+                            :noSvg="true"
                         >
                             Statistiques
                         </x-global.link-button.icon-link>
@@ -124,6 +128,7 @@ new class extends Component {
                             :route="route('database.services')"
                             title="Vers les données"
                             :isActive="request()->routeIs('database.services')"
+                            :noSvg="true"
                         >
                             Prestations
                         </x-global.link-button.icon-link>
@@ -135,6 +140,7 @@ new class extends Component {
                             :route="route('database.gallery')"
                             title="Vers les données"
                             :isActive="request()->routeIs('database.gallery')"
+                            :noSvg="true"
                         >
                             Galerie
                         </x-global.link-button.icon-link>
@@ -146,6 +152,7 @@ new class extends Component {
                             :route="route('recurring_unavailabilities')"
                             title="Vers les congés récurrents"
                             :isActive="request()->routeIs('recurring_unavailabilities')"
+                            :noSvg="true"
                         >
                             Congés récurrents
                         </x-global.link-button.icon-link>
@@ -155,13 +162,14 @@ new class extends Component {
         </div>
 
         <div class="flex flex-col gap-4">
-            <x-global.logout/>
+            <x-global.logout :noSvg="true"/>
 
             <x-global.link-button.icon-link
                 tabindex="1"
                 icon_path="assets/svg/profile.svg"
                 :route="route('profile')"
                 :isActive="request()->routeIs('profile')"
+                :noSvg="true"
                 title="Vers le profil">
                 {{ $this->authUser->name }}
             </x-global.link-button.icon-link>

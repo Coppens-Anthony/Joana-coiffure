@@ -78,11 +78,11 @@ class extends Component {
                         <td class="text_td">
                             <span class="title_td">Actions</span>
                             <div class="flex gap-2 items-center w-fit ml-auto lg:mx-auto">
-                                <button type="button" wire:click="edit({{ $unavailability->id }})">
+                                <button type="button" wire:click="edit({{ $unavailability->id }})" class="hover:scale-120 duration-200">
                                     <img src="{{ asset('assets/svg/edit.svg') }}" alt="Modifier la prestation"
                                          class="w-7 h-7 cursor-pointer">
                                 </button>
-                                <button type="button" wire:click="delete({{ $unavailability->id }})">
+                                <button type="button" wire:click="delete({{ $unavailability->id }})" class="hover:scale-120 duration-200">
                                     <img src="{{ asset('assets/svg/delete.svg') }}" alt="Supprimer la prestation"
                                          class="w-6 h-6 cursor-pointer">
                                 </button>

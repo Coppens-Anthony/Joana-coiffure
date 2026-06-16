@@ -8,7 +8,7 @@ new class extends Component {
     public string $name = '';
     public ?int $duration = null;
     public ?int $price = null;
-    public string $desc = '';
+    public ?string $desc = null;
     public ?string $model_id = null;
     public bool $isAppointment = false;
 
@@ -19,7 +19,7 @@ new class extends Component {
             $this->name = $this->service->name;
             $this->duration = $this->service->duration;
             $this->price = $this->service->price;
-            $this->desc = $this->service->desc;
+            $this->desc = $this->service->desc ?? null;
         }
         if ($params){
             $this->isAppointment = $params['isAppointment'];
@@ -32,7 +32,7 @@ new class extends Component {
             'name' => 'required|unique:services,name',
             'duration' => 'required|integer',
             'price' => 'required|integer',
-            'desc' => 'required',
+            'desc' => 'nullable',
         ]);
 
         $service = Service::create($validated);
@@ -50,7 +50,7 @@ new class extends Component {
             'name' => 'required|unique:services,name,' . $this->service->id,
             'duration' => 'required|integer',
             'price' => 'required|integer',
-            'desc' => 'required',
+            'desc' => 'nullable',
         ]);
 
         $this->service->update($validated);
@@ -64,20 +64,20 @@ new class extends Component {
 <livewire:admin.modal :modal_title="$this->model_id ? 'Modifier la prestation' : 'Ajouter une prestation'">
     <form wire:click.stop wire:submit="{{ $this->model_id ? 'update' : 'store' }}" class="flex flex-col gap-4">
         @csrf
-        <x-global.form.input name="name" wire:model="name" placeholder="Permanente" :isRequired="true">
+        <x-global.form.input name="name" wire:model="name" placeholder="Permanente">
             Nom
         </x-global.form.input>
 
         <div class="flex flex-col md:flex-row gap-4 md:gap-8">
             <x-global.form.input class="w-full" type="number" name="duration" wire:model="duration" placeholder="60"
-                                 :isRequired="true">
+            >
                 Durée moyenne (en min.)
             </x-global.form.input>
-            <x-global.form.input class="w-full" type="number" name="price" wire:model="price" placeholder="50" :isRequired="true">
+            <x-global.form.input class="w-full" type="number" name="price" wire:model="price" placeholder="50">
                 Prix
             </x-global.form.input>
         </div>
-        <x-global.form.textarea rows="3" name="desc" wire:model.live="desc" :isRequired="true">
+        <x-global.form.textarea rows="3" name="desc" wire:model.live="desc" :isRequired="false">
             Description
         </x-global.form.textarea>
 

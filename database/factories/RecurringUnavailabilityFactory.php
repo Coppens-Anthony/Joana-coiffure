@@ -13,8 +13,8 @@ class RecurringUnavailabilityFactory extends Factory
     {
         return [
             'days_of_week' => [6, 0],
-            'start_time' => '09:00',
-            'end_time' => '18:00',
+            'start_time' => config('app.hours.hour_start'),
+            'end_time' => config('app.hours.hour_end'),
             'starts_on' => now(),
         ];
     }

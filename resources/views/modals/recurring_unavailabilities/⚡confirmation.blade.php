@@ -92,7 +92,7 @@ new class extends Component {
                 Annuler
             </x-global.link-button.button>
             <x-global.link-button.button title="Confirmer la période off">
-                Comfirmer
+                Confirmer
             </x-global.link-button.button>
         </div>
     </form>

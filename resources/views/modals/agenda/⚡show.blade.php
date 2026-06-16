@@ -45,7 +45,9 @@ new class extends Component {
 
         return RecurringUnavailability::whereDate('starts_on', '<=', $date)
             ->get()
-            ->filter(fn($rule) => in_array($date->dayOfWeek, $rule->days_of_week));
+            ->filter(fn($rule) => in_array($date->dayOfWeek, $rule->days_of_week))
+            ->filter(fn($rule) => Carbon::parse($rule->start_time)->format('H:i') === config('app.hours.hour_start')
+                && Carbon::parse($rule->end_time)->format('H:i') === config('app.hours.hour_end'));
     }
 
     #[Computed]
@@ -53,7 +55,7 @@ new class extends Component {
     {
         $date = Carbon::parse($this->selectedDate);
 
-        $appointments = Appointment::with('client')
+        $appointments = Appointment::with('client:id,name')
             ->whereDate('start_at', $this->selectedDate)
             ->orderBy('start_at')
             ->get()
@@ -71,7 +73,7 @@ new class extends Component {
             ->map(fn($unavailability) => [
                 'id' => $unavailability->id,
                 'type' => 'unavailability',
-                'allDay' => $unavailability->start_at->format('H:i') === '09:00' && $unavailability->end_at->format('H:i') === '18:00',
+                'allDay' => $unavailability->start_at->format('H:i') === config('app.hours.hour_start') && $unavailability->end_at->format('H:i') === config('app.hours.hour_end'),
                 'start_at' => $unavailability->start_at,
                 'end_at' => $unavailability->end_at,
                 'model' => $unavailability,
@@ -81,19 +83,19 @@ new class extends Component {
             ->map(fn($rule) => [
                 'id' => 'recurring-' . $rule->id . '-' . $date->toDateString(),
                 'type' => 'recurring_unavailability',
-                'allDay' => $rule->start_time === '09:00' && $rule->end_time === '18:00',
+                'allDay' => $rule->start_time === config('app.hours.hour_start') && $rule->end_time === config('app.hours.hour_end'),
                 'start_at' => $date->copy()->setTimeFromTimeString($rule->start_time),
                 'end_at' => $date->copy()->setTimeFromTimeString($rule->end_time),
                 'model' => $rule,
             ]);
 
-        $hasNormalFullDay = $unavailabilities->contains(fn($e) => $e['allDay']);
-        $hasRecurringFullDay = $recurringRules->contains(fn($e) => $e['allDay']);
+        $hasNormalFullDay = $unavailabilities->contains(fn($event) => $event['allDay']);
+        $hasRecurringFullDay = $recurringRules->contains(fn($event) => $event['allDay']);
 
         if ($hasNormalFullDay) {
-            $offEvents = $unavailabilities->filter(fn($e) => $e['allDay']);
+            $offEvents = $unavailabilities->filter(fn($event) => $event['allDay']);
         } elseif ($hasRecurringFullDay) {
-            $offEvents = $recurringRules->filter(fn($e) => $e['allDay']);
+            $offEvents = $recurringRules->filter(fn($event) => $event['allDay']);
         } else {
             $offEvents = collect()
                 ->merge($unavailabilities)
@@ -112,18 +114,15 @@ new class extends Component {
     #[Computed]
     public function isRecurringBlocked(): bool
     {
-        return $this->recurringRules->contains(
-            fn($rule) => Carbon::parse($rule->start_time)->format('H:i') === '09:00'
-                && Carbon::parse($rule->end_time)->format('H:i') === '18:00'
-        );
+        return $this->recurringRules->isNotEmpty();
     }
 
     #[Computed]
     public function isFullDayOff(): bool
     {
         return $this->selectedEvents->contains(fn($event) => $event['type'] === 'unavailability' &&
-            $event['start_at']->format('H:i') === '09:00' &&
-            $event['end_at']->format('H:i') === '18:00'
+            $event['start_at']->format('H:i') === config('app.hours.hour_start') &&
+            $event['end_at']->format('H:i') === config('app.hours.hour_end')
         );
     }
 };
@@ -132,8 +131,10 @@ new class extends Component {
 <livewire:admin.modal :modal_title="Carbon::parse($this->selectedDate)->translatedFormat('d F Y')">
     <div class="max-h-[70vh] flex flex-col">
         <div class="flex-1 overflow-y-scroll scroll no-scrollbar min-h-0">
-            @if($this->selectedEvents->count() > 0)
-                <ol class="flex flex-col gap-4">
+            @if($this->selectedEvents->isEmpty())
+                <p>Aucune activité ce jour-ci</p>
+            @else
+                <ol class="flex flex-col gap-8">
                     @foreach($this->selectedEvents as $event)
                         @if($event['type'] === 'appointment')
                             <livewire:admin.appointment.item_line
@@ -141,27 +142,30 @@ new class extends Component {
                                 :appointment="$event['model']"
                                 :key="$event['model']->id . '-' . $this->selectedDate"
                             />
-                        @else
-                            <livewire:admin.off :unavailability="$event" :key="'unav-' . $event['id']"/>
+                        @elseif($event['type'] === 'unavailability' && !$event['allDay'])
+                            <livewire:admin.off
+                                :unavailability="$event"
+                                :key="'unav-' . $event['id']"
+                            />
+                        @elseif($event['allDay'])
+                            <li>Journée indisponible</li>
                         @endif
                     @endforeach
                 </ol>
-            @else
-                <p>Aucune activité ce jour-ci.</p>
             @endif
         </div>
 
         @if(Carbon::parse($this->selectedDate)->startOfDay() >= now()->startOfDay() && !$this->isFullDayOff && !$this->isRecurringBlocked)
             <div class="bg-white pt-8 flex flex-col gap-4">
                 <x-global.link-button.button class="w-full" type="button" title="Ajouter un rendez-vous"
-                                            wire:click="createAppointment">
+                                             wire:click="createAppointment">
                     Ajouter un rendez-vous
                 </x-global.link-button.button>
 
                 <x-global.link-button.button class="w-full" :isSecondary="true" type="button"
-                                            wire:click="createUnavailability"
-                                            title="Définir une période off">
-                    Définir une période off
+                                             wire:click="createUnavailability"
+                                             title="Définir une période off">
+                    Définir une période d'indisponibilité
                 </x-global.link-button.button>
             </div>
         @else
@@ -169,9 +173,8 @@ new class extends Component {
                 type="button"
                 title="Fermer la modale"
                 class="ml-auto block mt-8"
-                :isSecondary="true"
                 wire:click="dispatch('close_modal')">
-                Annuler
+                Fermer
             </x-global.link-button.button>
         @endif
     </div>
