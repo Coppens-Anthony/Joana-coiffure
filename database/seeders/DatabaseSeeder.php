@@ -71,32 +71,32 @@ class DatabaseSeeder extends Seeder
         ]);
 
         User::factory()->create([
-            'name' => 'Jury 2026',
-            'email' => 'jury1@gmail.com',
+            'name' => 'Sophie Lambert',
+            'email' => 'sophie@lambert.com',
             'password' => Hash::make('password'),
         ]);
 
         User::factory()->create([
-            'name' => 'Jury 2026',
-            'email' => 'jury2@gmail.com',
+            'name' => 'Julien Mertens',
+            'email' => 'julien@mertens.com',
             'password' => Hash::make('password'),
         ]);
 
         User::factory()->create([
-            'name' => 'Jury 2026',
-            'email' => 'jury3@gmail.com',
+            'name' => 'Camille Dubois',
+            'email' => 'camille@dubois.com',
             'password' => Hash::make('password'),
         ]);
 
         User::factory()->create([
-            'name' => 'Jury 2026',
-            'email' => 'jury4@gmail.com',
+            'name' => 'Nicolas Vandenberghe',
+            'email' => 'nicolas@vandenberghe.com',
             'password' => Hash::make('password'),
         ]);
 
         User::factory()->create([
-            'name' => 'Jury 2026',
-            'email' => 'jury5@gmail.com',
+            'name' => 'Élise Renard',
+            'email' => 'elise@renard.com',
             'password' => Hash::make('password'),
         ]);
 
@@ -145,7 +145,7 @@ class DatabaseSeeder extends Seeder
             Service::create($service);
         }
 
-        Client::factory(10)->create();
+        Client::factory(30)->create();
 
         $this->seedUnavailabilities();
         $this->seedRecurringUnavailabilities();
@@ -208,7 +208,7 @@ class DatabaseSeeder extends Seeder
             ['days_of_week' => [1, 2, 4, 5], 'start_time' => '12:00', 'end_time' => '13:00'],
         ];
 
-        $startsOn = Carbon::now()->subMonths(1)->startOfMonth();
+        $startsOn = Carbon::now()->subMonths(3)->startOfMonth();
 
         foreach ($recurring as $r) {
             RecurringUnavailability::create([
@@ -228,7 +228,7 @@ class DatabaseSeeder extends Seeder
         [$endH, $endM] = explode(':', $endTime);
 
         $cursor = $startsOn->copy();
-        $endWindow = $startsOn->copy()->addDays(89);
+        $endWindow = $startsOn->copy()->addDays(150);
 
         while ($cursor->lte($endWindow)) {
             if (in_array($cursor->dayOfWeek, $daysOfWeek)) {
@@ -245,16 +245,16 @@ class DatabaseSeeder extends Seeder
         $services = Service::all()->keyBy('id');
         $serviceIds = $services->keys()->toArray();
         $clientIds = Client::pluck('id')->toArray();
-        $base = Carbon::now()->subMonth()->startOfMonth();
+        $base = Carbon::now()->subMonths(3)->startOfMonth();
         $created = 0;
         $attempts = 0;
-        $target = 60;
+        $target = 300;
 
         while ($created < $target && $attempts < 1000) {
             $attempts++;
 
             $start = $base->copy()
-                ->addDays(rand(0, 89))
+                ->addDays(rand(0, 150))
                 ->setTime(rand(9, 17), rand(0, 1) * 30);
 
             $nbServices = rand(1, 2);
@@ -295,10 +295,6 @@ class DatabaseSeeder extends Seeder
 
             $this->bookSlot($start, $end);
             $created++;
-        }
-
-        if ($created < $target) {
-            $this->command->warn("Seeder : seulement {$created}/{$target} RDV créés (pas assez de créneaux libres).");
         }
     }
 
