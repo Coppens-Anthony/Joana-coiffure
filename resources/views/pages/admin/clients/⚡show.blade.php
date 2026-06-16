@@ -100,11 +100,11 @@ class extends Component {
                         <li class="flex flex-col sm:flex-row sm:justify-between gap-1 sm:items-center">
                             <p class="w-3/4">{{ $note->formatDate('updated_at') . ' : ' . $note->content }}</p>
                             <div class="flex gap-2 w-fit">
-                                <button wire:click="edit({{ $note->id }})" class="cursor-pointer">
-                                    <img src="{{ asset('assets/svg/edit.svg') }}" alt="Modifier la note">
+                                <button wire:click="edit({{ $note->id }})" class="cursor-pointer hover:scale-120 duration-200">
+                                    <img src="{{ asset('assets/svg/edit.svg') }}" class="w-7 h-7" alt="Modifier la note">
                                 </button>
-                                <button wire:click="delete({{ $note->id }})" class="cursor-pointer">
-                                    <img src="{{ asset('assets/svg/delete.svg') }}" alt="Supprimer la note">
+                                <button wire:click="delete({{ $note->id }})" class="cursor-pointer hover:scale-120 duration-200">
+                                    <img src="{{ asset('assets/svg/delete.svg') }}" class="w-6 h-6" alt="Supprimer la note">
                                 </button>
                             </div>
                         </li>

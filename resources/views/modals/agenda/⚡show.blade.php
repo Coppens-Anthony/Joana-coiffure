@@ -133,18 +133,25 @@ new class extends Component {
     <div class="max-h-[70vh] flex flex-col">
         <div class="flex-1 overflow-y-scroll scroll no-scrollbar min-h-0">
             @if($this->selectedEvents->count() > 0)
-                <ol class="flex flex-col gap-4">
-                    @foreach($this->selectedEvents as $event)
+                <ol class="flex flex-col gap-8">
+                    @forelse($this->selectedEvents as $event)
                         @if($event['type'] === 'appointment')
                             <livewire:admin.appointment.item_line
                                 :isDashboard="false"
                                 :appointment="$event['model']"
                                 :key="$event['model']->id . '-' . $this->selectedDate"
                             />
-                        @else
-                            <livewire:admin.off :unavailability="$event" :key="'unav-' . $event['id']"/>
+                        @elseif($event['type'] === 'unavailability' && !$event['allDay'])
+                            <livewire:admin.off
+                                :unavailability="$event"
+                                :key="'unav-' . $event['id']"
+                            />
+                        @elseif($event['allDay'])
+                            <li>Journée indisponible</li>
                         @endif
-                    @endforeach
+                    @empty
+                        <li>Aucune activité ce jour-ci</li>
+                    @endforelse
                 </ol>
             @else
                 <p>Aucune activité ce jour-ci.</p>
@@ -154,14 +161,14 @@ new class extends Component {
         @if(Carbon::parse($this->selectedDate)->startOfDay() >= now()->startOfDay() && !$this->isFullDayOff && !$this->isRecurringBlocked)
             <div class="bg-white pt-8 flex flex-col gap-4">
                 <x-global.link-button.button class="w-full" type="button" title="Ajouter un rendez-vous"
-                                            wire:click="createAppointment">
+                                             wire:click="createAppointment">
                     Ajouter un rendez-vous
                 </x-global.link-button.button>
 
                 <x-global.link-button.button class="w-full" :isSecondary="true" type="button"
-                                            wire:click="createUnavailability"
-                                            title="Définir une période off">
-                    Définir une période off
+                                             wire:click="createUnavailability"
+                                             title="Définir une période off">
+                    Définir une période d'indisponibilité
                 </x-global.link-button.button>
             </div>
         @else
@@ -171,7 +178,7 @@ new class extends Component {
                 class="ml-auto block mt-8"
                 :isSecondary="true"
                 wire:click="dispatch('close_modal')">
-                Annuler
+                Fermer
             </x-global.link-button.button>
         @endif
     </div>

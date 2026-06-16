@@ -12,7 +12,7 @@ return new class extends Migration {
             $table->string('name');
             $table->integer('duration');
             $table->integer('price');
-            $table->string('desc');
+            $table->string('desc')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

@@ -7,7 +7,8 @@
             <x-global.link-button.link-button :route="route('appointment')" title="Prendre rendez-vous">
                 Rendez-vous
             </x-global.link-button.link-button>
-            <x-global.link-button.link-button :isSecondary="true" :route="route('contact')" title="Vers la page de contact">Contact
+            <x-global.link-button.link-button :isSecondary="true" :route="route('contact')" title="Vers la page de contact">
+                Contact
             </x-global.link-button.link-button>
         </div>
     </div>

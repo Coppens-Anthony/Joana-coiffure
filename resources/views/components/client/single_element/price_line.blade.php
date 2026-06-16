@@ -6,7 +6,7 @@
             <h3>{{ $service->name }}</h3>
             <p>{{ $service->durationFormat($service->duration) }} / {{ $service->price }}€</p>
         </div>
-        <small class="text-[.875rem] italic">{{ $service->desc }}</small>
+        <small class="text-[.875rem] italic md:max-w-1/2">{{ $service->desc }}</small>
     </div>
     @if($isAppointment)
         <div class="flex flex-row gap-2 items-center">

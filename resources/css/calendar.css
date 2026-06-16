@@ -1,9 +1,9 @@
 .fc-daygrid-day {
-    @apply cursor-pointer hover:bg-primary-opacity;
+    @apply cursor-pointer hover:bg-tertiary;
 }
 
 .fc .fc-daygrid-day.fc-day-today {
-    @apply bg-tertiary;
+    @apply bg-primary;
 }
 
 .fc .fc-daygrid-day.fc-day-today .fc-bg-event {
@@ -23,7 +23,7 @@
 }
 
 .selected-day{
-    @apply bg-primary hover:bg-primary;
+    @apply bg-tertiary hover:bg-tertiary;
 }
 
 @utility no-scrollbar {
@@ -31,19 +31,15 @@
 }
 
 .fc-toolbar-chunk .fc-button{
-    @apply bg-primary text-black border-primary hover:bg-primary active:bg-primary duration-200 hover:text-black active:text-black;
+    @apply bg-tertiary text-black border-tertiary hover:bg-tertiary active:bg-tertiary duration-200 hover:text-black active:text-black;
 }
 
 .fc-toolbar-chunk .fc-today-button, .fc-toolbar-chunk .fc-today-button:disabled{
-    @apply bg-tertiary hover:bg-tertiary border-tertiary text-black opacity-100;
+    @apply bg-primary hover:bg-primary border-primary text-black opacity-100;
 }
 
-.fc-highlight {
-    @apply bg-primary hover:bg-primary-opacity;
-}
-
-.fc .fc-bg-event {
-    @apply opacity-100 z-1;
+.fc-daygrid-day:not(:has(.fc-bg-event)) .fc-highlight {
+    @apply bg-tertiary hover:bg-tertiary;
 }
 
 .fc-bg-event .fc-event-title {
@@ -57,38 +53,32 @@
 .fc-bg-event .fc-event-title {
     @apply  opacity-100;
 }
-
 
 .fc .fc-day-other .fc-daygrid-day-top{
     @apply relative opacity-45 z-50;
 }
 
 .fc-list-day-side-text {
-    text-decoration: underline;
-    cursor: pointer;
-    font-size: 1.5rem;
+    @apply underline cursor-pointer text-2xl;
 }
 
 .event-orange{
     @apply text-black font-bold;
 }
 
-.event-red{
-    @apply text-white font-bold;
+.event-red, .fc-daygrid-day:has(.event-red) .fc-daygrid-day-number{
+    @apply font-bold;
 }
 
 .fc-daygrid-day:has(.event-orange) .fc-daygrid-day-number {
     @apply text-black;
 }
 
-.fc-daygrid-day:has(.event-red) .fc-daygrid-day-number {
-    @apply text-white font-bold;
-}
-
 .fc .fc-button-primary:not(:disabled).fc-button-active, .fc .fc-button-primary:not(:disabled):active {
-    @apply bg-tertiary border border-tertiary text-black hover:border hover:border-black;
+    @apply bg-primary border border-primary text-black hover:border hover:border-black;
 }
 
 .fc-header-toolbar, .fc-toolbar, .fc-toolbar-ltr {
     @apply flex flex-col gap-4 lg:flex-row lg:justify-between lg:gap-0;
 }
+

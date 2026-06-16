@@ -38,7 +38,7 @@ class extends Component {
     #[On('show-appointment')]
     public function showEvent($id)
     {
-        $this->dispatch('open_modal', ['modal'  => 'modals::appointments.show', 'model_id' => $id]);
+        $this->dispatch('open_modal', ['modal' => 'modals::appointments.show', 'model_id' => $id]);
     }
 
     #[On('data-set')]
@@ -92,11 +92,11 @@ class extends Component {
                     'id' => $unavailability->id,
                     'type' => 'unavailability',
                     'allDay' => !$isPartial,
-                    'title' => $isPartial ? 'Créneau off' : ($sameDay ? 'Journée off' : 'Période off'),
+                    'title' => $isPartial ? 'Créneau indisponible' : ($sameDay ? 'Journée indisponible' : 'Période indisponible'),
                     'start' => $isPartial ? $unavailability->start_at->timezone('Europe/Brussels')->format('Y-m-d H:i:s') : $unavailability->start_at->toDateString(),
                     'end' => $isPartial ? $unavailability->end_at->timezone('Europe/Brussels')->format('Y-m-d H:i:s') : $unavailability->end_at->clone()->addDay()->toDateString(),
                     'display' => $isPartial ? 'auto' : 'background',
-                    'color' => '#F9C784',
+                    'color' => $isPartial ? '#AC2022' : '#C8C8C8FF',
                     'classNames' => $isPartial ? [] : ['event-orange'],
                 ];
             });
@@ -106,18 +106,22 @@ class extends Component {
                 $isAllDay = Carbon::parse($rule->start_time)->format('H:i') === '09:00'
                     && Carbon::parse($rule->end_time)->format('H:i') === '18:00';
 
-                return collect(CarbonPeriod::create($this->firstDay, $this->lastDay))
-                    ->filter(fn($date) => in_array($date->dayOfWeek, $rule->days_of_week))
-                    ->filter(fn($date) => !($rule->starts_on && $date->lt($rule->starts_on)))
-                    ->map(fn($date) => [
-                        'allDay' => $isAllDay,
-                        'title' => 'Congé récurrent',
-                        'start' => $isAllDay ? $date->toDateString() : $date->toDateString() . ' ' . $rule->start_time,
-                        'end' => $isAllDay ? $date->copy()->addDay()->toDateString() : $date->toDateString() . ' ' . $rule->end_time,
-                        'display' => $isAllDay ? 'background' : 'auto',
-                        'color' => '#B92629',
-                        'classNames' => $isAllDay ? ['event-red'] : [],
-                    ]);
+                if ($isAllDay) {
+                    return collect(CarbonPeriod::create($this->firstDay, $this->lastDay))
+                        ->filter(fn($date) => in_array($date->dayOfWeek, $rule->days_of_week))
+                        ->filter(fn($date) => !($rule->starts_on && $date->lt($rule->starts_on)))
+                        ->map(fn($date) => [
+                            'allDay' => $isAllDay,
+                            'title' => 'Congé récurrent',
+                            'start' => $isAllDay ? $date->toDateString() : $date->toDateString() . ' ' . $rule->start_time,
+                            'end' => $isAllDay ? $date->copy()->addDay()->toDateString() : $date->toDateString() . ' ' . $rule->end_time,
+                            'display' => $isAllDay ? 'background' : 'auto',
+                            'color' => '#C8C8C8FF',
+                            'classNames' => $isAllDay ? ['event-red'] : [],
+                        ]);
+                } else {
+                    return collect();
+                }
             });
 
         $normalFullDays = $unavailabilities
