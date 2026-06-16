@@ -10,8 +10,8 @@ use function PHPUnit\Framework\isEmpty;
 
 new class extends Component {
     public RecurringUnavailability $reccuring_unavailability;
-    public string $start_at = "09:00";
-    public string $end_at = "18:00";
+    public string $start_at;
+    public string $end_at;
     public bool $monday = false;
     public bool $tuesday = false;
     public bool $wednesday = false;
@@ -24,6 +24,9 @@ new class extends Component {
 
     public function mount(?string $model_id)
     {
+        $this->start_at = config('app.hours.hour_start');
+        $this->end_at = config('app.hours.hour_end');
+
         if ($model_id) {
             $this->reccuring_unavailability = RecurringUnavailability::findOrFail($model_id);
             $this->start_at = Carbon::parse($this->reccuring_unavailability->start_time)->format('H:i');
@@ -167,7 +170,8 @@ new class extends Component {
 };
 ?>
 
-<livewire:admin.modal modal_title="{{ $model_id ? 'Modification d’un congé récurrent' : 'Ajout d’un congé récurrent' }}">
+<livewire:admin.modal
+    modal_title="{{ $model_id ? 'Modification d’un congé récurrent' : 'Ajout d’un congé récurrent' }}">
     <form wire:submit="{{ $model_id ? 'update' : 'store' }}">
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mt-3">
             @foreach($this->days() as $id => $value)

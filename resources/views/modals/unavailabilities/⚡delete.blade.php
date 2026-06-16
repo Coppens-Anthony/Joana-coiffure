@@ -26,7 +26,7 @@ new class extends Component {
         $start = Carbon::parse($this->unavailability['start_at']);
         $end = Carbon::parse($this->unavailability['end_at']);
         $sameDay = $start->toDateString() === $end->toDateString();
-        $isFullDay = $start->timezone('Europe/Brussels')->format('H:i') === '09:00' && $end->timezone('Europe/Brussels')->format('H:i') === '18:00';
+        $isFullDay = $start->timezone('Europe/Brussels')->format('H:i') === config('app.hours.hour_start') && $end->timezone('Europe/Brussels')->format('H:i') === config('app.hours.hour_end');
     @endphp
 
     <p class="mb-8">

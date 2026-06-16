@@ -77,8 +77,8 @@ class extends Component {
                 'id' => $appointment->id,
                 'type' => 'appointment',
                 'title' => $appointment->client->name,
-                'start' => $appointment->start_at->timezone('Europe/Brussels')->format('Y-m-d H:i:s'),
-                'end' => $appointment->end_at->timezone('Europe/Brussels')->format('Y-m-d H:i:s'),
+                'start' => $appointment->start_at->timezone('Europe/Brussels')->format('Y-m-d H:i'),
+                'end' => $appointment->end_at->timezone('Europe/Brussels')->format('Y-m-d H:i'),
             ]);
 
         $unavailabilities = Unavailability::where('start_at', '<=', $this->lastDay)
@@ -86,15 +86,15 @@ class extends Component {
             ->get()
             ->map(function ($unavailability) {
                 $sameDay = $unavailability->start_at->toDateString() === $unavailability->end_at->toDateString();
-                $isPartial = $sameDay && !($unavailability->start_at->format('H:i') === '09:00' && $unavailability->end_at->format('H:i') === '18:00');
+                $isPartial = $sameDay && !($unavailability->start_at->format('H:i') === config('app.hours.hour_start') && $unavailability->end_at->format('H:i') === config('app.hours.hour_end'));
 
                 return [
                     'id' => $unavailability->id,
                     'type' => 'unavailability',
                     'allDay' => !$isPartial,
                     'title' => $isPartial ? 'Créneau indisponible' : ($sameDay ? 'Journée indisponible' : 'Période indisponible'),
-                    'start' => $isPartial ? $unavailability->start_at->timezone('Europe/Brussels')->format('Y-m-d H:i:s') : $unavailability->start_at->toDateString(),
-                    'end' => $isPartial ? $unavailability->end_at->timezone('Europe/Brussels')->format('Y-m-d H:i:s') : $unavailability->end_at->clone()->addDay()->toDateString(),
+                    'start' => $isPartial ? $unavailability->start_at->timezone('Europe/Brussels')->format('Y-m-d H:i') : $unavailability->start_at->toDateString(),
+                    'end' => $isPartial ? $unavailability->end_at->timezone('Europe/Brussels')->format('Y-m-d H:i') : $unavailability->end_at->clone()->addDay()->toDateString(),
                     'display' => $isPartial ? 'auto' : 'background',
                     'color' => $isPartial ? '#AC2022' : '#C8C8C8FF',
                     'classNames' => $isPartial ? [] : ['event-orange'],
@@ -103,8 +103,8 @@ class extends Component {
 
         $recurring = RecurringUnavailability::all()
             ->flatMap(function ($rule) {
-                $isAllDay = Carbon::parse($rule->start_time)->format('H:i') === '09:00'
-                    && Carbon::parse($rule->end_time)->format('H:i') === '18:00';
+                $isAllDay = Carbon::parse($rule->start_time)->format('H:i') === config('app.hours.hour_start')
+                    && Carbon::parse($rule->end_time)->format('H:i') === config('app.hours.hour_end');
 
                 if ($isAllDay) {
                     return collect(CarbonPeriod::create($this->firstDay, $this->lastDay))

@@ -12,8 +12,8 @@ function generateSlots(Carbon $date, int $duration, Collection $appointments, Co
 {
     $slots = [];
 
-    $start = $date->copy()->setTime(9, 0);
-    $end = $date->copy()->setTime(18, 0);
+    $start = $date->copy()->setTimeFromTimeString(config('app.hours.hour_start'));
+    $end = $date->copy()->setTimeFromTimeString(config('app.hours.hour_end'));
 
     $now = now();
 

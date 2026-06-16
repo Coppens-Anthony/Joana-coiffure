@@ -25,7 +25,7 @@ new class extends Component {
             $this->isMultipleDays = $params['start_date'] !== $params['end_date'];
             $this->start_at = $params['start_at'] ?? null;
             $this->end_at = $params['end_at'] ?? null;
-            $this->isFullDay = $this->start_at === '09:00' && $this->end_at === '18:00';
+            $this->isFullDay = $this->start_at === config('app.hours.hour_start') && $this->end_at === config('app.hours.hour_end');
             $this->unavailability_id = $params['id'] ?? null;
         } else {
             $this->start_date = $params['date'];
@@ -62,12 +62,12 @@ new class extends Component {
         }
 
         $start = $this->isMultipleDays
-            ? $this->start_date . ' 09:00'
-            : $this->start_date . ' ' . ($this->isFullDay ? '09:00' : $this->start_at);
+            ? $this->start_date . ' ' . config('app.hours.hour_start')
+            : $this->start_date . ' ' . ($this->isFullDay ? config('app.hours.hour_start') : $this->start_at);
 
         $end = $this->isMultipleDays
-            ? $this->end_date . ' 18:00'
-            : $this->start_date . ' ' . ($this->isFullDay ? '18:00' : $this->end_at);
+            ? $this->end_date . ' ' . config('app.hours.hour_end')
+            : $this->start_date . ' ' . ($this->isFullDay ? config('app.hours.hour_end') : $this->end_at);
 
         return Appointment::where(function ($query) use ($start, $end) {
             $query->whereBetween('start_at', [$start, $end])
@@ -100,12 +100,12 @@ new class extends Component {
         }
 
         $startAt = $this->isMultipleDays
-            ? $this->start_date . ' 09:00'
-            : $this->start_date . ' ' . ($this->isFullDay ? '09:00' : $this->start_at);
+            ? $this->start_date . ' ' . config('app.hours.hour_start')
+            : $this->start_date . ' ' . ($this->isFullDay ? config('app.hours.hour_start') : $this->start_at);
 
         $endAt = $this->isMultipleDays
-            ? $this->end_date . ' 18:00'
-            : $this->end_date . ' ' . ($this->isFullDay ? '18:00' : $this->end_at);
+            ? $this->end_date . ' ' . config('app.hours.hour_end')
+            : $this->end_date . ' ' . ($this->isFullDay ? config('app.hours.hour_end') : $this->end_at);
 
         $overlapping = Unavailability::where(function ($query) use ($startAt, $endAt) {
             $query->whereBetween('start_at', [$startAt, $endAt])

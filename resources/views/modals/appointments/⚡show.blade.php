@@ -43,7 +43,7 @@ new class extends Component {
             </p>
         </div>
     </div>
-    <x-global.link-button.button class="ml-auto block mt-4" title="Fermer la modale" :isSecondary="true"
+    <x-global.link-button.button class="ml-auto block mt-4" title="Fermer la modale"
                                  wire:click="dispatch('close_modal')">Fermer
     </x-global.link-button.button>
 </livewire:admin.modal>
