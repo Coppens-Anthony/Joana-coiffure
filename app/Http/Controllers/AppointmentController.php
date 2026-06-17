@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Mails\ContactForm;
 use App\Mails\NewAppointment;
 use App\Mails\NewAppointmentRecap;
 use App\Models\Appointment;
@@ -10,7 +9,6 @@ use App\Models\Client;
 use App\Models\RecurringUnavailability;
 use App\Models\Service;
 use App\Models\Unavailability;
-use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -155,6 +153,31 @@ class AppointmentController
 
     public function confirmationStore(Request $request)
     {
+        if (
+            ! session('appointment.services') ||
+            ! session('appointment.date') ||
+            ! session('appointment.slot')
+        ) {
+            return redirect(route('appointment2'));
+        }
+
+        $start = Carbon::parse(
+            session('appointment.date').' '.session('appointment.slot')
+        );
+
+        $services = Service::find(session('appointment.services'));
+        $totalDuration = $services->sum('duration');
+
+        $end = $start->copy()->addMinutes($totalDuration);
+
+        $conflict = Appointment::where('start_at', '<', $end)
+            ->where('end_at', '>', $start)
+            ->exists();
+
+        if ($conflict) {
+            return redirect(route('appointment2'))->with('error', 'Ce créneau n\'est malheureusement plus disponible');
+        }
+
         $validated = $request->validate([
             'name' => 'required',
             'email' => 'email|required',
@@ -171,15 +194,6 @@ class AppointmentController
                 'telephone' => $validated['telephone'],
             ]);
         }
-
-        $services = Service::find(session('appointment.services'));
-        $totalDuration = $services->sum('duration');
-
-        $start = Carbon::parse(
-            session('appointment.date').' '.session('appointment.slot')
-        );
-
-        $end = $start->copy()->addMinutes($totalDuration);
 
         $appointment = Appointment::create([
             'client_id' => $client->id,

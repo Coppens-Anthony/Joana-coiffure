@@ -1,4 +1,9 @@
 <x-client.layout title="Choix de la date et de l'heure" :isContactOrAppointment="true">
+    @if(session('error'))
+        <div class="alert-delete">
+            {{ session('error') }}
+        </div>
+    @endif
     <div class="flex flex-col gap-8">
         <x-global.link-button.link class="w-fit" title="Vers l'étape précédente" :route="route('appointment')">
             &laquo; Précédent
