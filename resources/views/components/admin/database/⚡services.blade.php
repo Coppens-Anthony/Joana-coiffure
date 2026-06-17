@@ -56,7 +56,7 @@ new class extends Component {
     <section class="flex flex-col gap-8">
         <h2 class="sr-only">Tableau des prestations</h2>
         <div class="flex flex-col md:flex-row md:justify-between items-start md:items-end gap-4 md:gap-0">
-            <form class="w-fit">
+            <form class="w-fit" autocomplete="off">
                 <x-global.form.input name="name"
                                      placeholder="Permanente"
                                      type="search"

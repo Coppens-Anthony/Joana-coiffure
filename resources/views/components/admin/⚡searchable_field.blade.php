@@ -61,6 +61,7 @@ new class extends Component {
 >
     <div class="relative">
         <x-global.form.input
+            autocomplete="off"
             name="search"
             x-model="search"
             placeholder="Sélectionner"
