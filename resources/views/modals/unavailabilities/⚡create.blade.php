@@ -67,7 +67,7 @@ new class extends Component {
 
         $end = $this->isMultipleDays
             ? $this->end_date . ' ' . config('app.hours.hour_end')
-            : $this->start_date . ' ' . ($this->isFullDay ? config('app.hours.hour_end') : $this->end_at);
+            : $this->end_date . ' ' . ($this->isFullDay ? config('app.hours.hour_end') : $this->end_at);
 
         return Appointment::where(function ($query) use ($start, $end) {
             $query->whereBetween('start_at', [$start, $end])
