@@ -11,6 +11,7 @@ it('returns appointments as events', function () {
     $client = Client::factory()->create();
 
     Appointment::create([
+        'uuid' => Str::uuid(),
         'client_id' => $client->id,
         'message' => '',
         'start_at' => today()->setTime(10, 0),

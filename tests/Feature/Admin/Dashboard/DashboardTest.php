@@ -3,6 +3,7 @@
 use App\Models\Appointment;
 use App\Models\Client;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Str;
 
 uses(RefreshDatabase::class);
 
@@ -10,6 +11,7 @@ it('shows every appointment of the day', function () {
     $client = Client::factory()->create();
 
     Appointment::create([
+        'uuid' => Str::uuid(),
         'client_id' => $client->id,
         'message' => '',
         'start_at' => today()->setTime(10, 0),

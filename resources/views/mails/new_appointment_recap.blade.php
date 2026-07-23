@@ -81,6 +81,7 @@
             </tr>
         @endif
     </table>
+    <a href="{{route('appointment_cancel.view', $appointment->uuid)}}">Annuler</a>
 </div>
 
 </body>

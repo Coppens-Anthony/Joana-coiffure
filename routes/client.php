@@ -6,6 +6,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\TestController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::view('/a-propos', 'pages.client.about')->name('about');
@@ -31,5 +32,9 @@ Route::get('/rendez-vous/confirmation', [AppointmentController::class, 'confirma
 Route::post('/rendez-vous/confirmation', [AppointmentController::class, 'confirmationStore'])->name('appointment3.store');
 
 
+Route::get('/rendez-vous/{appointment}/annulation', [AppointmentController::class, 'appointment_cancel_view'])->name('appointment_cancel.view');
+Route::post('/rendez-vous/{appointment}/annulation', [AppointmentController::class, 'appointment_cancel'])->name('appointment_cancel');
+
 
 Route::view('/login', 'pages.admin.login')->name('login')->middleware('guest');
+Route::view('/register', 'pages.admin.login')->name('login')->middleware('guest');

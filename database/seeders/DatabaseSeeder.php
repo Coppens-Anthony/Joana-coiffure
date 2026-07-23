@@ -15,6 +15,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
@@ -278,6 +279,7 @@ class DatabaseSeeder extends Seeder
             }
 
             $appointment = Appointment::create([
+                'uuid' => Str::uuid(),
                 'client_id' => $clientIds[array_rand($clientIds)],
                 'message' => fake()->sentence(),
                 'start_at' => $start,

@@ -4,6 +4,7 @@ use App\Models\Appointment;
 use App\Models\Client;
 use App\Models\Unavailability;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Str;
 
 uses(RefreshDatabase::class);
 
@@ -11,6 +12,7 @@ it('returns unavailabilities as events', function () {
     $client = Client::factory()->create();
 
     Appointment::create([
+        'uuid' => Str::uuid(),
         'client_id' => $client->id,
         'message' => '',
         'start_at' => today()->setTime(10, 0),

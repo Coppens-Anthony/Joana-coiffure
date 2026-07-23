@@ -13,6 +13,7 @@ class Appointment extends Model
     use HasFactory;
 
     protected $fillable = [
+        'uuid',
         'message',
         'client_id',
         'start_at',

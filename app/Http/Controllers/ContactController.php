@@ -21,13 +21,6 @@ class ContactController
         $users = [
             config('mail.reply_to.address'),
             'joanacoiffure190@gmail.com',
-            /*'anthonycoppens04@gmail.com',
-            'maud.wera@hepl.be',
-            'francois.parmentier@hepl.be',
-            'dominique.vilain@hepl.be',
-            'myriam.dupont@hepl.be',
-            'daniel.schreurs@hepl.be',
-            'dylan.jacquet@hepl.be',*/
         ];
 
         foreach ($users as $user) {

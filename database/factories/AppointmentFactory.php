@@ -6,6 +6,7 @@ use App\Models\Appointment;
 use App\Models\Client;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
 
 class AppointmentFactory extends Factory
 {
@@ -17,6 +18,7 @@ class AppointmentFactory extends Factory
             ->setTime($this->faker->numberBetween(9, 17), $this->faker->randomElement([0, 30]));
 
         return [
+            'uuid' => Str::uuid(),
             'client_id' => Client::inRandomOrder()->first()->id,
             'message' => $this->faker->sentence(),
             'start_at' => $startAt,

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Mails\NewAppointment;
 use App\Mails\NewAppointmentRecap;
 use App\Models\Appointment;
+use App\Models\AppointmentService;
 use App\Models\Client;
 use App\Models\RecurringUnavailability;
 use App\Models\Service;
@@ -12,6 +13,7 @@ use App\Models\Unavailability;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
 use function App\Helpers\generateSlots;
@@ -196,6 +198,7 @@ class AppointmentController
         }
 
         $appointment = Appointment::create([
+            'uuid' => Str::uuid(),
             'client_id' => $client->id,
             'message' => $validated['message'],
             'start_at' => $start,
@@ -210,13 +213,6 @@ class AppointmentController
         $users = [
             config('mail.reply_to.address'),
             'joanacoiffure190@gmail.com',
-            /*'anthonycoppens04@gmail.com',
-            'maud.wera@hepl.be',
-            'francois.parmentier@hepl.be',
-            'dominique.vilain@hepl.be',
-            'myriam.dupont@hepl.be',
-            'daniel.schreurs@hepl.be',
-            'dylan.jacquet@hepl.be',*/
         ];
 
         foreach ($users as $user) {
@@ -230,5 +226,19 @@ class AppointmentController
         );
 
         return redirect(route('thanks', $appointment));
+    }
+
+    public function appointment_cancel_view(string $uuid)
+    {
+        $appointment = Appointment::where('uuid', $uuid)->firstOrFail();
+        return view('pages.client.appointment.cancel', compact('appointment'));
+    }
+
+    public function appointment_cancel(Appointment $appointment)
+    {
+        AppointmentService::where('appointment_id', $appointment->id)->delete();
+        $appointment->delete();
+
+        return redirect(route('home'));
     }
 }
