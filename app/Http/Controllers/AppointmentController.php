@@ -239,6 +239,6 @@ class AppointmentController
         AppointmentService::where('appointment_id', $appointment->id)->delete();
         $appointment->delete();
 
-        return redirect(route('home'));
+        return redirect(route('home'))->with('success', 'Votre rendez-vous à bien été annulé !');
     }
 }

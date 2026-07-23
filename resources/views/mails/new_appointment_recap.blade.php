@@ -40,7 +40,24 @@
             font-weight: bold;
             margin: 0 0 4px;
         }
+
+        a[href] {
+            color: white;
+        }
+
+        .cancel {
+            display: block;
+            background: #AC2022;
+            color: white !important;
+            width: fit-content;
+            margin: 16px auto 0;
+            text-decoration: none;
+            padding: 16px 32px;
+            border-radius: 9999px;
+            font-weight: 600;
+        }
     </style>
+
 </head>
 <body>
 
@@ -81,7 +98,9 @@
             </tr>
         @endif
     </table>
-    <a href="{{route('appointment_cancel.view', $appointment->uuid)}}">Annuler</a>
+    <a href="{{ route('appointment_cancel.view', $appointment->uuid) }}" class="cancel">
+        Annuler mon rendez-vous
+    </a>
 </div>
 
 </body>

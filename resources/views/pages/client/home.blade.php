@@ -22,6 +22,11 @@
 @endphp
 
 <x-client.layout title="Coiffeuse indépendante à Orp-Jauche" :isContactOrAppointment="false">
+    @if(session('success'))
+        <div class="alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
     <x-client.single_element.icon_content :isTitle="false" :items="$items" :isLink="true"
                                           link_button_label="Toutes mes prestations"
                                           link_button_title="Vers la page des tarifs"
