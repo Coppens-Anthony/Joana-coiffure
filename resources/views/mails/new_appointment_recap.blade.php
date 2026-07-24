@@ -45,16 +45,33 @@
             color: white;
         }
 
-        .cancel {
-            display: block;
-            background: #AC2022;
-            color: white !important;
-            width: fit-content;
+        .actions {
             margin: 16px auto 0;
+            border-collapse: separate;
+            border-spacing: 12px 0;
+        }
+
+        .actions td {
+            padding: 0;
+        }
+
+        .cancel,
+        .edit {
+            display: inline-block;
             text-decoration: none;
             padding: 16px 32px;
             border-radius: 9999px;
             font-weight: 600;
+        }
+
+        .cancel {
+            background: #AC2022;
+            color: white !important;
+        }
+
+        .edit {
+            background: #FD9BC2;
+            color: black !important;
         }
     </style>
 
@@ -98,10 +115,20 @@
             </tr>
         @endif
     </table>
-    <a href="{{ route('appointment_cancel.view', $appointment->uuid) }}" class="cancel">
-        Annuler mon rendez-vous
-    </a>
+    <table class="actions" role="presentation">
+        <tr>
+            <td>
+                <a href="{{ route('appearance.edit', $appointment) }}" class="edit">
+                    Modifier mon rendez-vous
+                </a>
+            </td>
+            <td>
+                <a href="{{ route('appointment_cancel.view', $appointment->uuid) }}" class="cancel">
+                    Annuler mon rendez-vous
+                </a>
+            </td>
+        </tr>
+    </table>
 </div>
-
 </body>
 </html>

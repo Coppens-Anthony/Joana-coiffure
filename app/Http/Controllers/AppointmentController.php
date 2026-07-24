@@ -39,14 +39,14 @@ class AppointmentController
             'appointment.services' => $validated['services'],
         ]);
 
-        return redirect(route('appointment2', ['date' => today()->format('Y-m-d')]));
+        return redirect(route('appointment2'));
     }
 
     public function date(Request $request)
     {
         $services = Service::find(session('appointment.services'));
 
-        if (! $services || $services->isEmpty()) {
+        if (!$services || $services->isEmpty()) {
             return redirect(route('appointment'));
         }
 
@@ -79,7 +79,7 @@ class AppointmentController
 
         $appointments = Appointment::whereBetween('start_at', [now()->format('Y-m-d'), $gridEnd])
             ->get()
-            ->groupBy(fn ($appointment) => $appointment->start_at->format('Y-m-d'));
+            ->groupBy(fn($appointment) => $appointment->start_at->format('Y-m-d'));
 
         $unavailabilities = Unavailability::where('start_at', '<=', $gridEnd)
             ->where('end_at', '>=', $gridStart)
@@ -129,16 +129,16 @@ class AppointmentController
     public function confirmation()
     {
         if (
-            ! session('appointment.services') ||
-            ! session('appointment.date') ||
-            ! session('appointment.slot')
+            !session('appointment.services') ||
+            !session('appointment.date') ||
+            !session('appointment.slot')
         ) {
             return redirect(route('appointment2'));
         }
 
         $services = Service::find(session('appointment.services'));
         $start_at = Carbon::parse(
-            session('appointment.date').' '.session('appointment.slot')
+            session('appointment.date') . ' ' . session('appointment.slot')
         )->locale('fr');
 
         $totalDuration = $services->sum('duration');
@@ -156,15 +156,15 @@ class AppointmentController
     public function confirmationStore(Request $request)
     {
         if (
-            ! session('appointment.services') ||
-            ! session('appointment.date') ||
-            ! session('appointment.slot')
+            !session('appointment.services') ||
+            !session('appointment.date') ||
+            !session('appointment.slot')
         ) {
             return redirect(route('appointment2'));
         }
 
         $start = Carbon::parse(
-            session('appointment.date').' '.session('appointment.slot')
+            session('appointment.date') . ' ' . session('appointment.slot')
         );
 
         $services = Service::find(session('appointment.services'));
@@ -173,11 +173,15 @@ class AppointmentController
         $end = $start->copy()->addMinutes($totalDuration);
 
         $conflict = Appointment::where('start_at', '<', $end)
-            ->where('end_at', '>', $start)
-            ->exists();
+            ->where('end_at', '>', $start);
 
-        if ($conflict) {
-            return redirect(route('appointment2'))->with('error', 'Ce créneau n\'est malheureusement plus disponible');
+        if (session('appointment.edit')) {
+            $conflict->where('id', '!=', session('appointment.id'));
+        }
+
+        if ($conflict->exists()) {
+            return redirect(route('appointment2'))
+                ->with('error', 'Ce créneau n\'est malheureusement plus disponible');
         }
 
         $validated = $request->validate([
@@ -189,7 +193,7 @@ class AppointmentController
 
         $client = Client::where('email', $validated['email'])->first();
 
-        if (! $client) {
+        if (!$client) {
             $client = Client::create([
                 'name' => $validated['name'],
                 'email' => $validated['email'],
@@ -197,15 +201,26 @@ class AppointmentController
             ]);
         }
 
-        $appointment = Appointment::create([
-            'uuid' => Str::uuid(),
-            'client_id' => $client->id,
-            'message' => $validated['message'],
-            'start_at' => $start,
-            'end_at' => $end,
-        ]);
+        if (session('appointment.edit')) {
+            $appointment = Appointment::findOrFail(session('appointment.id'));
 
-        $appointment->services()->attach($services->pluck('id'));
+            $appointment->update([
+                'client_id' => $client->id,
+                'message' => $validated['message'],
+                'start_at' => $start,
+                'end_at' => $end,
+            ]);
+        } else {
+            $appointment = Appointment::create([
+                'uuid' => Str::uuid(),
+                'client_id' => $client->id,
+                'message' => $validated['message'],
+                'start_at' => $start,
+                'end_at' => $end,
+            ]);
+        }
+
+        $appointment->services()->sync($services->pluck('id'));
 
         session(['confirmed_appointment_id' => $appointment->id]);
         session()->forget('appointment');
@@ -231,6 +246,7 @@ class AppointmentController
     public function appointment_cancel_view(string $uuid)
     {
         $appointment = Appointment::where('uuid', $uuid)->firstOrFail();
+
         return view('pages.client.appointment.cancel', compact('appointment'));
     }
 
@@ -240,5 +256,25 @@ class AppointmentController
         $appointment->delete();
 
         return redirect(route('home'))->with('success', 'Votre rendez-vous à bien été annulé !');
+    }
+
+    public function appointment_edit(Appointment $appointment)
+    {
+        $date = $appointment->start_at->format('Y-m-d');
+        $slot = $appointment->start_at->format('H:i');
+
+        session([
+            'appointment.id' => $appointment->id,
+            'appointment.services' => $appointment->services->pluck('id')->toArray(),
+            'appointment.date' => $date,
+            'appointment.slot' => $slot,
+            'appointment.client_name' => $appointment->client->name,
+            'appointment.client_email' => $appointment->client->email,
+            'appointment.client_telephone' => $appointment->client->telephone,
+            'appointment.message' => $appointment->message,
+            'appointment.edit' => true,
+        ]);
+
+        return redirect(route('appointment'));
     }
 }

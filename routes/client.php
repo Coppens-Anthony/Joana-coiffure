@@ -34,6 +34,7 @@ Route::post('/rendez-vous/confirmation', [AppointmentController::class, 'confirm
 
 Route::get('/rendez-vous/{appointment}/annulation', [AppointmentController::class, 'appointment_cancel_view'])->name('appointment_cancel.view');
 Route::post('/rendez-vous/{appointment}/annulation', [AppointmentController::class, 'appointment_cancel'])->name('appointment_cancel');
+Route::get('/rendez-vous/{appointment}', [AppointmentController::class, 'appointment_edit'])->name('appointment_edit');
 
 
 Route::view('/login', 'pages.admin.login')->name('login')->middleware('guest');

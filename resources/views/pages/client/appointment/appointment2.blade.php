@@ -5,9 +5,15 @@
         </div>
     @endif
     <div class="flex flex-col gap-8">
-        <x-global.link-button.link class="w-fit" title="Vers l'étape précédente" :route="route('appointment')">
-            &laquo; Précédent
-        </x-global.link-button.link>
+        <div class="flex justify-between w-full">
+            <x-global.link-button.link class="w-fit" title="Vers l'étape précédente" :route="route('appointment')">
+                &laquo; Précédent
+            </x-global.link-button.link>
+            @if(session('appointment.date') && session('appointment.slot'))
+                <x-global.link-button.link class="w-fit" title="Vers l'étape suivante" :route="route('appointment3')">
+                    Suivant &laquo;
+                </x-global.link-button.link>
+            @endif</div>
         <div class="flex flex-col-reverse md:flex-row gap-16">
             <section class="w-full md:w-1/2">
                 <h3 class="text-[2rem] mb-8">Sélectionnez une date et une heure</h3>
