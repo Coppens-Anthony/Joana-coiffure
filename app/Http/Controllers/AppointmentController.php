@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Mails\EditAppointment;
+use App\Mails\EditAppointmentRecap;
 use App\Mails\NewAppointment;
 use App\Mails\NewAppointmentRecap;
 use App\Models\Appointment;
@@ -46,7 +48,7 @@ class AppointmentController
     {
         $services = Service::find(session('appointment.services'));
 
-        if (!$services || $services->isEmpty()) {
+        if (! $services || $services->isEmpty()) {
             return redirect(route('appointment'));
         }
 
@@ -79,7 +81,7 @@ class AppointmentController
 
         $appointments = Appointment::whereBetween('start_at', [now()->format('Y-m-d'), $gridEnd])
             ->get()
-            ->groupBy(fn($appointment) => $appointment->start_at->format('Y-m-d'));
+            ->groupBy(fn ($appointment) => $appointment->start_at->format('Y-m-d'));
 
         $unavailabilities = Unavailability::where('start_at', '<=', $gridEnd)
             ->where('end_at', '>=', $gridStart)
@@ -129,16 +131,16 @@ class AppointmentController
     public function confirmation()
     {
         if (
-            !session('appointment.services') ||
-            !session('appointment.date') ||
-            !session('appointment.slot')
+            ! session('appointment.services') ||
+            ! session('appointment.date') ||
+            ! session('appointment.slot')
         ) {
             return redirect(route('appointment2'));
         }
 
         $services = Service::find(session('appointment.services'));
         $start_at = Carbon::parse(
-            session('appointment.date') . ' ' . session('appointment.slot')
+            session('appointment.date').' '.session('appointment.slot')
         )->locale('fr');
 
         $totalDuration = $services->sum('duration');
@@ -156,15 +158,15 @@ class AppointmentController
     public function confirmationStore(Request $request)
     {
         if (
-            !session('appointment.services') ||
-            !session('appointment.date') ||
-            !session('appointment.slot')
+            ! session('appointment.services') ||
+            ! session('appointment.date') ||
+            ! session('appointment.slot')
         ) {
             return redirect(route('appointment2'));
         }
 
         $start = Carbon::parse(
-            session('appointment.date') . ' ' . session('appointment.slot')
+            session('appointment.date').' '.session('appointment.slot')
         );
 
         $services = Service::find(session('appointment.services'));
@@ -193,7 +195,7 @@ class AppointmentController
 
         $client = Client::where('email', $validated['email'])->first();
 
-        if (!$client) {
+        if (! $client) {
             $client = Client::create([
                 'name' => $validated['name'],
                 'email' => $validated['email'],
@@ -210,6 +212,9 @@ class AppointmentController
                 'start_at' => $start,
                 'end_at' => $end,
             ]);
+
+            $appointment->services()->sync($services->pluck('id'));
+
         } else {
             $appointment = Appointment::create([
                 'uuid' => Str::uuid(),
@@ -218,27 +223,31 @@ class AppointmentController
                 'start_at' => $start,
                 'end_at' => $end,
             ]);
+
+            $appointment->services()->attach($services->pluck('id'));
         }
-
-        $appointment->services()->sync($services->pluck('id'));
-
-        session(['confirmed_appointment_id' => $appointment->id]);
-        session()->forget('appointment');
 
         $users = [
             config('mail.reply_to.address'),
             'joanacoiffure190@gmail.com',
         ];
 
+        $mail = session('appointment.edit')
+            ? new EditAppointment($appointment)
+            : new NewAppointment($appointment);
+
         foreach ($users as $user) {
-            Mail::to($user)->send(
-                new NewAppointment($appointment)
-            );
+            Mail::to($user)->send($mail);
         }
 
-        Mail::to($appointment->client->email)->send(
-            new NewAppointmentRecap($appointment)
-        );
+        $client_mail = session('appointment.edit')
+            ? new EditAppointmentRecap($appointment)
+            : new NewAppointmentRecap($appointment);
+
+        Mail::to($appointment->client->email)->send($client_mail);
+
+        session(['confirmed_appointment_id' => $appointment->id]);
+        session()->forget('appointment');
 
         return redirect(route('thanks', $appointment));
     }

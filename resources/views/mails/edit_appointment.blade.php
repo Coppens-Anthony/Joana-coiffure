@@ -2,7 +2,7 @@
 <html lang="{!! App::getLocale() !!}">
 <head>
     <meta charset="UTF-8">
-    <title>Confirmation du rendez-vous</title>
+    <title>Modification d'un rendez-vous</title>
     <style>
         body {
             font-family: Poppins, Arial, sans-serif;
@@ -40,53 +40,38 @@
             font-weight: bold;
             margin: 0 0 4px;
         }
-
-        a[href] {
-            color: white;
-        }
-
-        .actions {
-            margin: 16px auto 0;
-            border-collapse: separate;
-            border-spacing: 12px 0;
-        }
-
-        .actions td {
-            padding: 0;
-        }
-
-        .cancel,
-        .edit {
-            display: inline-block;
-            text-decoration: none;
-            padding: 16px 32px;
-            border-radius: 9999px;
-            font-weight: 600;
-        }
-
-        .cancel {
-            background: #AC2022;
-            color: white !important;
-        }
-
-        .edit {
-            background: #FD9BC2;
-            color: black !important;
-        }
     </style>
-
 </head>
 <body>
 
 <div class="container">
 
-    <h1>Confirmation rendez-vous</h1>
+    <h1>Modification d'un rendez-vous</h1>
 
-    <p>Le {{ $appointment->formatDate('start_at') . ' à ' . $appointment->start_at->format('H:i') }} à l'adresse
-        suivante&nbsp;: Rue de Station 57, Orp-Jauche 1350</p>
-    <p>Je vous remerci d'avoir choisi mes services. Le paiement se fera sur place et en trquide. Voici un récapitulatif
-        de votre rendez-vous.</p>
+    <p>{{ $appointment->client->name }} a modifié son rendez-vous. Prenez connaissance des nouvelles informations.
+        Le rendez-vous aura lieu
+        le {{ $appointment->formatDate('start_at') . ' à ' . $appointment->start_at->format('H:i') }}.</p>
 
+    <table class="box">
+        <tr>
+            <td class="box-cell">
+                <p class="label">Nom du client&nbsp;:</p>
+                <p>{{ $appointment->client->name }}</p>
+            </td>
+        </tr>
+        <tr>
+            <td class="box-cell">
+                <p class="label">Email du client&nbsp;:</p>
+                <p>{{ $appointment->client->email }}</p>
+            </td>
+        </tr>
+        <tr>
+            <td class="box-cell">
+                <p class="label">Téléphone du client&nbsp;:</p>
+                <p>{{ $appointment->client->telephone }}</p>
+            </td>
+        </tr>
+    </table>
     <table class="box">
         <tr>
             <td class="box-cell">
@@ -114,20 +99,6 @@
                 </td>
             </tr>
         @endif
-    </table>
-    <table class="actions" role="presentation">
-        <tr>
-            <td>
-                <a href="{{ route('appointment_edit', $appointment) }}" class="edit">
-                    Modifier mon rendez-vous
-                </a>
-            </td>
-            <td>
-                <a href="{{ route('appointment_cancel.view', $appointment->uuid) }}" class="cancel">
-                    Annuler mon rendez-vous
-                </a>
-            </td>
-        </tr>
     </table>
 </div>
 </body>

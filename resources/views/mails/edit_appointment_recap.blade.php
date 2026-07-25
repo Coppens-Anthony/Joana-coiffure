@@ -2,7 +2,7 @@
 <html lang="{!! App::getLocale() !!}">
 <head>
     <meta charset="UTF-8">
-    <title>Confirmation du rendez-vous</title>
+    <title>Modification du rendez-vous</title>
     <style>
         body {
             font-family: Poppins, Arial, sans-serif;
@@ -80,12 +80,11 @@
 
 <div class="container">
 
-    <h1>Confirmation rendez-vous</h1>
+    <h1>Modification de rendez-vous</h1>
 
+    <p>Votre rendez-vous a été modifié. Voici un récapitulatif de votre rendez-vous :</p>
     <p>Le {{ $appointment->formatDate('start_at') . ' à ' . $appointment->start_at->format('H:i') }} à l'adresse
         suivante&nbsp;: Rue de Station 57, Orp-Jauche 1350</p>
-    <p>Je vous remerci d'avoir choisi mes services. Le paiement se fera sur place et en trquide. Voici un récapitulatif
-        de votre rendez-vous.</p>
 
     <table class="box">
         <tr>
