@@ -80,6 +80,7 @@ class AppointmentController
         $gridEnd = $startOfGrid->copy()->addDays(41)->endOfDay();
 
         $appointments = Appointment::whereBetween('start_at', [now()->format('Y-m-d'), $gridEnd])
+            ->when(session('appointment.edit'), fn ($query) => $query->where('id', '!=', session('appointment.id')))
             ->get()
             ->groupBy(fn ($appointment) => $appointment->start_at->format('Y-m-d'));
 
