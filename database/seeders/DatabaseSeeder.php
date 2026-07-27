@@ -29,78 +29,6 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('password'),
         ]);
 
-        User::factory()->create([
-            'name' => 'Anthony Coppens',
-            'email' => 'anthonycoppens04@gmail.com',
-            'password' => Hash::make('password'),
-        ]);
-
-        User::factory()->create([
-            'name' => 'Maud Wera',
-            'email' => 'maud.wera@hepl.be',
-            'password' => Hash::make('password'),
-        ]);
-
-        User::factory()->create([
-            'name' => 'François Parmentier',
-            'email' => 'francois.parmentier@hepl.be',
-            'password' => Hash::make('password'),
-        ]);
-
-        User::factory()->create([
-            'name' => 'Dominique Vilain',
-            'email' => 'dominique.vilain@hepl.be',
-            'password' => Hash::make('password'),
-        ]);
-
-        User::factory()->create([
-            'name' => 'Myriam Dupont',
-            'email' => 'myriam.dupont@hepl.be',
-            'password' => Hash::make('password'),
-        ]);
-
-        User::factory()->create([
-            'name' => 'Daniel Schreurs',
-            'email' => 'daniel.schreurs@hepl.be',
-            'password' => Hash::make('password'),
-        ]);
-
-        User::factory()->create([
-            'name' => 'Dylan Jacquet',
-            'email' => 'dylan.jacquet@hepl.be',
-            'password' => Hash::make('password'),
-        ]);
-
-        User::factory()->create([
-            'name' => 'Sophie Lambert',
-            'email' => 'sophie@lambert.com',
-            'password' => Hash::make('password'),
-        ]);
-
-        User::factory()->create([
-            'name' => 'Julien Mertens',
-            'email' => 'julien@mertens.com',
-            'password' => Hash::make('password'),
-        ]);
-
-        User::factory()->create([
-            'name' => 'Camille Dubois',
-            'email' => 'camille@dubois.com',
-            'password' => Hash::make('password'),
-        ]);
-
-        User::factory()->create([
-            'name' => 'Nicolas Vanden',
-            'email' => 'nicolas@vanden.com',
-            'password' => Hash::make('password'),
-        ]);
-
-        User::factory()->create([
-            'name' => 'Élise Renard',
-            'email' => 'elise@renard.com',
-            'password' => Hash::make('password'),
-        ]);
-
         $photos = [
             'gallery_example2.jpg',
             'gallery_example1.jpg',
@@ -246,6 +174,7 @@ class DatabaseSeeder extends Seeder
         $services = Service::all()->keyBy('id');
         $serviceIds = $services->keys()->toArray();
         $clientIds = Client::pluck('id')->toArray();
+        $userIds = User::pluck('id')->toArray();
         $base = Carbon::now()->subMonths(3)->startOfMonth();
         $created = 0;
         $attempts = 0;
@@ -281,6 +210,7 @@ class DatabaseSeeder extends Seeder
             $appointment = Appointment::create([
                 'uuid' => Str::uuid(),
                 'client_id' => $clientIds[array_rand($clientIds)],
+                'user_id' => $userIds[array_rand($userIds)],
                 'message' => fake()->sentence(),
                 'start_at' => $start,
                 'end_at' => $end,

@@ -16,6 +16,7 @@ class Appointment extends Model
         'uuid',
         'message',
         'client_id',
+        'user_id',
         'start_at',
         'end_at',
     ];
@@ -61,5 +62,10 @@ class Appointment extends Model
     public function services(): BelongsToMany
     {
         return $this->belongsToMany(Service::class, 'appointment_service', 'appointment_id', 'service_id')->withTrashed();
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }

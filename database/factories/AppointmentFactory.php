@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Appointment;
 use App\Models\Client;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
@@ -20,6 +21,7 @@ class AppointmentFactory extends Factory
         return [
             'uuid' => Str::uuid(),
             'client_id' => Client::inRandomOrder()->first()->id,
+            'user_id' => User::inRandomOrder()->first()->id,
             'message' => $this->faker->sentence(),
             'start_at' => $startAt,
             'end_at' => $startAt->copy()->addMinutes(60),
