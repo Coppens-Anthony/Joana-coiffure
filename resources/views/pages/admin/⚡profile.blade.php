@@ -42,7 +42,11 @@ class extends Component {
             'email' => 'required|email|unique:users,email,' . $this->authUser->id,
             'oldPassword' => 'required|min:8',
             'password' => 'nullable|min:8|different:oldPassword',
-            'avatar' => 'mimes:jpeg,png,jpg,gif,webp|max:2048' . $this->avatar ? 'nullable' : 'required',
+            'avatar' => array_filter([
+                $this->avatar ? 'nullable' : 'required',
+                $this->avatar instanceof TemporaryUploadedFile ? 'mimes:jpeg,png,jpg,gif,webp' : '',
+                $this->avatar instanceof TemporaryUploadedFile ? 'max:2048' : '',
+            ]),
         ]);
 
         if (!Hash::check($validated['oldPassword'], $this->authUser->password)) {

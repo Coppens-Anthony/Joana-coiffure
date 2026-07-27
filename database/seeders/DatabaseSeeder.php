@@ -29,6 +29,8 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('password'),
         ]);
 
+        User::factory(10)->create();
+
         $photos = [
             'gallery_example2.jpg',
             'gallery_example1.jpg',
