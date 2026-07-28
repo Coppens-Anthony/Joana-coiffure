@@ -68,7 +68,7 @@ new class extends Component {
             <nav>
                 <h3 class="sr-only">Navigation</h3>
 
-                <ul class="flex flex-col gap-4 pt-4 border-t border-black">
+                <ul class="flex flex-col gap-2 pt-4 border-t border-black">
                     <li>
                         <x-global.link-button.icon-link
                             tabindex="1"
@@ -143,6 +143,18 @@ new class extends Component {
                             :noSvg="true"
                         >
                             Galerie
+                        </x-global.link-button.icon-link>
+                    </li>
+                    <li>
+                        <x-global.link-button.icon-link
+                            tabindex="1"
+                            icon_path="assets/svg/profile.svg"
+                            :route="route('members.index')"
+                            title="Vers les membres"
+                            :isActive="request()->routeIs('members.*')"
+                            :noSvg="true"
+                        >
+                            Membres
                         </x-global.link-button.icon-link>
                     </li>
                     <li>

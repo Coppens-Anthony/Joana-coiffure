@@ -5,6 +5,7 @@ use App\Http\Controllers\ConfirmationController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\TestController;
 
@@ -39,3 +40,12 @@ Route::get('/rendez-vous/{appointment}', [AppointmentController::class, 'appoint
 
 Route::view('/login', 'pages.admin.login')->name('login')->middleware('guest');
 Route::view('/register', 'pages.admin.login')->name('login')->middleware('guest');
+
+
+Route::get('/invitation/{email}', [InvitationController::class, 'create'])
+    ->name('invitation.create')
+    ->middleware('signed');
+
+Route::post('/invitation', [InvitationController::class, 'store'])
+    ->name('invitation.store');
+
