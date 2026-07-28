@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('avatar')->nullable();
             $table->string('color')->unique();
+            $table->softDeletes();
             $table->rememberToken();
             $table->timestamps();
         });
