@@ -14,14 +14,14 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 
-#[Fillable(['name', 'email', 'password', 'avatar', 'color'])]
+#[Fillable(['name', 'email', 'password', 'avatar', 'color', 'isAdmin'])]
 #[Hidden(['password', 'two_factor_secret', 'two_factor_recovery_codes', 'remember_token'])]
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable, TwoFactorAuthenticatable;
-    use SoftDeletes;
 
+    use SoftDeletes;
 
     /**
      * Get the attributes that should be cast.
@@ -51,5 +51,10 @@ class User extends Authenticatable
     public function appointments(): HasMany
     {
         return $this->hasMany(Appointment::class);
+    }
+
+    public function isAdmin()
+    {
+        return $this->isAdmin;
     }
 }

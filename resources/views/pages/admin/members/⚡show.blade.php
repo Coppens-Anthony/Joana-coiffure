@@ -20,6 +20,10 @@ class extends Component {
     public function mount(User $user)
     {
         $this->user = $user;
+
+        if ($user->id === auth()->id()) {
+            return redirect()->route('profile');
+        }
     }
 
     public function delete(User $user)
@@ -66,9 +70,11 @@ class extends Component {
                 </div>
             </div>
         </div>
-        <form wire:submit="delete({{ $this->user->id }})">
-            <x-global.link-button.button :isDangerous="true" title="Supprimer ce membre">Supprimer ce membre
-            </x-global.link-button.button>
-        </form>
+        @can('create', User::class)
+            <form wire:submit="delete({{ $this->user->id }})">
+                <x-global.link-button.button :isDangerous="true" title="Supprimer ce membre">Supprimer ce membre
+                </x-global.link-button.button>
+            </form>
+        @endcan
     </section>
 </div>

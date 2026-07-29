@@ -43,9 +43,11 @@ class extends Component {
     @endif
     <section>
         <h2 class="sr-only">Liste des membres du salon</h2>
-        <x-global.link-button.button-link title="Ajouter un membre" class="block ml-auto mb-8" wire:click="create">
-            Ajouter un membre
-        </x-global.link-button.button-link>
+        @can('create', User::class)
+            <x-global.link-button.button-link title="Ajouter un membre" class="block ml-auto mb-8" wire:click="create">
+                Ajouter un membre
+            </x-global.link-button.button-link>
+        @endcan
         @if($this->users)
             <ul class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-6">
                 @foreach($this->users as $user)

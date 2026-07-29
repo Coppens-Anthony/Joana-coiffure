@@ -30,6 +30,7 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'avatar' => null,
+            'isAdmin' => false,
             'color' => fake()->unique()->hexColor(),
             'remember_token' => Str::random(10),
             'two_factor_secret' => null,
