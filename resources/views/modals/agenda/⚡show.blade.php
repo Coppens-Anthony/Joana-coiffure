@@ -151,12 +151,12 @@ new class extends Component {
                                 :appointment="$event['model']"
                                 :key="$event['model']->id . '-' . $this->selectedDate"
                             />
-                        @elseif($event['type'] === 'unavailability' && !$event['allDay'])
+                        @elseif($event['type'] === 'unavailability')
                             <livewire:admin.off
                                 :unavailability="$event"
                                 :key="'unav-' . $event['id']"
                             />
-                        @elseif($event['allDay'])
+                        @else
                             <li>Journée indisponible</li>
                         @endif
                     @endforeach

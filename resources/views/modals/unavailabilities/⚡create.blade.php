@@ -72,7 +72,9 @@ new class extends Component {
             ? $this->end_date . ' ' . config('app.hours.hour_end')
             : $this->end_date . ' ' . ($this->isFullDay ? config('app.hours.hour_end') : $this->end_at);
 
-        return Appointment::where('user_id', auth()->id())
+        return Appointment::when(!$this->user->isAdmin, function ($query) {
+            $query->where('user_id', auth()->id());
+        })
             ->where(function ($query) use ($start, $end) {
                 $query->whereBetween('start_at', [$start, $end])
                     ->orWhereBetween('end_at', [$start, $end])
