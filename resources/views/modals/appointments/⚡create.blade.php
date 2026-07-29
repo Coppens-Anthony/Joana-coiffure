@@ -61,6 +61,7 @@ new class extends Component {
         $date = Carbon::parse($this->selectedDate);
 
         $appointments = Appointment::whereDate('start_at', $date)
+            ->where('user_id', auth()->id())
             ->get();
 
         $unavailabilities = Unavailability::where('start_at', '<=', $date->copy()->setTime(18, 0))
@@ -94,6 +95,7 @@ new class extends Component {
             'client_id' => $validated['client_id'],
             'start_at' => $start_at,
             'end_at' => $end_at,
+            'user_id' => auth()->id()
         ]);
 
         foreach ($validated['services_id'] as $service) {

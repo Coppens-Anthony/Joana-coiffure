@@ -71,6 +71,7 @@ class extends Component {
     public function events()
     {
         $appointments = Appointment::with('client:id,name')
+            ->where('user_id', auth()->id())
             ->whereBetween('start_at', [$this->firstDay, $this->lastDay])
             ->get()
             ->map(fn($appointment) => [

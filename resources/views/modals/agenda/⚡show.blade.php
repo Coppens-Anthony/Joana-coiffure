@@ -56,6 +56,7 @@ new class extends Component {
         $date = Carbon::parse($this->selectedDate);
 
         $appointments = Appointment::with('client:id,name')
+            ->where('user_id', auth()->id())
             ->whereDate('start_at', $this->selectedDate)
             ->orderBy('start_at')
             ->get()

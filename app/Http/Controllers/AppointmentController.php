@@ -81,6 +81,7 @@ class AppointmentController
 
         $appointments = Appointment::whereBetween('start_at', [now()->format('Y-m-d'), $gridEnd])
             ->when(session('appointment.edit'), fn ($query) => $query->where('id', '!=', session('appointment.id')))
+            ->where('user_id', auth()->id())
             ->get()
             ->groupBy(fn ($appointment) => $appointment->start_at->format('Y-m-d'));
 
