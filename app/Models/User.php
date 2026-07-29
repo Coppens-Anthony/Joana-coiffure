@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Database\Factories\RecurringUnavailabilityFactory;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
@@ -44,13 +45,23 @@ class User extends Authenticatable
         return Str::of($this->name)
             ->explode(' ')
             ->take(2)
-            ->map(fn ($word) => Str::substr($word, 0, 1))
+            ->map(fn($word) => Str::substr($word, 0, 1))
             ->implode('');
     }
 
     public function appointments(): HasMany
     {
         return $this->hasMany(Appointment::class);
+    }
+
+    public function unavailabilities(): HasMany
+    {
+        return $this->hasMany(Unavailability::class);
+    }
+
+    public function recurringUnavailabilities(): HasMany
+    {
+        return $this->hasMany(RecurringUnavailability::class);
     }
 
     public function isAdmin()

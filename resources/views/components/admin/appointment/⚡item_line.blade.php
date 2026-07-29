@@ -30,7 +30,7 @@ new class extends Component {
         <div
             class="{{ $this->isDashboard ? 'bg-primary' : '' }} relative w-full p-4 rounded-2xl flex flex-col gap-2 md:flex-row md:justify-between md:gap-8 md:items-center">
             @if(!$this->isDashboard)
-                <div class="absolute left-0 top-0 h-full w-1 bg-[#3788d8] rounded-l-2xl"></div>
+                <div class="absolute left-0 top-0 h-full w-1 rounded-l-2xl" style="background-color: {{ $appointment->user->color }}"></div>
             @endif
             <div class="flex-1">
                 <p class="flex items-center gap-2">

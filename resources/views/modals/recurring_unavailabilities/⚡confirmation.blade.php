@@ -4,10 +4,12 @@ use App\Mails\CanceledAppointment;
 use App\Models\Appointment;
 use App\Models\AppointmentService;
 use App\Models\RecurringUnavailability;
+use App\Models\User;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 new class extends Component {
+    public User $user;
     public array $appointmentIds = [];
     public array $days = [];
     public bool $contactClient = true;
@@ -17,6 +19,7 @@ new class extends Component {
 
     public function mount(array $params)
     {
+        $this->user = auth()->user();
         $this->appointmentIds = $params['appointment_ids'];
         $this->days = $params['days'];
         $this->start_at = $params['start_at'];
@@ -29,7 +32,11 @@ new class extends Component {
     #[Computed]
     public function appointments()
     {
-        return Appointment::whereIn('id', $this->appointmentIds)->get();
+        return Appointment::whereIn('id', $this->appointmentIds)
+            ->when(!$this->user->isAdmin, function ($query) {
+                $query->where('user_id', auth()->id());
+            })
+            ->get();
     }
 
     public function store()
@@ -64,6 +71,7 @@ new class extends Component {
                 'starts_on' => now(),
                 'start_time' => $this->start_at,
                 'end_time' => $this->end_at,
+                'user_id' => $this->user->id
             ]);
         }
 
@@ -88,7 +96,7 @@ new class extends Component {
         </div>
         <div class="ml-auto w-fit flex gap-6">
             <x-global.link-button.button type="button" title="Fermer la modale" :isSecondary="true"
-                                        wire:click="dispatch('close_modal')">
+                                         wire:click="dispatch('close_modal')">
                 Annuler
             </x-global.link-button.button>
             <x-global.link-button.button title="Confirmer la période off">

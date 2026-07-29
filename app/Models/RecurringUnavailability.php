@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class RecurringUnavailability extends Model
 {
@@ -14,12 +15,18 @@ class RecurringUnavailability extends Model
         'start_time',
         'end_time',
         'starts_on',
+        'user_id'
     ];
 
     protected $casts = [
         'days_of_week' => 'array',
         'starts_on' => 'date',
     ];
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function getDaysOfWeekLabels(): array
     {

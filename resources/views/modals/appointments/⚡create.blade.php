@@ -66,9 +66,12 @@ new class extends Component {
 
         $unavailabilities = Unavailability::where('start_at', '<=', $date->copy()->setTime(18, 0))
             ->where('end_at', '>=', $date->copy()->setTime(9, 0))
+            ->where('user_id', auth()->id())
             ->get();
 
-        $reccuringRules = RecurringUnavailability::all();
+        $user = User::where('isAdmin', true)->first();
+        $reccuringRules = RecurringUnavailability::whereIn('user_id', [auth()->id(), $user->id])
+            ->get();
 
         $this->appointmentSlots = collect(generateSlots($date, $totalDuration, $appointments, $unavailabilities, $reccuringRules))
             ->mapWithKeys(fn($appointmentSlot) => [

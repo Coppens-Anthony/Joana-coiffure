@@ -2,6 +2,7 @@
 
 use App\Models\Appointment;
 use App\Models\RecurringUnavailability;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Livewire\Attributes\Computed;
@@ -9,6 +10,7 @@ use Livewire\Component;
 use function PHPUnit\Framework\isEmpty;
 
 new class extends Component {
+    public User $user;
     public RecurringUnavailability $reccuring_unavailability;
     public string $start_at;
     public string $end_at;
@@ -26,6 +28,7 @@ new class extends Component {
     {
         $this->start_at = config('app.hours.hour_start');
         $this->end_at = config('app.hours.hour_end');
+        $this->user = auth()->user();
 
         if ($model_id) {
             $this->reccuring_unavailability = RecurringUnavailability::findOrFail($model_id);
@@ -57,6 +60,9 @@ new class extends Component {
     public function appointments(string $start_at, string $end_at, array $days)
     {
         return Appointment::where('start_at', '>=', now())
+            ->when(!$this->user->isAdmin, function ($query) {
+                $query->where('user_id', auth()->id());
+            })
             ->get()
             ->filter(function ($appointment) use ($days, $start_at, $end_at) {
 
@@ -115,6 +121,7 @@ new class extends Component {
                     'starts_on' => now(),
                     'start_time' => $validated['start_at'],
                     'end_time' => $validated['end_at'],
+                    'user_id' => $this->user->id
                 ]);
 
                 $this->dispatch('action_done', message: 'Congé récucrent ajouté avec succès !');

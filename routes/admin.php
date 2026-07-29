@@ -1,6 +1,7 @@
 <?php
 
 use App\Livewire\Members\CompleteInvitation;
+use App\Models\User;
 
 Route::prefix('admin')->group(function () {
 
@@ -24,7 +25,7 @@ Route::prefix('admin')->group(function () {
     Route::livewire('/prestations', 'pages::admin.database.services.⚡index')
         ->name('database.services')->middleware('auth');
     Route::livewire('/galerie', 'pages::admin.database.photos.⚡index')
-        ->name('database.gallery')->middleware('auth');
+        ->name('database.gallery')->middleware('auth')->can('view', User::class);
 
     Route::livewire('/congés-récurrents', 'pages::admin.⚡recurring_unavailabilities')
         ->name('recurring_unavailabilities')->middleware('auth');

@@ -3,6 +3,7 @@
 use App\Models\Appointment;
 use App\Models\RecurringUnavailability;
 use App\Models\Unavailability;
+use App\Models\User;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Livewire\Attributes\Computed;
@@ -12,6 +13,7 @@ use Livewire\Component;
 
 new #[Title('Agenda')]
 class extends Component {
+    public User $user;
     public string $selectedDate;
     public string $firstDay;
     public string $lastDay;
@@ -20,6 +22,7 @@ class extends Component {
 
     public function mount()
     {
+        $this->user = auth()->user();
         $this->selectedDate = now()->toDateString();
         $this->firstDay = now()->startOfMonth()->toDateString();
         $this->lastDay = now()->endOfMonth()->toDateString();
@@ -71,7 +74,9 @@ class extends Component {
     public function events()
     {
         $appointments = Appointment::with('client:id,name')
-            ->where('user_id', auth()->id())
+            ->when(!$this->user->isAdmin, function ($query) {
+                $query->where('user_id', auth()->id());
+            })
             ->whereBetween('start_at', [$this->firstDay, $this->lastDay])
             ->get()
             ->map(fn($appointment) => [
@@ -80,9 +85,11 @@ class extends Component {
                 'title' => $appointment->client->name,
                 'start' => $appointment->start_at->timezone('Europe/Brussels')->format('Y-m-d H:i'),
                 'end' => $appointment->end_at->timezone('Europe/Brussels')->format('Y-m-d H:i'),
+                'color' => $appointment->user->color
             ]);
 
         $unavailabilities = Unavailability::where('start_at', '<=', $this->lastDay)
+            ->where('user_id', auth()->id())
             ->where('end_at', '>=', $this->firstDay)
             ->get()
             ->map(function ($unavailability) {
@@ -102,7 +109,10 @@ class extends Component {
                 ];
             });
 
-        $recurring = RecurringUnavailability::all()
+        $user = User::where('isAdmin', true)->first();
+
+        $recurring = RecurringUnavailability::whereIn('user_id', [auth()->id(), $user->id])
+            ->get()
             ->flatMap(function ($rule) {
                 $isAllDay = Carbon::parse($rule->start_time)->format('H:i') === config('app.hours.hour_start')
                     && Carbon::parse($rule->end_time)->format('H:i') === config('app.hours.hour_end');

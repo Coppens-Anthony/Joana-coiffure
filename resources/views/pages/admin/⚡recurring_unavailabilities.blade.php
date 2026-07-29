@@ -2,6 +2,7 @@
 
 use App\Models\Appointment;
 use App\Models\RecurringUnavailability;
+use App\Models\User;
 use Carbon\Carbon;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
@@ -22,7 +23,9 @@ class extends Component {
     #[Computed]
     public function recurringUnavailabilities()
     {
-        return RecurringUnavailability::orderByDesc('updated_at')->get();
+        $user = User::where('isAdmin', true)->first();
+        return RecurringUnavailability::whereIn('user_id', [auth()->id(), $user->id])
+            ->orderByDesc('updated_at')->get();
     }
 
     public function create()
@@ -76,17 +79,23 @@ class extends Component {
                             {{ Carbon::parse($unavailability->end_time)->format('H\hi') }}
                         </td>
                         <td class="text_td">
-                            <span class="title_td">Actions</span>
-                            <div class="flex gap-2 items-center w-fit ml-auto lg:mx-auto">
-                                <button type="button" wire:click="edit({{ $unavailability->id }})" class="hover:scale-120 duration-200">
-                                    <img src="{{ asset('assets/svg/edit.svg') }}" alt="Modifier la prestation"
-                                         class="w-7 h-7 cursor-pointer">
-                                </button>
-                                <button type="button" wire:click="delete({{ $unavailability->id }})" class="hover:scale-120 duration-200">
-                                    <img src="{{ asset('assets/svg/delete.svg') }}" alt="Supprimer la prestation"
-                                         class="w-6 h-6 cursor-pointer">
-                                </button>
-                            </div>
+                            @if($unavailability->user->id === auth()->id())
+                                <span class="title_td">Actions</span>
+                                <div class="flex gap-2 items-center w-fit ml-auto lg:mx-auto">
+                                    <button type="button" wire:click="edit({{ $unavailability->id }})"
+                                            class="hover:scale-120 duration-200">
+                                        <img src="{{ asset('assets/svg/edit.svg') }}" alt="Modifier la prestation"
+                                             class="w-7 h-7 cursor-pointer">
+                                    </button>
+                                    <button type="button" wire:click="delete({{ $unavailability->id }})"
+                                            class="hover:scale-120 duration-200">
+                                        <img src="{{ asset('assets/svg/delete.svg') }}" alt="Supprimer la prestation"
+                                             class="w-6 h-6 cursor-pointer">
+                                    </button>
+                                </div>
+                            @else
+                                /
+                            @endif
                         </td>
                     </tr>
                 @endforeach

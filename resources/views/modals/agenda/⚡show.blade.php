@@ -3,16 +3,19 @@
 use App\Models\Appointment;
 use App\Models\RecurringUnavailability;
 use App\Models\Unavailability;
+use App\Models\User;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Carbon\Carbon;
 
 new class extends Component {
+    public User $user;
     public string $selectedDate;
 
     public function mount($params)
     {
+        $this->user = auth()->user();
         $this->selectedDate = $params['date'];
     }
 
@@ -42,8 +45,10 @@ new class extends Component {
     public function recurringRules()
     {
         $date = Carbon::parse($this->selectedDate);
+        $user = User::where('isAdmin', true)->first();
 
         return RecurringUnavailability::whereDate('starts_on', '<=', $date)
+            ->whereIn('user_id', [auth()->id(), $user->id])
             ->get()
             ->filter(fn($rule) => in_array($date->dayOfWeek, $rule->days_of_week))
             ->filter(fn($rule) => Carbon::parse($rule->start_time)->format('H:i') === config('app.hours.hour_start')
@@ -56,7 +61,9 @@ new class extends Component {
         $date = Carbon::parse($this->selectedDate);
 
         $appointments = Appointment::with('client:id,name')
-            ->where('user_id', auth()->id())
+            ->when(!$this->user->isAdmin, function ($query) {
+                $query->where('user_id', auth()->id());
+            })
             ->whereDate('start_at', $this->selectedDate)
             ->orderBy('start_at')
             ->get()
@@ -69,6 +76,7 @@ new class extends Component {
 
         $unavailabilities = Unavailability::whereDate('start_at', '<=', $this->selectedDate)
             ->whereDate('end_at', '>=', $this->selectedDate)
+            ->where('user_id', auth()->id())
             ->orderBy('start_at')
             ->get()
             ->map(fn($unavailability) => [

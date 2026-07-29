@@ -4,10 +4,12 @@ use App\Mails\CanceledAppointment;
 use App\Models\Appointment;
 use App\Models\AppointmentService;
 use App\Models\Unavailability;
+use App\Models\User;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 new class extends Component {
+    public User $user;
     public string $start_date;
     public string $end_date;
     public bool $isFullDay = false;
@@ -19,6 +21,7 @@ new class extends Component {
 
     public function mount(array $params)
     {
+        $this->user = auth()->user();
         if (isset($params['start_date'], $params['end_date'])) {
             $this->start_date = $params['start_date'];
             $this->end_date = $params['end_date'];
@@ -69,11 +72,12 @@ new class extends Component {
             ? $this->end_date . ' ' . config('app.hours.hour_end')
             : $this->end_date . ' ' . ($this->isFullDay ? config('app.hours.hour_end') : $this->end_at);
 
-        return Appointment::where(function ($query) use ($start, $end) {
-            $query->whereBetween('start_at', [$start, $end])
-                ->orWhereBetween('end_at', [$start, $end])
-                ->orWhere(fn($q) => $q->where('start_at', '<=', $start)->where('end_at', '>=', $end));
-        })->get();
+        return Appointment::where('user_id', auth()->id())
+            ->where(function ($query) use ($start, $end) {
+                $query->whereBetween('start_at', [$start, $end])
+                    ->orWhereBetween('end_at', [$start, $end])
+                    ->orWhere(fn($q) => $q->where('start_at', '<=', $start)->where('end_at', '>=', $end));
+            })->get();
     }
 
     public function store()
@@ -134,6 +138,7 @@ new class extends Component {
             Unavailability::create([
                 'start_at' => $finalStart,
                 'end_at' => $finalEnd,
+                'user_id' => $this->user->id
             ]);
         }
 

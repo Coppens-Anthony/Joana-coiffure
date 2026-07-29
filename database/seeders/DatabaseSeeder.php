@@ -124,6 +124,7 @@ class DatabaseSeeder extends Seeder
             Unavailability::create([
                 'start_at' => $start,
                 'end_at' => $end,
+                'user_id' => User::inRandomOrder()->first()->id,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ]);
@@ -148,6 +149,7 @@ class DatabaseSeeder extends Seeder
                 'start_time' => $r['start_time'],
                 'end_time' => $r['end_time'],
                 'starts_on' => $startsOn,
+                'user_id' => User::inRandomOrder()->first()->id,
             ]);
 
             $this->blockRecurringInWindow($r['days_of_week'], $r['start_time'], $r['end_time'], $startsOn);

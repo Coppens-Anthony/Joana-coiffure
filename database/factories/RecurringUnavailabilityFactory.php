@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\RecurringUnavailability;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class RecurringUnavailabilityFactory extends Factory
@@ -16,6 +17,7 @@ class RecurringUnavailabilityFactory extends Factory
             'start_time' => config('app.hours.hour_start'),
             'end_time' => config('app.hours.hour_end'),
             'starts_on' => now(),
+            'user_id' => User::inRandomOrder()->first()->id,
         ];
     }
 }

@@ -1,13 +1,19 @@
 <?php
 
 use App\Models\Service;
+use App\Models\User;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
 new class extends Component {
+    public User $user;
     public string $term = '';
 
+    public function mount()
+    {
+        $this->user = auth()->user();
+    }
     #[On('action_done')]
     public function refresh(string $message = '', bool $isDeleted = false)
     {
@@ -65,9 +71,11 @@ new class extends Component {
                     Rechercher une prestation
                 </x-global.form.input>
             </form>
-            <x-global.link-button.button-link title="Ajouter une prestation" wire:click="create">
-                + Ajouter une prestation
-            </x-global.link-button.button-link>
+            @can('view', User::class)
+                <x-global.link-button.button-link title="Ajouter une prestation" wire:click="create">
+                    + Ajouter une prestation
+                </x-global.link-button.button-link>
+            @endcan
         </div>
         <x-global.table :titles="['Nom', 'Durée', 'Prix', 'Description', 'Actions']">
             @if(count($this->services) > 0)
@@ -90,17 +98,23 @@ new class extends Component {
                             <small>{{ $service->desc ?? '/' }}</small>
                         </td>
                         <td class="text_td">
-                            <span class="title_td">Actions</span>
-                            <div class="flex gap-2 items-center w-fit ml-auto lg:mx-auto">
-                                <button type="button" wire:click="edit({{ $service->id }})" class="hover:scale-120 duration-200">
-                                    <img src="{{ asset('assets/svg/edit.svg') }}" alt="Modifier la prestation"
-                                         class="w-7 h-7 cursor-pointer">
-                                </button>
-                                <button type="button" wire:click="delete({{ $service->id }})" class="hover:scale-120 duration-200">
-                                    <img src="{{ asset('assets/svg/delete.svg') }}" alt="Supprimer la prestation"
-                                         class="w-6 h-6 cursor-pointer">
-                                </button>
-                            </div>
+                            @if($this->user->isAdmin)
+                                <span class="title_td">Actions</span>
+                                <div class="flex gap-2 items-center w-fit ml-auto lg:mx-auto">
+                                    <button type="button" wire:click="edit({{ $service->id }})"
+                                            class="hover:scale-120 duration-200">
+                                        <img src="{{ asset('assets/svg/edit.svg') }}" alt="Modifier la prestation"
+                                             class="w-7 h-7 cursor-pointer">
+                                    </button>
+                                    <button type="button" wire:click="delete({{ $service->id }})"
+                                            class="hover:scale-120 duration-200">
+                                        <img src="{{ asset('assets/svg/delete.svg') }}" alt="Supprimer la prestation"
+                                             class="w-6 h-6 cursor-pointer">
+                                    </button>
+                                </div>
+                            @else
+                                /
+                            @endif
                         </td>
                     </tr>
                 @endforeach

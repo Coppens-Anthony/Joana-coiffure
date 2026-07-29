@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
@@ -81,7 +82,6 @@ new class extends Component {
                             Dashboard
                         </x-global.link-button.icon-link>
                     </li>
-
                     <li>
                         <x-global.link-button.icon-link
                             tabindex="1"
@@ -94,7 +94,6 @@ new class extends Component {
                             Agenda
                         </x-global.link-button.icon-link>
                     </li>
-
                     <li>
                         <x-global.link-button.icon-link
                             tabindex="1"
@@ -133,18 +132,20 @@ new class extends Component {
                             Prestations
                         </x-global.link-button.icon-link>
                     </li>
-                    <li>
-                        <x-global.link-button.icon-link
-                            tabindex="1"
-                            icon_path="assets/svg/gallery.svg"
-                            :route="route('database.gallery')"
-                            title="Vers les données"
-                            :isActive="request()->routeIs('database.gallery')"
-                            :noSvg="true"
-                        >
-                            Galerie
-                        </x-global.link-button.icon-link>
-                    </li>
+                    @can('view', User::class)
+                        <li>
+                            <x-global.link-button.icon-link
+                                tabindex="1"
+                                icon_path="assets/svg/gallery.svg"
+                                :route="route('database.gallery')"
+                                title="Vers les données"
+                                :isActive="request()->routeIs('database.gallery')"
+                                :noSvg="true"
+                            >
+                                Galerie
+                            </x-global.link-button.icon-link>
+                        </li>
+                    @endcan
                     <li>
                         <x-global.link-button.icon-link
                             tabindex="1"
