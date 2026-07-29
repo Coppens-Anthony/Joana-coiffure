@@ -21,7 +21,11 @@ class extends Component {
     #[Computed]
     public function appointments()
     {
-        return Appointment::with('client:id,name')->whereDate('start_at', today())->orderBy('start_at')->get();
+        return Appointment::with('client:id,name')
+            ->where('user_id', auth()->id())
+            ->whereDate('start_at', today())
+            ->orderBy('start_at')
+            ->get();
     }
 };
 ?>

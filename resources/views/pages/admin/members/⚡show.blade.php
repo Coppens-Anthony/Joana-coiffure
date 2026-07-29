@@ -70,7 +70,7 @@ class extends Component {
                 </div>
             </div>
         </div>
-        @can('create', User::class)
+        @can('delete', User::class)
             <form wire:submit="delete({{ $this->user->id }})">
                 <x-global.link-button.button :isDangerous="true" title="Supprimer ce membre">Supprimer ce membre
                 </x-global.link-button.button>
