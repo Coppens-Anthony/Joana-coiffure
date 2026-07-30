@@ -6,10 +6,16 @@ import('./calendar');
 document.body.classList.add('js');
 
 function initCalendarIfNeeded() {
-    if (! document.getElementById('calendar')) {
-        return;
+    if (document.getElementById('calendar') || document.getElementById('user_calendar')) {
+        import('./calendar.js').then(({ Calendar, MemberCalendar }) => {
+            if (document.getElementById('calendar')) {
+                Calendar.init();
+            }
+            if (document.getElementById('user_calendar')) {
+                MemberCalendar.init();
+            }
+        });
     }
-    import('./calendar.js').then(({ Calendar }) => Calendar.init());
 }
 
 document.addEventListener('livewire:navigated', initCalendarIfNeeded);

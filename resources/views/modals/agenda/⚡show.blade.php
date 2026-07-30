@@ -12,11 +12,13 @@ use Carbon\Carbon;
 new class extends Component {
     public User $user;
     public string $selectedDate;
+    public bool $isReadOnly;
 
     public function mount($params)
     {
-        $this->user = auth()->user();
+        $this->user = User::findOrFail($params['userId']);
         $this->selectedDate = $params['date'];
+        $this->isReadOnly = $this->user->id != auth()->id();
     }
 
     #[On('action_done')]
@@ -48,7 +50,7 @@ new class extends Component {
         $user = User::where('isAdmin', true)->first();
 
         return RecurringUnavailability::whereDate('starts_on', '<=', $date)
-            ->whereIn('user_id', [auth()->id(), $user->id])
+            ->whereIn('user_id', [$this->user->id, $user->id])
             ->get()
             ->filter(fn($rule) => in_array($date->dayOfWeek, $rule->days_of_week))
             ->filter(fn($rule) => Carbon::parse($rule->start_time)->format('H:i') === config('app.hours.hour_start')
@@ -62,7 +64,7 @@ new class extends Component {
 
         $appointments = Appointment::with('client:id,name')
             ->when(!$this->user->isAdmin, function ($query) {
-                $query->where('user_id', auth()->id());
+                $query->where('user_id', $this->user->id);
             })
             ->whereDate('start_at', $this->selectedDate)
             ->orderBy('start_at')
@@ -74,9 +76,11 @@ new class extends Component {
                 'model' => $appointment,
             ]);
 
+        $user = User::where('isAdmin', true)->first();
+
         $unavailabilities = Unavailability::whereDate('start_at', '<=', $this->selectedDate)
             ->whereDate('end_at', '>=', $this->selectedDate)
-            ->where('user_id', auth()->id())
+            ->whereIn('user_id', [$this->user->id, $user->id])
             ->orderBy('start_at')
             ->get()
             ->map(fn($unavailability) => [
@@ -150,11 +154,13 @@ new class extends Component {
                                 :isDashboard="false"
                                 :appointment="$event['model']"
                                 :key="$event['model']->id . '-' . $this->selectedDate"
+                                :isReadOnly="$this->isReadOnly"
                             />
                         @elseif($event['type'] === 'unavailability')
                             <livewire:admin.off
                                 :unavailability="$event"
                                 :key="'unav-' . $event['id']"
+                                :isReadOnly="$this->isReadOnly"
                             />
                         @else
                             <li>Journée indisponible</li>
@@ -164,7 +170,7 @@ new class extends Component {
             @endif
         </div>
 
-        @if(Carbon::parse($this->selectedDate)->startOfDay() >= now()->startOfDay() && !$this->isFullDayOff && !$this->isRecurringBlocked)
+        @if(!$this->isReadOnly && Carbon::parse($this->selectedDate)->startOfDay() >= now()->startOfDay() && !$this->isFullDayOff && !$this->isRecurringBlocked)
             <div class="bg-white pt-8 flex flex-col gap-4">
                 <x-global.link-button.button class="w-full" type="button" title="Ajouter un rendez-vous"
                                              wire:click="createAppointment">

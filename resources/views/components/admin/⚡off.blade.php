@@ -1,11 +1,27 @@
 <?php
 
 use App\Models\Unavailability;
+use App\Models\User;
 use Carbon\Carbon;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 new class extends Component {
+    public User $user;
     public array $unavailability;
+    public bool $isReadOnly;
+    public Unavailability $test;
+
+    public function mount()
+    {
+        $this->test = Unavailability::findOrFail($this->unavailability['id']);
+    }
+
+    #[Computed]
+    public function authUser()
+    {
+      return $this->user = auth()->user();
+    }
 
     public function edit()
     {
@@ -44,16 +60,20 @@ new class extends Component {
             <p class="flex-1">
                 Créneau indisponible
             </p>
-            <div class="flex gap-4 items-center">
-                <button class="cursor-pointer hover:scale-120 duration-200" wire:click="edit({{ $this->unavailability['id'] }})">
-                    <img src="{{ asset('assets/svg/edit.svg') }}" alt="Modifier"
-                         class="w-7 h-7">
-                </button>
-                <button class="cursor-pointer hover:scale-120 duration-200" wire:click="delete({{ $this->unavailability['id'] }})">
-                    <img src="{{ asset('assets/svg/delete.svg') }}" alt="Annuler"
-                         class="w-6 h-6">
-                </button>
-            </div>
+            @if(!$this->isReadOnly && (!$this->test->user->isAdmin || auth()->user()->isAdmin))
+                <div class="flex gap-4 items-center">
+                    <button class="cursor-pointer hover:scale-120 duration-200"
+                            wire:click="edit({{ $this->unavailability['id'] }})">
+                        <img src="{{ asset('assets/svg/edit.svg') }}" alt="Modifier"
+                             class="w-7 h-7">
+                    </button>
+                    <button class="cursor-pointer hover:scale-120 duration-200"
+                            wire:click="delete({{ $this->unavailability['id'] }})">
+                        <img src="{{ asset('assets/svg/delete.svg') }}" alt="Annuler"
+                             class="w-6 h-6">
+                    </button>
+                </div>
+            @endif
         </div>
     </li>
 </div>

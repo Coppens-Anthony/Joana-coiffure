@@ -25,7 +25,7 @@ class extends Component {
     #[Computed]
     public function users()
     {
-        return User::all();
+        return User::where('isAdmin', false)->get();
     }
 
     public function create()

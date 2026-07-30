@@ -7,6 +7,7 @@ use Carbon\Carbon;
 new class extends Component {
     public bool $isDashboard = true;
     public Appointment $appointment;
+    public bool $isReadOnly;
 
     public function show(string $id)
     {
@@ -47,10 +48,12 @@ new class extends Component {
                     <img src="{{ asset('assets/svg/eye.svg') }}" alt="Voir le rendez-vous en détail"
                          class="w-7 h-7">
                 </button>
-                <button class="cursor-pointer hover:scale-120 duration-200" wire:click="delete({{ $appointment->id }})">
-                    <img src="{{ asset('assets/svg/delete.svg') }}" alt="Annuler le rendez-vous"
-                         class="w-6 h-6">
-                </button>
+                @if(!$this->isReadOnly)
+                    <button class="cursor-pointer hover:scale-120 duration-200" wire:click="delete({{ $appointment->id }})">
+                        <img src="{{ asset('assets/svg/delete.svg') }}" alt="Annuler le rendez-vous"
+                             class="w-6 h-6">
+                    </button>
+                @endif
             </div>
         </div>
     </li>

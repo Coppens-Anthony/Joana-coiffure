@@ -21,7 +21,7 @@ class extends Component {
     {
         $this->user = $user;
 
-        if ($user->id === auth()->id()) {
+        if ($this->user->id === auth()->id()) {
             return redirect()->route('profile');
         }
     }
@@ -72,9 +72,14 @@ class extends Component {
         </div>
         @can('delete', User::class)
             <form wire:submit="delete({{ $this->user->id }})">
-                <x-global.link-button.button :isDangerous="true" title="Supprimer ce membre">Supprimer ce membre
+                <x-global.link-button.button :isDangerous="true" title="Supprimer ce membre">
+                    Supprimer ce membre
                 </x-global.link-button.button>
             </form>
         @endcan
+    </section>
+    <section class="mt-16">
+        <h2 class="text-2xl mb-8">Agenda de {{ $this->user->name }}</h2>
+        <livewire:admin.members.calendar calendar_name="user_calendar" :user="$this->user"/>
     </section>
 </div>
