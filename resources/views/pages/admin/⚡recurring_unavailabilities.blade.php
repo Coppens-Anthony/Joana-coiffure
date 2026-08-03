@@ -62,7 +62,7 @@ class extends Component {
         <x-global.link-button.button-link class="ml-auto" title="" wire:click="create">
             + Ajouter un congé récurrent
         </x-global.link-button.button-link>
-        <x-global.table :titles="['Jour(s)', 'Heure de début', 'Heure de fin', 'Actions']">
+        <x-global.table :titles="['Jour(s)', 'Dates', 'Heures', 'Actions']">
             @if(count($this->recurringUnavailabilities) > 0)
                 @foreach($this->recurringUnavailabilities as $unavailability)
                     <tr class="table__tr">
@@ -71,12 +71,17 @@ class extends Component {
                             {{ implode(', ', $unavailability->getDaysOfWeekLabels()) }}
                         </td>
                         <td class="text_td">
-                            <span class="title_td">Heure de début</span>
-                            {{ Carbon::parse($unavailability->start_time)->format('H\hi') }}
+                            <span class="title_td">Début</span>
+                            @if(Carbon::parse($unavailability->ends_on)->year == 9999)
+                                Depuis le {{ Carbon::parse($unavailability->starts_on)->translatedFormat('d F Y') }}
+                            @else
+                                Du {{ Carbon::parse($unavailability->starts_on)->translatedFormat('d F Y') }}
+                                au {{ Carbon::parse($unavailability->ends_on)->translatedFormat('d F Y') }}
+                            @endif
                         </td>
                         <td class="text_td">
-                            <span class="title_td">Heure de fin</span>
-                            {{ Carbon::parse($unavailability->end_time)->format('H\hi') }}
+                            <span class="title_td">Fin</span>
+                            De {{ Carbon::parse($unavailability->start_time)->format('H\hi') . ' à ' . Carbon::parse($unavailability->end_time)->format('H\hi') }}
                         </td>
                         <td class="text_td">
                             @if($unavailability->user->id === auth()->id())

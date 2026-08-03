@@ -91,8 +91,8 @@ new class extends Component {
 
 
         $unavailabilities = Unavailability::where('start_at', '<=', $this->lastDay)
-            ->whereIn('user_id', [$this->user->id, $user->id])
             ->where('end_at', '>=', $this->firstDay)
+            ->whereIn('user_id', [$this->user->id, $user->id])
             ->get()
             ->map(function ($unavailability) {
                 $sameDay = $unavailability->start_at->toDateString() === $unavailability->end_at->toDateString();
@@ -112,6 +112,11 @@ new class extends Component {
             });
 
         $recurring = RecurringUnavailability::whereIn('user_id', [$this->user->id, $user->id])
+            ->where('starts_on', '<=', $this->lastDay)
+            ->where(function ($query) {
+                $query->whereNull('ends_on')
+                    ->orWhere('ends_on', '>=', $this->firstDay);
+            })
             ->get()
             ->flatMap(function ($rule) {
                 $isAllDay = Carbon::parse($rule->start_time)->format('H:i') === config('app.hours.hour_start')
@@ -121,6 +126,7 @@ new class extends Component {
                     return collect(CarbonPeriod::create($this->firstDay, $this->lastDay))
                         ->filter(fn($date) => in_array($date->dayOfWeek, $rule->days_of_week))
                         ->filter(fn($date) => !($rule->starts_on && $date->lt($rule->starts_on)))
+                        ->filter(fn($date) => !($rule->ends_on && $date->gt($rule->ends_on)))
                         ->map(fn($date) => [
                             'allDay' => $isAllDay,
                             'title' => 'Congé récurrent',

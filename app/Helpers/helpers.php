@@ -2,9 +2,6 @@
 
 namespace App\Helpers;
 
-use App\Models\Appointment;
-use App\Models\RecurringUnavailability;
-use App\Models\Unavailability;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 
@@ -31,6 +28,14 @@ function generateSlots(Carbon $date, int $duration, Collection $appointments, Co
 
     foreach ($recurringRules as $rule) {
         if (! in_array($date->dayOfWeek, $rule->days_of_week)) {
+            continue;
+        }
+
+        if ($date->isBefore($rule->starts_on->copy()->startOfDay())) {
+            continue;
+        }
+
+        if ($rule->ends_on && $date->isAfter($rule->ends_on->copy()->startOfDay())) {
             continue;
         }
 

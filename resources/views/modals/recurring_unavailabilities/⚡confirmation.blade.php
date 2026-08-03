@@ -5,6 +5,7 @@ use App\Models\Appointment;
 use App\Models\AppointmentService;
 use App\Models\RecurringUnavailability;
 use App\Models\User;
+use Carbon\Carbon;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
@@ -57,20 +58,25 @@ new class extends Component {
             $appointment->delete();
         }
 
+        $start = Carbon::parse($this->start_at);
+        $end = Carbon::parse($this->end_at);
+
         if ($this->reccuring_unavailabilityId) {
             $recurring_unavailability = RecurringUnavailability::findOrFail($this->reccuring_unavailabilityId);
             $recurring_unavailability->update([
                 'days_of_week' => $this->days,
-                'starts_on' => now(),
-                'start_time' => $this->start_at,
-                'end_time' => $this->end_at,
+                'starts_on' => $start->format('Y-m-d'),
+                'ends_on' => $end->format('Y-m-d'),
+                'start_time' => $start->format('H:i'),
+                'end_time' => $end->format('H:i'),
             ]);
         } else {
             RecurringUnavailability::create([
                 'days_of_week' => $this->days,
-                'starts_on' => now(),
-                'start_time' => $this->start_at,
-                'end_time' => $this->end_at,
+                'starts_on' => $start->format('Y-m-d'),
+                'ends_on' => $end->format('Y-m-d'),
+                'start_time' => $start->format('H:i'),
+                'end_time' => $end->format('H:i'),
                 'user_id' => $this->user->id
             ]);
         }
@@ -87,8 +93,7 @@ new class extends Component {
             <p class="mb-8"><span class="text-error">Attention</span>, il y
                 a {{ count($this->appointments) }}
                 rendez-vous durant cette période. Si vous
-                confirmez, {{ count($this->appointments) > 1 ? 'ils seront annulés' : 'il sera annulé'}}
-                .</p>
+                confirmez, {{ count($this->appointments) > 1 ? 'ils seront annulés' : 'il sera annulé'}}.</p>
             <x-global.form.checkbox name="contactClient" wire:model.live="contactClient">Prévenir les clients
                 par
                 mail

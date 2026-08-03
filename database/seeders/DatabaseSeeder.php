@@ -149,6 +149,7 @@ class DatabaseSeeder extends Seeder
                 'start_time' => $r['start_time'],
                 'end_time' => $r['end_time'],
                 'starts_on' => $startsOn,
+                'ends_on' => $startsOn->addMonths(3),
                 'user_id' => User::inRandomOrder()->first()->id,
             ]);
 

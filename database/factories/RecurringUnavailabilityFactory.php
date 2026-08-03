@@ -17,6 +17,7 @@ class RecurringUnavailabilityFactory extends Factory
             'start_time' => config('app.hours.hour_start'),
             'end_time' => config('app.hours.hour_end'),
             'starts_on' => now(),
+            'ends_on' => now()->addMonths(6),
             'user_id' => User::inRandomOrder()->first()->id,
         ];
     }

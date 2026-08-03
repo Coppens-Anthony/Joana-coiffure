@@ -14,6 +14,8 @@ new class extends Component {
     public RecurringUnavailability $reccuring_unavailability;
     public string $start_at;
     public string $end_at;
+    public string $starts_on;
+    public string $ends_on;
     public bool $monday = false;
     public bool $tuesday = false;
     public bool $wednesday = false;
@@ -28,12 +30,15 @@ new class extends Component {
     {
         $this->start_at = config('app.hours.hour_start');
         $this->end_at = config('app.hours.hour_end');
+        $this->starts_on = now()->format('Y-m-d');
         $this->user = auth()->user();
 
         if ($model_id) {
             $this->reccuring_unavailability = RecurringUnavailability::findOrFail($model_id);
             $this->start_at = Carbon::parse($this->reccuring_unavailability->start_time)->format('H:i');
             $this->end_at = Carbon::parse($this->reccuring_unavailability->end_time)->format('H:i');
+            $this->starts_on = Carbon::parse($this->reccuring_unavailability->starts_on)->format('Y-m-d');
+            $this->ends_on = Carbon::parse($this->reccuring_unavailability->ends_on)->format('Y-m-d');
             $this->monday = in_array(1, $this->reccuring_unavailability->days_of_week);
             $this->tuesday = in_array(2, $this->reccuring_unavailability->days_of_week);
             $this->wednesday = in_array(3, $this->reccuring_unavailability->days_of_week);
@@ -59,20 +64,26 @@ new class extends Component {
 
     public function appointments(string $start_at, string $end_at, array $days)
     {
-        return Appointment::where('start_at', '>=', now())
+        $startsOn = Carbon::parse($start_at);
+        $endsOn = Carbon::parse($end_at);
+        $startTime = $startsOn->format('H:i');
+        $endTime = $endsOn->format('H:i');
+
+        return Appointment::where('start_at', '>=', $startsOn->startOfDay())
+            ->where('start_at', '<=', $endsOn->endOfDay())
             ->when(!$this->user->isAdmin, function ($query) {
                 $query->where('user_id', auth()->id());
             })
             ->get()
-            ->filter(function ($appointment) use ($days, $start_at, $end_at) {
+            ->filter(function ($appointment) use ($days, $startTime, $endTime) {
 
-                $futureDays = in_array($appointment->start_at->dayOfWeek, $days);
+                $matchingDay = in_array($appointment->start_at->dayOfWeek, $days);
 
                 $overlap =
-                    $appointment->start_at->format('H:i') < $end_at
-                    && $appointment->end_at->format('H:i') > $start_at;
+                    $appointment->start_at->format('H:i') < $endTime
+                    && $appointment->end_at->format('H:i') > $startTime;
 
-                return $futureDays && $overlap;
+                return $matchingDay && $overlap;
             });
     }
 
@@ -88,6 +99,8 @@ new class extends Component {
             'sunday' => 'boolean',
             'start_at' => 'required|date_format:H:i',
             'end_at' => 'required|date_format:H:i',
+            'starts_on' => 'required|date_format:Y-m-d|after_or_equal:' . now()->toDateString(),
+            'ends_on' => 'nullable|date_format:Y-m-d|after:starts_on',
         ]);
 
         $days = array_keys(array_filter([
@@ -100,6 +113,8 @@ new class extends Component {
             6 => $this->saturday,
         ]));
 
+        $start_at = $validated['starts_on'] . ' ' . $validated['start_at'];
+        $end_at = ($validated['ends_on'] ?? '9999-12-31') . ' ' . $validated['end_at'];
 
         if (empty($days)) {
             $this->dispatch('action_done', message: 'Aucun jour n\'a été selectionnée.', isDeleted: true);
@@ -108,17 +123,18 @@ new class extends Component {
         } else {
 
             $this->conflictingAppointments = $this->appointments(
-                $validated['start_at'],
-                $validated['end_at'],
+                $start_at,
+                $end_at,
                 $days
             );
 
             if ($this->conflictingAppointments->isNotEmpty()) {
-                $this->dispatch('open_modal', ['modal' => 'modals::recurring_unavailabilities.confirmation', 'params' => ['appointment_ids' => $this->conflictingAppointments->pluck('id')->toArray(), 'days' => $days, 'start_at' => $validated['start_at'], 'end_at' => $validated['end_at']]]);
+                $this->dispatch('open_modal', ['modal' => 'modals::recurring_unavailabilities.confirmation', 'params' => ['appointment_ids' => $this->conflictingAppointments->pluck('id')->toArray(), 'days' => $days, 'start_at' => $start_at, 'end_at' => $end_at]]);
             } else {
                 RecurringUnavailability::create([
                     'days_of_week' => $days,
-                    'starts_on' => now(),
+                    'starts_on' => $validated['starts_on'],
+                    'ends_on' => $validated['ends_on'],
                     'start_time' => $validated['start_at'],
                     'end_time' => $validated['end_at'],
                     'user_id' => $this->user->id
@@ -142,6 +158,8 @@ new class extends Component {
             'sunday' => 'boolean',
             'start_at' => 'required|date_format:H:i',
             'end_at' => 'required|date_format:H:i',
+            'starts_on' => 'required|date_format:Y-m-d|after_or_equal:' . now()->toDateString(),
+            'ends_on' => 'nullable|date_format:Y-m-d|after:starts_on',
         ]);
 
         $days = array_keys(array_filter([
@@ -154,18 +172,22 @@ new class extends Component {
             6 => $this->saturday,
         ]));
 
+        $start_at = $validated['starts_on'] . ' ' . $validated['start_at'];
+        $end_at = ($validated['ends_on'] ?? '9999-12-31') . ' ' . $validated['end_at'];
+
         $this->conflictingAppointments = $this->appointments(
-            $validated['start_at'],
-            $validated['end_at'],
+            $start_at,
+            $end_at,
             $days
         );
 
         if ($this->conflictingAppointments->isNotEmpty()) {
-            $this->dispatch('open_modal', ['modal' => 'modals::recurring_unavailabilities.confirmation', 'params' => ['appointment_ids' => $this->conflictingAppointments->pluck('id')->toArray(), 'days' => $days, 'start_at' => $validated['start_at'], 'end_at' => $validated['end_at'], 'reccuring_unavailabilityId' => $this->reccuring_unavailability->id]]);
+            $this->dispatch('open_modal', ['modal' => 'modals::recurring_unavailabilities.confirmation', 'params' => ['appointment_ids' => $this->conflictingAppointments->pluck('id')->toArray(), 'days' => $days, 'start_at' => $start_at, 'end_at' => $end_at, 'reccuring_unavailabilityId' => $this->reccuring_unavailability->id]]);
         } else {
             $this->reccuring_unavailability->update([
                 'days_of_week' => $days,
-                'starts_on' => now(),
+                'starts_on' => $validated['starts_on'],
+                'ends_on' => $validated['ends_on'],
                 'start_time' => $validated['start_at'],
                 'end_time' => $validated['end_at'],
             ]);
@@ -195,6 +217,16 @@ new class extends Component {
                 </label>
             @endforeach
         </div>
+        <div class="flex gap-8 w-full mt-4">
+            <x-global.form.input class="w-full" name="starts_on" wire:model.live="starts_on" type="date">
+                Date de début
+            </x-global.form.input>
+            <x-global.form.input class="w-full" name="ends_on" wire:model.live="ends_on" type="date"
+                                 :isRequired="false">
+                Date de fin
+            </x-global.form.input>
+        </div>
+
         <div class="flex gap-8 w-full mt-4">
             <x-global.form.input class="w-full" name="start_at" wire:model.live="start_at" type="time">
                 Heure de début
