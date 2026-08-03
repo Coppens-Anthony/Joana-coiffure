@@ -7,7 +7,7 @@ use Livewire\Component;
 new class extends Component {
     #[Modelable]
     public ?int $value = null;
-
+    public bool $isClientAdding = false;
     public string $label;
     public array $items;
 
@@ -79,11 +79,13 @@ new class extends Component {
     <ul x-show="open"
         class="absolute max-h-75 top-24 left-0 border border-black rounded-2xl w-full flex flex-col z-50 bg-white overflow-x-hidden overflow-y-scroll"
         x-cloak>
-        <li class="hover:bg-primary">
-            <button type="button" class="focus:bg-primary cursor-pointer focus:outline-none p-4 w-full text-start"
-                    wire:click="create">+ Ajouter un client
-            </button>
-        </li>
+        @if($isClientAdding)
+            <li class="hover:bg-primary">
+                <button type="button" class="focus:bg-primary cursor-pointer focus:outline-none p-4 w-full text-start"
+                        wire:click="create">+ Ajouter un client
+                </button>
+            </li>
+        @endif
         <template x-for="item in filteredItems" :key="item.id">
             <li class="cursor-pointer hover:bg-primary" @click="select(item)">
                 <button type="button" x-text="item.label"

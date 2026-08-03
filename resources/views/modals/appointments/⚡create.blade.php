@@ -18,6 +18,7 @@ use function App\Helpers\generateSlots;
 new class extends Component {
     public string $selectedDate;
     public int $client_id;
+    public int $selected_user_id;
     public array $services_id = [];
     public array $appointmentSlots = [];
     public string $hour;
@@ -26,12 +27,26 @@ new class extends Component {
     public function mount(array $params)
     {
         $this->selectedDate = $params['date'];
+
+        if (!auth()->user()->isAdmin()) {
+            $this->selected_user_id = auth()->id();
+        }
     }
 
     #[Computed]
     public function clients()
     {
         return Client::orderBy('name')->pluck('name', 'id')
+            ->map(fn($name, $id) => ['id' => $id, 'label' => $name])
+            ->values()
+            ->toArray();
+    }
+
+    #[Computed]
+    public function users()
+    {
+        return User::where('isAdmin', false)
+            ->orderBy('name')->pluck('name', 'id')
             ->map(fn($name, $id) => ['id' => $id, 'label' => $name])
             ->values()
             ->toArray();
@@ -46,12 +61,12 @@ new class extends Component {
             ->toArray();
     }
 
-    public function updatedServicesId()
+    public function refreshSlots()
     {
         $this->hasServices = true;
 
-        if (empty($this->services_id) || !$this->selectedDate) {
-            $this->slots = [];
+        if (empty($this->services_id) || !$this->selectedDate || !$this->selected_user_id) {
+            $this->appointmentSlots = [];
             return;
         }
 
@@ -60,30 +75,45 @@ new class extends Component {
 
         $date = Carbon::parse($this->selectedDate);
 
-        $appointments = Appointment::whereDate('start_at', $date)
-            ->where('user_id', auth()->id())
+        $appointments = Appointment::where('user_id', $this->selected_user_id)
+            ->whereDate('start_at', $date)
             ->get();
 
-        $unavailabilities = Unavailability::where('start_at', '<=', $date->copy()->setTime(18, 0))
+        $adminId = User::where('isAdmin', true)->value('id');
+
+        $unavailabilities = Unavailability::whereIn('user_id', [$adminId, $this->selected_user_id])
+            ->where('start_at', '<=', $date->copy()->setTime(18, 0))
             ->where('end_at', '>=', $date->copy()->setTime(9, 0))
-            ->where('user_id', auth()->id())
             ->get();
 
-        $user = User::where('isAdmin', true)->first();
-        $reccuringRules = RecurringUnavailability::whereIn('user_id', [auth()->id(), $user->id])
+        $recurringRules = RecurringUnavailability::whereIn('user_id', [$adminId, $this->selected_user_id])
+            ->where('starts_on', '<=', $date)
+            ->where('ends_on', '>=', $date)
             ->get();
 
-        $this->appointmentSlots = collect(generateSlots($date, $totalDuration, $appointments, $unavailabilities, $reccuringRules))
-            ->mapWithKeys(fn($appointmentSlot) => [
-                $appointmentSlot['start'] . '-' . $appointmentSlot['end'] => $appointmentSlot['start'] . ' - ' . $appointmentSlot['end']
-            ])
+        $this->appointmentSlots = collect(generateSlots($date, $totalDuration, $appointments, $unavailabilities, $recurringRules))
+            ->mapWithKeys(fn($slot) => [$slot['start'] . '-' . $slot['end']
+            => $slot['start'] . ' - ' . $slot['end']])
             ->toArray();
+    }
+
+    public function updatedServicesId()
+    {
+        $this->hour = '';
+        $this->refreshSlots();
+    }
+
+    public function updatedSelectedUserId()
+    {
+        $this->hour = '';
+        $this->refreshSlots();
     }
 
     public function store()
     {
         $validated = $this->validate([
             'client_id' => 'required|exists:clients,id',
+            'selected_user_id' => 'required|exists:users,id',
             'services_id' => 'required|array',
             'services_id.*' => 'exists:services,id',
             'hour' => 'required|string|in:' . implode(',', array_keys($this->appointmentSlots)),
@@ -98,7 +128,7 @@ new class extends Component {
             'client_id' => $validated['client_id'],
             'start_at' => $start_at,
             'end_at' => $end_at,
-            'user_id' => auth()->id()
+            'user_id' => $validated['selected_user_id']
         ]);
 
         foreach ($validated['services_id'] as $service) {
@@ -132,10 +162,21 @@ new class extends Component {
 <livewire:admin.modal modal_title="Ajout d'un rendez-vous">
     <form class="flex flex-col gap-4" wire:submit="store">
         <livewire:admin.searchable_field wire:model="client_id" label="Client" :items="$this->clients"
-                                         wire:key="client_field"/>
+        wire:key="client_field" :isClientAdding="true"/>
+        @if(auth()->user()->isAdmin())
+            <livewire:admin.searchable_field wire:model.live="selected_user_id" label="Coiffeur" :items="$this->users"
+                                             wire:key="user_field"/>
+        @endif
         <livewire:admin.multiple_field wire:model.live="services_id" label="Services" :items="$this->services"
-                                       wire:key="services_field"/>
-        @if (empty($services_id))
+        wire:key="services_field"/>
+        @if(auth()->user()->isAdmin() && !$selected_user_id)
+            <div class="flex flex-col gap-2">
+                <p>Horaire <span class="text-error">*</span></p>
+                <p class="border-2 border-primary p-4 rounded-2xl">
+                    Veuillez d'abord choisir un coiffeur.
+                </p>
+            </div>
+        @elseif (empty($this->services_id))
             <div class="flex flex-col gap-2">
                 <p>Horaire <span class="text-error">*</span></p>
                 <p class="border-2 border-primary p-4 rounded-2xl focus:border-primary focus:outline-none">
