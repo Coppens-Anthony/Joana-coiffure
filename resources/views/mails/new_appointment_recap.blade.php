@@ -84,7 +84,7 @@
 
     <p>Le {{ $appointment->formatDate('start_at') . ' à ' . $appointment->start_at->format('H:i') }} à l'adresse
         suivante&nbsp;: Rue de Station 57, Orp-Jauche 1350</p>
-    <p>Je vous remerci d'avoir choisi mes services. Le paiement se fera sur place et en trquide. Voici un récapitulatif
+    <p>Nous vous remercions d'avoir choisi mes services. Voici un récapitulatif
         de votre rendez-vous.</p>
 
     <table class="box">

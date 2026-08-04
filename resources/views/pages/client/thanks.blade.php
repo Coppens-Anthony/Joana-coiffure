@@ -14,9 +14,6 @@
                 <li>
                     {{ $appointment->services->sum('price') }}€ ;
                 </li>
-                <li>
-                    Paiement sur place en liquide.
-                </li>
             </ul>
             <x-global.link-button.link-button :route="route('home')" title="Revenir à l'accueil">Revenir à l'accueil</x-global.link-button.link-button>
         </div>

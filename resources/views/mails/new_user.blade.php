@@ -36,7 +36,7 @@
 
     <h1>Invitation à activer votre Compte</h1>
 
-    <p>Bonjour, je vous invite à compléter vos informations personnelles via le bouton ci-dessous afin d'activer votre
+    <p>Bonjour, nous vous invitons à compléter vos informations personnelles via le bouton ci-dessous afin d'activer votre
         compte !</p>
 
     <small>Vous avez 7 jours afin d'activer votre compte sinon quoi, l'opération devra être recommencée.</small>

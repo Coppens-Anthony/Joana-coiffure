@@ -138,16 +138,11 @@ new class extends Component {
             ]);
         }
 
-        $users = [
-            config('mail.reply_to.address'),
-            'joanacoiffure190@gmail.com',
-        ];
+        $user = User::findOrFail($validated['selected_user_id']);
 
-        foreach ($users as $user) {
-            Mail::to($user)->send(
-                new NewAppointment($appointment)
-            );
-        }
+        Mail::to($user)->send(
+            new NewAppointment($appointment)
+        );
 
         Mail::to($appointment->client->email)->send(
             new NewAppointmentRecap($appointment)
@@ -162,13 +157,13 @@ new class extends Component {
 <livewire:admin.modal modal_title="Ajout d'un rendez-vous">
     <form class="flex flex-col gap-4" wire:submit="store">
         <livewire:admin.searchable_field wire:model="client_id" label="Client" :items="$this->clients"
-        wire:key="client_field" :isClientAdding="true"/>
+                                         wire:key="client_field" :isClientAdding="true"/>
         @if(auth()->user()->isAdmin())
             <livewire:admin.searchable_field wire:model.live="selected_user_id" label="Coiffeur" :items="$this->users"
                                              wire:key="user_field"/>
         @endif
         <livewire:admin.multiple_field wire:model.live="services_id" label="Services" :items="$this->services"
-        wire:key="services_field"/>
+                                       wire:key="services_field"/>
         @if(auth()->user()->isAdmin() && !$selected_user_id)
             <div class="flex flex-col gap-2">
                 <p>Horaire <span class="text-error">*</span></p>
