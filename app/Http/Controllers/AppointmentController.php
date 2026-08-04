@@ -10,8 +10,9 @@ use App\Models\Appointment;
 use App\Models\AppointmentService;
 use App\Models\Client;
 use App\Models\RecurringUnavailability;
-use App\Models\Unavailability;
 use App\Models\Service;
+use App\Models\Unavailability;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -44,12 +45,48 @@ class AppointmentController
         return redirect(route('appointment2'));
     }
 
-    public function date(Request $request)
+    public function userChoice()
     {
         $services = Service::find(session('appointment.services'));
 
         if (! $services || $services->isEmpty()) {
             return redirect(route('appointment'));
+        }
+
+        $users = User::where('isAdmin', false)->get();
+
+        return view('pages.client.appointment.appointment2', compact('users'));
+    }
+
+    public function userChoiceStore(Request $request)
+    {
+        $services = Service::find(session('appointment.services'));
+
+        if (! $services || $services->isEmpty()) {
+            return redirect(route('appointment'));
+        }
+
+        if (! $request['user_id']) {
+            return redirect(route('appointment2'))->with('error', 'Veuillez choisir un coiffeur.se');
+        }
+
+        $validated = $request->validate([
+            'user_id' => 'required|exists:users,id',
+        ]);
+
+        session(['appointment.user_id' => $validated['user_id']]);
+
+        return redirect(route('appointment3'));
+    }
+
+    public function date(Request $request)
+    {
+        $services = Service::find(session('appointment.services'));
+        $user = User::findOrFail(session('appointment.user_id'));
+        $admin = User::where('isAdmin', true)->first();
+
+        if (! $services || $services->isEmpty() || !$user) {
+            return redirect(route('appointment2'));
         }
 
         $totalDuration = $services->sum('duration');
@@ -79,19 +116,18 @@ class AppointmentController
         $gridStart = $startOfGrid->copy()->startOfDay();
         $gridEnd = $startOfGrid->copy()->addDays(41)->endOfDay();
 
-        $appointments = Appointment::where('user_id', 2)
+        $appointments = Appointment::where('user_id', $user->id)
             ->whereBetween('start_at', [now()->format('Y-m-d'), $gridEnd])
             ->when(session('appointment.edit'), fn ($query) => $query->where('id', '!=', session('appointment.id')))
-            ->where('user_id', auth()->id())
             ->get()
             ->groupBy(fn ($appointment) => $appointment->start_at->format('Y-m-d'));
 
-        $unavailabilities = Unavailability::whereIn('user_id', [1, 2])
+        $unavailabilities = Unavailability::whereIn('user_id', [$admin->id, $user->id])
             ->where('start_at', '<=', $gridEnd)
             ->where('end_at', '>=', $gridStart)
             ->get();
 
-        $recurringRules = RecurringUnavailability::whereIn('user_id', [1, 2])
+        $recurringRules = RecurringUnavailability::whereIn('user_id', [$admin->id, $user->id])
             ->where('starts_on', '<=', $gridEnd->toDateString())
             ->where(function ($query) use ($gridStart) {
                 $query->whereNull('ends_on')
@@ -107,7 +143,7 @@ class AppointmentController
             return [$day->format('Y-m-d') => count($slots) > 0];
         })->toArray();
 
-        return view('pages.client.appointment.appointment2', compact(
+        return view('pages.client.appointment.appointment3', compact(
             'slots',
             'services',
             'totalDuration',
@@ -135,7 +171,7 @@ class AppointmentController
             'appointment.slot' => $validated['slot'],
         ]);
 
-        return redirect(route('appointment3'));
+        return redirect(route('appointment4'));
     }
 
     public function confirmation()
@@ -143,9 +179,10 @@ class AppointmentController
         if (
             ! session('appointment.services') ||
             ! session('appointment.date') ||
-            ! session('appointment.slot')
+            ! session('appointment.slot') ||
+            ! session('appointment.user_id')
         ) {
-            return redirect(route('appointment2'));
+            return redirect(route('appointment3'));
         }
 
         $services = Service::find(session('appointment.services'));
@@ -156,7 +193,7 @@ class AppointmentController
         $totalDuration = $services->sum('duration');
 
         return view(
-            'pages.client.appointment.appointment3',
+            'pages.client.appointment.appointment4',
             compact(
                 'services',
                 'totalDuration',
@@ -170,9 +207,10 @@ class AppointmentController
         if (
             ! session('appointment.services') ||
             ! session('appointment.date') ||
-            ! session('appointment.slot')
+            ! session('appointment.slot') ||
+            ! session('appointment.user_id')
         ) {
-            return redirect(route('appointment2'));
+            return redirect(route('appointment3'));
         }
 
         $start = Carbon::parse(
@@ -181,6 +219,7 @@ class AppointmentController
 
         $services = Service::find(session('appointment.services'));
         $totalDuration = $services->sum('duration');
+        $user = User::findOrFail(session('appointment.user_id'));
 
         $end = $start->copy()->addMinutes($totalDuration);
 
@@ -192,7 +231,7 @@ class AppointmentController
         }
 
         if ($conflict->exists()) {
-            return redirect(route('appointment2'))
+            return redirect(route('appointment3'))
                 ->with('error', 'Ce créneau n\'est malheureusement plus disponible');
         }
 
@@ -221,6 +260,7 @@ class AppointmentController
                 'message' => $validated['message'],
                 'start_at' => $start,
                 'end_at' => $end,
+                'user_id' => $user->id,
             ]);
 
             $appointment->services()->sync($services->pluck('id'));
@@ -232,6 +272,7 @@ class AppointmentController
                 'message' => $validated['message'],
                 'start_at' => $start,
                 'end_at' => $end,
+                'user_id' => $user->id,
             ]);
 
             $appointment->services()->attach($services->pluck('id'));

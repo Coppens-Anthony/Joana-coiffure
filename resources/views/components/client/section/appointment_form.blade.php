@@ -1,6 +1,6 @@
 <section class="md:w-1/2">
     <h2 class="text-[2rem] mb-8">Finalisez le rendez-vous</h2>
-    <form action="{{ route('appointment3.store') }}" method="post" class="flex flex-col gap-4">
+    <form action="{{ route('appointment4.store') }}" method="post" class="flex flex-col gap-4">
         @csrf
         <x-global.form.input name="name" placeholder="John Doe" :value="session('appointment.client_name') ?? ''">
             Nom

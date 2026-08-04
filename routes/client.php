@@ -7,7 +7,6 @@ use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\ServiceController;
-use App\Http\Controllers\TestController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::view('/a-propos', 'pages.client.about')->name('about');
@@ -26,11 +25,14 @@ Route::get('/prestations', [ServiceController::class, 'index'])->name('prices');
 Route::get('/rendez-vous/prestations', [AppointmentController::class, 'services'])->name('appointment');
 Route::post('/rendez-vous/prestations', [AppointmentController::class, 'servicesStore'])->name('appointment.store');
 
-Route::get('/rendez-vous/date', [AppointmentController::class, 'date'])->name('appointment2');
-Route::post('/rendez-vous/date', [AppointmentController::class, 'dateStore'])->name('appointment2.store');
+Route::get('/rendez-vous/choix-du-coiffeur', [AppointmentController::class, 'userChoice'])->name('appointment2');
+Route::post('/rendez-vous/choix-du-coiffeur', [AppointmentController::class, 'userChoiceStore'])->name('appointment2.store');
 
-Route::get('/rendez-vous/confirmation', [AppointmentController::class, 'confirmation'])->name('appointment3');
-Route::post('/rendez-vous/confirmation', [AppointmentController::class, 'confirmationStore'])->name('appointment3.store');
+Route::get('/rendez-vous/date', [AppointmentController::class, 'date'])->name('appointment3');
+Route::post('/rendez-vous/date', [AppointmentController::class, 'dateStore'])->name('appointment3.store');
+
+Route::get('/rendez-vous/confirmation', [AppointmentController::class, 'confirmation'])->name('appointment4');
+Route::post('/rendez-vous/confirmation', [AppointmentController::class, 'confirmationStore'])->name('appointment4.store');
 
 
 Route::get('/rendez-vous/{appointment}/annulation', [AppointmentController::class, 'appointment_cancel_view'])->name('appointment_cancel.view');

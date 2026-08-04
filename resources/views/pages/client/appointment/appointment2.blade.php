@@ -1,4 +1,4 @@
-<x-client.layout title="Choix de la date et de l'heure" :isContactOrAppointment="true">
+<x-client.layout title="Choix du coiffeur" :isContactOrAppointment="true">
     @if(session('error'))
         <div class="alert-delete">
             {{ session('error') }}
@@ -9,104 +9,74 @@
             <x-global.link-button.link class="w-fit" title="Vers l'étape précédente" :route="route('appointment')">
                 &laquo; Précédent
             </x-global.link-button.link>
-            @if(session('appointment.date') && session('appointment.slot'))
+            @if(session('appointment.user_id'))
                 <x-global.link-button.link class="w-fit" title="Vers l'étape suivante" :route="route('appointment3')">
-                    Suivant &laquo;
+                    Suivant &raquo;
                 </x-global.link-button.link>
-            @endif</div>
-        <div class="flex flex-col-reverse md:flex-row gap-16">
-            <section class="w-full md:w-1/2">
-                <h3 class="text-[2rem] mb-8">Sélectionnez une date et une heure</h3>
-                <div class="p-8 rounded-3xl shadow-[0_0_10px_rgba(0,0,0,0.1)]">
-                    <div class="flex gap-2 items-center mb-4">
-                        <span class="w-2 h-2 bg-error rounded-full"></span>
-                        <small class="text-[.85rem] italic">Jours indisponibles</small>
-                    </div>
-                    <div class="grid grid-cols-3 items-center mb-8">
-                        <div class="relative w-fit">
-                            @if(!$currentMonth->isSameMonth(today()))
-                                @php
-                                    $previousMonth = $currentMonth->copy()->subMonth();
-                                    $previousDate = $previousMonth->isSameMonth(today())
-                                        ? today()
-                                        : $previousMonth->startOfMonth();
-                                @endphp
-                                <a href="?date={{ $previousDate->format('Y-m-d') }}" title="Aller au mois précédent"
-                                   class="absolute w-full h-full cursor-pointer z-10"></a>
-                                <img src="{{ asset('assets/svg/chevron.svg') }}" alt="Aller au mois précédent"
-                                     class="rotate-90">
-                            @endif
-                        </div>
-
-                        <p class="text-center text-xl">
-                            {{ ucfirst($currentMonth->translatedFormat('F Y')) }}
-                        </p>
-
-                        <div class="flex justify-end ml-auto relative w-fit">
-                            @php
-                                $nextMonth = $currentMonth->copy()->addMonth();
-
-                                $nextDate = $nextMonth->startOfMonth();
-                            @endphp
-
-                            <a href="?date={{ $nextDate->format('Y-m-d') }}" title="Aller au mois suivant"
-                               class="absolute w-full h-full cursor-pointer z-10"></a>
-                            <img src="{{ asset('assets/svg/chevron.svg') }}" alt="Aller au mois suivant"
-                                 class="-rotate-90">
-                        </div>
-
-                    </div>
-                    <div class="grid grid-cols-7 text-center text-sm mb-2 opacity-60">
-                        <p>Lun</p>
-                        <p>Mar</p>
-                        <p>Mer</p>
-                        <p>Jeu</p>
-                        <p>Ven</p>
-                        <p>Sam</p>
-                        <p>Dim</p>
-                    </div>
-                    <div class="grid grid-cols-7 gap-2 w-full">
-
-                        @foreach($days as $day)
-
-                            @php
-                                $isCurrentMonth = $day->month === $currentMonth->month;
-                                $isSelected = $day->isSameDay($currentDate);
-                                $isPast = $day->isBefore(today());
-                                $hasSlots = $availableDays[$day->format('Y-m-d')] ?? true;
-                            @endphp
-
-                            <a href="?date={{ $day->format('Y-m-d') }}#slots"
-                               tabindex="{{ $isPast || !$hasSlots || !$isCurrentMonth ? '-1' : '0' }}"
-                               class="w-full py-2 flex items-center justify-center rounded-full font-bold transition hover:bg-primary
-                                {{ !$isCurrentMonth ? 'opacity-20 pointer-events-none' : '' }}
-                                {{ $isPast ? 'opacity-30 pointer-events-none' : '' }}
-                                {{ $isSelected ? 'bg-primary hover:bg-primary text-black' : '' }}
-                                {{ !$isPast && $isCurrentMonth && !$hasSlots ? 'text-error pointer-events-none' : '' }}">
-                                {{ $day->day }}
-                            </a>
-                        @endforeach
-                    </div>
-                    @if(count($slots))
-                        <div class="grid grid-cols-4 md:grid-cols-6 gap-4 mt-4" id="slots">
-                            @foreach($slots as $slot)
-                                <form method="POST" action="{{ route('appointment2.store') }}">
-                                    @csrf
-                                    <input type="hidden" name="date" value="{{ $dateValue }}">
-                                    <input type="hidden" name="slot" value="{{ $slot['start'] }}">
-                                    <button type="submit"
-                                            class="text-center w-full px-2 md:px-0 py-2 hover:bg-white border-2 border-primary duration-200 cursor-pointer bg-primary rounded-xl">{{ $slot['start'] }}</button>
-                                </form>
-                            @endforeach
-                        </div>
-                    @else
-                        <p class="mt-4 text-sm opacity-60">
-                            Aucun créneau disponible pour cette journée.
-                        </p>
-                    @endif
-                </div>
-            </section>
-            <x-client.section.appointment_recap :services="$services" :totalDuration="$totalDuration"/>
+            @endif
         </div>
+        <section>
+            <h2 class="text-[2rem] mb-8">
+                Choisissez votre coiffeur.se
+            </h2>
+
+            <form method="POST" action="{{ route('appointment2.store') }}">
+                @csrf
+
+                @if($users)
+                    <ul class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+                        @foreach($users as $user)
+                            <li>
+                                <label class="block cursor-pointer">
+                                    <input
+                                        type="radio"
+                                        name="user_id"
+                                        value="{{ $user->id }}"
+                                        class="peer sr-only"
+                                        @checked(session('appointment.user_id') == $user->id)
+                                    >
+
+                                    <div class="relative overflow-hidden rounded-2xl transition-all duration-200 aspect-square
+                               border-2 border-transparent hover:-translate-y-1 peer-checked:border-primary peer-checked:border-4">
+                                        @if($user->avatar)
+                                            <img
+                                                src="{{ Storage::url('pictures/originals/' . $user->avatar) }}"
+                                                srcset="{{ Storage::url('pictures/variants/300x300/' . $user->avatar) }} 300w,
+                                        {{ Storage::url('pictures/variants/600x600/' . $user->avatar) }} 600w,
+                                        {{ Storage::url('pictures/variants/900x900/' . $user->avatar) }} 900w"
+                                                sizes="(max-width:768px) 45vw, 25vw"
+                                                alt="{{ $user->name }}"
+                                                class="h-full w-full object-cover transition-transform duration-200 hover:scale-110">
+                                        @else
+                                            <div
+                                                class="h-full w-full flex items-center justify-center bg-tertiary text-4xl font-semibold">
+                                                {{ strtoupper(substr($user->name, 0, 1)) }}
+                                            </div>
+                                        @endif
+
+                                        <div
+                                            class="absolute inset-0 bg-linear-to-t from-black/75 via-black/10 to-transparent"></div>
+
+                                        <div class="absolute bottom-0 left-0 right-0 p-4">
+                                            <p class="text-white font-semibold text-lg">
+                                                {{ $user->name }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </label>
+                            </li>
+                        @endforeach
+                    </ul>
+
+                    <x-global.link-button.button title="Vers la prochaine étape"
+                                                 class="ml-auto block w-fit mt-8">
+                        Continuer
+                    </x-global.link-button.button>
+                @else
+                    <p>Désolé, aucun coiffeur n'est disponible.</p>
+                @endif
+
+            </form>
+        </section>
     </div>
 </x-client.layout>
