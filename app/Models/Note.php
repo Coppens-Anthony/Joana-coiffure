@@ -15,6 +15,7 @@ class Note extends Model
     protected $fillable = [
         'content',
         'client_id',
+        'user_id',
         'updated_at',
     ];
 
@@ -28,6 +29,10 @@ class Note extends Model
     public function client(): BelongsTo
     {
         return $this->belongsTo(Client::class);
+    }
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 
     public function formatDate($field): string

@@ -28,6 +28,7 @@ new class extends Component {
         Note::create([
             'client_id' => $this->client_id,
             'content' => $validated['content'],
+            'user_id' => auth()->id()
         ]);
         $this->dispatch('action_done', message: 'Note ajoutée avec succès !');
         $this->dispatch('close_modal');
@@ -42,6 +43,7 @@ new class extends Component {
         $this->note->update([
             'content' => $validated['content'],
             'updated_at' => now(),
+            'user_id' => auth()->id()
         ]);
         $this->dispatch('action_done', message: 'Note modifiée avec succès !');
         $this->dispatch('close_modal');
@@ -56,7 +58,7 @@ new class extends Component {
         </x-global.form.textarea>
         <div class="ml-auto w-fit flex gap-6 mt-4">
             <x-global.link-button.button type="button" title="Fermer la modale" :isSecondary="true"
-                                        wire:click="dispatch('close_modal')">
+                                         wire:click="dispatch('close_modal')">
                 Annuler
             </x-global.link-button.button>
             <x-global.link-button.button
