@@ -2,6 +2,7 @@
 
 use App\Models\Appointment;
 use App\Models\Client;
+use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Livewire\Attributes\Computed;
@@ -10,6 +11,7 @@ use Livewire\Component;
 
 new #[Title('Statistiques')]
 class extends Component {
+    public User $user;
     public int $month;
     public int $year;
     public array $monthOptions = [];
@@ -17,6 +19,7 @@ class extends Component {
 
     public function mount()
     {
+        $this->user = auth()->user();
         $this->month = now()->month;
         $this->year = now()->year;
 
@@ -37,6 +40,9 @@ class extends Component {
     private function baseAppointmentsQuery()
     {
         $query = Appointment::query()
+            ->when(!$this->user->isAdmin, function ($query) {
+                $query->where('user_id', $this->user->id);
+            })
             ->whereYear('end_at', $this->year);
 
         if ($this->month !== 0) {
@@ -76,11 +82,27 @@ class extends Component {
     public function newClients()
     {
         $query = Client::query()
-            ->whereYear('created_at', $this->year);
+            ->when(!$this->user->isAdmin, function ($query) {
+                $query->whereHas('appointments', function ($query) {
+                    $query->where('user_id', $this->user->id)
+                        ->whereYear('start_at', $this->year)
+                        ->where('end_at', '<=', now());
 
-        if ($this->month !== 0) {
-            $query->whereMonth('created_at', $this->month);
-        }
+                    if ($this->month !== 0) {
+                        $query->whereMonth('start_at', $this->month);
+                    }
+                });
+
+                $query->whereDoesntHave('appointments', function ($query) {
+                    $query->where('user_id', $this->user->id);
+
+                    if ($this->month !== 0) {
+                        $query->where('start_at', '<', Carbon::create($this->year, $this->month, 1));
+                    } else {
+                        $query->whereYear('start_at', '<', $this->year);
+                    }
+                });
+            });
 
         return $query;
     }
