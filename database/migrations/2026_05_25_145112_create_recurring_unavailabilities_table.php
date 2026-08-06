@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('recurring_unavailabilities', function (Blueprint $table) {
             $table->id();
+            $table->uuid();
             $table->json('days_of_week');
             $table->time('start_time');
             $table->time('end_time');

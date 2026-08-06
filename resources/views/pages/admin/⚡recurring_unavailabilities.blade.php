@@ -33,14 +33,14 @@ class extends Component {
         $this->dispatch('open_modal', ['modal' => 'modals::recurring_unavailabilities.create_edit']);
     }
 
-    public function edit(string $id)
+    public function edit(string $uuid)
     {
-        $this->dispatch('open_modal', ['modal' => 'modals::recurring_unavailabilities.create_edit', 'model_id' => $id]);
+        $this->dispatch('open_modal', ['modal' => 'modals::recurring_unavailabilities.create_edit', 'model_id' => $uuid]);
     }
 
-    public function delete(string $id)
+    public function delete(string $uuid)
     {
-        $this->dispatch('open_modal', ['modal' => 'modals::recurring_unavailabilities.delete', 'model_id' => $id]);
+        $this->dispatch('open_modal', ['modal' => 'modals::recurring_unavailabilities.delete', 'model_id' => $uuid]);
     }
 
 };
@@ -87,12 +87,12 @@ class extends Component {
                             @if($unavailability->user->id === auth()->id())
                                 <span class="title_td">Actions</span>
                                 <div class="flex gap-2 items-center w-fit ml-auto lg:mx-auto">
-                                    <button type="button" wire:click="edit({{ $unavailability->id }})"
+                                    <button type="button" wire:click="edit('{{ $unavailability->uuid }}')"
                                             class="hover:scale-120 duration-200">
                                         <img src="{{ asset('assets/svg/edit.svg') }}" alt="Modifier la prestation"
                                              class="w-7 h-7 cursor-pointer">
                                     </button>
-                                    <button type="button" wire:click="delete({{ $unavailability->id }})"
+                                    <button type="button" wire:click="delete('{{ $unavailability->uuid }}')"
                                             class="hover:scale-120 duration-200">
                                         <img src="{{ asset('assets/svg/delete.svg') }}" alt="Supprimer la prestation"
                                              class="w-6 h-6 cursor-pointer">

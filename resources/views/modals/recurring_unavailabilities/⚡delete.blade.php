@@ -11,7 +11,7 @@ new class extends Component {
     public function mount(string $model_id)
     {
         if ($model_id) {
-            $this->recurringUnavailability = RecurringUnavailability::findOrFail($model_id);
+            $this->recurringUnavailability = RecurringUnavailability::where('uuid', $model_id)->firstOrFail();
         }
     }
 

@@ -22,7 +22,8 @@ class extends Component {
     {
         $this->client = $client->load([
             'appointments' => fn($q) => $q->orderByDesc('start_at'),
-            'appointments.services:name,duration,price'
+            'appointments.services:name,duration,price',
+            'appointments.user:id,name',
         ]);
     }
 
@@ -42,14 +43,14 @@ class extends Component {
         $this->dispatch('open_modal', ['modal' => 'modals::clients.create_edit', 'model_id' => $id]);
     }
 
-    public function edit(string $id)
+    public function edit(string $uuid)
     {
-        $this->dispatch('open_modal', ['modal' => 'modals::notes.create_edit', 'model_id' => $id]);
+        $this->dispatch('open_modal', ['modal' => 'modals::notes.create_edit', 'model_id' => $uuid]);
     }
 
-    public function delete(string $id)
+    public function delete(string $uuid)
     {
-        $this->dispatch('open_modal', ['modal' => 'modals::notes.delete', 'model_id' => $id]);
+        $this->dispatch('open_modal', ['modal' => 'modals::notes.delete', 'model_id' => $uuid]);
     }
 };
 ?>
@@ -100,12 +101,12 @@ class extends Component {
                         <li class="flex flex-col sm:flex-row sm:justify-between gap-1 sm:items-center">
                             <p class="w-3/4">{{ $note->formatDate('updated_at') . ' : ' . $note->content }}</p>
                             <div class="flex gap-2 w-fit">
-                                <button wire:click="edit({{ $note->id }})"
+                                <button wire:click="edit('{{ $note->uuid }}')"
                                         class="cursor-pointer hover:scale-120 duration-200">
                                     <img src="{{ asset('assets/svg/edit.svg') }}" class="w-7 h-7"
                                          alt="Modifier la note">
                                 </button>
-                                <button wire:click="delete({{ $note->id }})"
+                                <button wire:click="delete('{{ $note->uuid }}')"
                                         class="cursor-pointer hover:scale-120 duration-200">
                                     <img src="{{ asset('assets/svg/delete.svg') }}" class="w-6 h-6"
                                          alt="Supprimer la note">

@@ -34,7 +34,7 @@ new class extends Component {
         $this->user = auth()->user();
 
         if ($model_id) {
-            $this->reccuring_unavailability = RecurringUnavailability::findOrFail($model_id);
+            $this->reccuring_unavailability = RecurringUnavailability::where('uuid', $model_id)->firstOrFail();
             $this->start_at = Carbon::parse($this->reccuring_unavailability->start_time)->format('H:i');
             $this->end_at = Carbon::parse($this->reccuring_unavailability->end_time)->format('H:i');
             $this->starts_on = Carbon::parse($this->reccuring_unavailability->starts_on)->format('Y-m-d');
@@ -99,7 +99,7 @@ new class extends Component {
             'sunday' => 'boolean',
             'start_at' => 'required|date_format:H:i',
             'end_at' => 'required|date_format:H:i',
-            'starts_on' => 'required|date_format:Y-m-d|after_or_equal:' . now()->toDateString(),
+            'starts_on' => 'required|date_format:Y-m-d',
             'ends_on' => 'nullable|date_format:Y-m-d|after:starts_on',
         ]);
 
@@ -158,7 +158,7 @@ new class extends Component {
             'sunday' => 'boolean',
             'start_at' => 'required|date_format:H:i',
             'end_at' => 'required|date_format:H:i',
-            'starts_on' => 'required|date_format:Y-m-d|after_or_equal:' . now()->toDateString(),
+            'starts_on' => 'required|date_format:Y-m-d',
             'ends_on' => 'nullable|date_format:Y-m-d|after:starts_on',
         ]);
 

@@ -9,9 +9,7 @@ new class extends Component {
 
     public function mount(string $model_id)
     {
-        if ($model_id) {
-            $this->note = Note::findOrFail($model_id);
-        }
+        $this->note = Note::where('uuid', $model_id)->firstOrFail();
     }
 
     public function destroy()

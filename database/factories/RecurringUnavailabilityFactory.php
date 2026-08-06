@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\RecurringUnavailability;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class RecurringUnavailabilityFactory extends Factory
 {
@@ -13,6 +14,7 @@ class RecurringUnavailabilityFactory extends Factory
     public function definition(): array
     {
         return [
+            'uuid' => Str::uuid(),
             'days_of_week' => [6, 0],
             'start_time' => config('app.hours.hour_start'),
             'end_time' => config('app.hours.hour_end'),

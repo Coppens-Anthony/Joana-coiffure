@@ -14,7 +14,7 @@ new class extends Component {
         $this->client_id = $model_type;
 
         if ($model_id) {
-            $this->note = Note::findOrFail($model_id);
+            $this->note = Note::where('uuid', $model_id)->firstOrFail();
             $this->content = $this->note->content;
         }
     }
@@ -26,6 +26,7 @@ new class extends Component {
         ]);
 
         Note::create([
+            'uuid' => Str::uuid(),
             'client_id' => $this->client_id,
             'content' => $validated['content'],
             'user_id' => auth()->id()

@@ -145,6 +145,7 @@ class DatabaseSeeder extends Seeder
 
         foreach ($recurring as $r) {
             RecurringUnavailability::create([
+                'uuid' => Str::uuid(),
                 'days_of_week' => $r['days_of_week'],
                 'start_time' => $r['start_time'],
                 'end_time' => $r['end_time'],

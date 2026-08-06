@@ -9,14 +9,14 @@ new class extends Component {
     public Appointment $appointment;
     public bool $isReadOnly;
 
-    public function show(string $id)
+    public function show(string $uuid)
     {
-        $this->dispatch('open_modal', ['modal' => 'modals::appointments.show', 'model_id' => $id]);
+        $this->dispatch('open_modal', ['modal' => 'modals::appointments.show', 'model_id' => $uuid]);
     }
 
-    public function delete(string $id)
+    public function delete(string $uuid)
     {
-        $this->dispatch('open_modal', ['modal' => 'modals::appointments.delete', 'model_id' => $id]);
+        $this->dispatch('open_modal', ['modal' => 'modals::appointments.delete', 'model_id' => $uuid]);
     }
 };
 ?>
@@ -44,12 +44,12 @@ new class extends Component {
                 </p>
             </div>
             <div class="flex gap-4 items-center">
-                <button class="cursor-pointer hover:scale-120 duration-200" wire:click="show({{ $appointment->id }})">
+                <button class="cursor-pointer hover:scale-120 duration-200" wire:click="show('{{ $appointment->uuid }}')">
                     <img src="{{ asset('assets/svg/eye.svg') }}" alt="Voir le rendez-vous en détail"
                          class="w-7 h-7">
                 </button>
                 @if(!$this->isReadOnly)
-                    <button class="cursor-pointer hover:scale-120 duration-200" wire:click="delete({{ $appointment->id }})">
+                    <button class="cursor-pointer hover:scale-120 duration-200" wire:click="delete('{{ $appointment->uuid }}')">
                         <img src="{{ asset('assets/svg/delete.svg') }}" alt="Annuler le rendez-vous"
                              class="w-6 h-6">
                     </button>

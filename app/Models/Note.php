@@ -13,6 +13,7 @@ class Note extends Model
     use HasFactory;
 
     protected $fillable = [
+        'uuid',
         'content',
         'client_id',
         'user_id',

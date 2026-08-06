@@ -9,7 +9,7 @@ new class extends Component {
 
     public function mount(string $model_id)
     {
-        $this->appointment = Appointment::findOrFail($model_id);
+        $this->appointment = Appointment::where('uuid', $model_id)->firstOrFail();
     }
 };
 ?>

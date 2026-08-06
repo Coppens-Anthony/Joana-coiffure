@@ -11,6 +11,7 @@ class RecurringUnavailability extends Model
     use HasFactory;
 
     protected $fillable = [
+        'uuid',
         'days_of_week',
         'start_time',
         'end_time',
