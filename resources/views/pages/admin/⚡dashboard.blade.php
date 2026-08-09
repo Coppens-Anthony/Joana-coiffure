@@ -36,15 +36,20 @@ class extends Component {
             {{ session('delete') }}
         </div>
     @endif
-    <section>
-        <h2 class="text-2xl">Les rendez-vous de la journée</h2>
-        @if($this->appointments->count() <= 0)
-            <p class="mt-8">Il n'y a pas de rendez-vous aujourd'hui.</p>
-        @endif
-        <ol class="mt-6 flex flex-col gap-8">
-            @foreach($this->appointments as $appointment)
-                <livewire:admin.appointment.item_line :appointment="$appointment"/>
-            @endforeach
-        </ol>
-    </section>
+    @if(auth()->user()->isAdmin())
+        <livewire:admin.dashboard.auth/>
+    @else
+        <section>
+            <h2 class="text-2xl">Les rendez-vous de la journée</h2>
+            @if($this->appointments->count() <= 0)
+                <p class="mt-8">Il n'y a pas de rendez-vous aujourd'hui.</p>
+            @endif
+            <ol class="mt-6 flex flex-col gap-8">
+                @foreach($this->appointments as $appointment)
+                    <livewire:admin.appointment.item_line :appointment="$appointment"/>
+                @endforeach
+            </ol>
+        </section>
+    @endif
+
 </div>
