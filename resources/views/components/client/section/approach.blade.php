@@ -1,5 +1,5 @@
 <section>
-    <h2 class="text-[2rem] mb-16">Mon approche</h2>
+    <h2 class="text-[2rem] mb-16">Notre approche</h2>
     <ul class="flex flex-col md:flex-row mx-auto gap-8 md:justify-between md:gap-0 mdmx-0">
         <li>
             <x-client.single_element.flip_card title="Analyse personnalisée"

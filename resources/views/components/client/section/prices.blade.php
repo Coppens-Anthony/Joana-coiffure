@@ -1,7 +1,7 @@
 @props(['services', 'isAppointment' => false, 'selectedServices' => []])
 
 <section>
-    <h2 class="text-[2rem] mb-16">{{ $isAppointment ? 'Sélectionnez une/des prestation/s' : 'Mes tarifs'}}</h2>
+    <h2 class="text-[2rem] mb-16">{{ $isAppointment ? 'Sélectionnez une/des prestation/s' : 'Nos tarifs'}}</h2>
     <ul class="flex flex-col gap-8">
         @foreach($services as $service)
             <li class="border-b border-black pb-4">

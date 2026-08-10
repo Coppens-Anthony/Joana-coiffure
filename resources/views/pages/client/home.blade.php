@@ -28,20 +28,20 @@
         </div>
     @endif
     <x-client.single_element.icon_content :isTitle="false" :items="$items" :isLink="true"
-                                          link_button_label="Toutes mes prestations"
+                                          link_button_label="Toutes nos prestations"
                                           link_button_title="Vers la page des tarifs"
                                           :link_button_route="route('prices')">
-        Mes prestations
+        Nos prestations
     </x-client.single_element.icon_content>
     <x-client.section.text_content
         img_path="me.jpg"
         img_alt="Portrait de Joana Monteiro"
-        content="Je m'appelle Joana Monteiro, je suis coiffeuse et visagiste depuis 2013. Je me suis mise en tant qu'indépendante afin d'aller chercher un vrai contact avec le client. Je fais en sorte que mon client soit mon centre d'intérêt, je ne veux pas simplement avoir des clients à la chaîne."
+        content="Notre salon vous accueille dans une ambiance chaleureuse et conviviale, avec une équipe à l’écoute de vos envies. Chaque prestation est réalisée avec attention afin de vous proposer un résultat qui correspond à votre style, vos habitudes et votre personnalité."
         :isLink="true"
         link_button_title="Vers la page à propos"
-        link_button_label="En savoir plus sur moi"
+        link_button_label="En savoir plus le salon"
         :link_button_route="route('about')">
-        Qui suis-je ?
+        Un salon à votre écoute
     </x-client.section.text_content>
     <x-client.section.testimonials/>
 </x-client.layout>

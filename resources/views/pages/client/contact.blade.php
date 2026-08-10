@@ -10,7 +10,7 @@
                     Votre message a bien été envoyé&nbsp;!
                 </h2>
                 <p>
-                    Je vous recontacterai le plus vite possible.
+                    Nous vous recontacterons le plus vite possible.
                 </p>
             </div>
         @else

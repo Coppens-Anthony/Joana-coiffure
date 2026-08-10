@@ -23,28 +23,30 @@
 
 <x-client.layout title="À propos de moi" :isContactOrAppointment="false">
     <x-client.section.text_content
-        img_path="about.jpg"
+        img_path="school.jpg"
+        img_alt="Image de l'école fréquentée."
+        content="Au fil des années, l'activité s'est développée, le salon a grandi et l'équipe s'est agrandie. Mais malgré cette évolution, l'esprit du salon est resté le même : prendre le temps de comprendre chaque client, partager notre passion du métier et proposer un service personnalisé.">
+        Joana-Coiffure
+    </x-client.section.text_content>
+    <x-client.section.text_content
+        img_path="me.jpg"
         img_alt="Portrait de Joana Monteiro"
+        :isReverse="true"
         itemtype="https://schema.org/Person"
-        content="Maman de plusieurs petits enfants (qui pourraient venir passer une tête de temps en temps lors du rendez-vous), je mets tout en avant afin que le client soit roi. Je conseille et adapte mes services en fonction du client afin de lui proposer le meilleur pour lui.">
-        <span itemprop="name">Joana Monteiro</span>, <span itemprop="jobTitle">coiffeuse et visagiste</span>
+        content="Après plusieurs années à accompagner ses clientes en tant que coiffeuse indépendante, Joana a souhaité aller plus loin en créant un espace où chaque personne peut bénéficier d'un accompagnement personnalisé dans une ambiance chaleureuse et conviviale."
+        content2="Aujourd'hui, elle met son expérience et son savoir-faire au service du salon tout en partageant ses valeurs avec son équipe.">
+        Joana, la patronne
     </x-client.section.text_content>
     <x-client.section.text_content
         img_path="room.jpg"
         img_alt="Image montrant l'espace coiffure avec le siège devant un miroir."
-        :isReverse="true"
-        content="Mon petit coin coiffure est très cocooning. Je voulais vraiment faire en sorte que le client soit directement à l'aise, qu'il se sente comme chez lui. J'ai alors aloué une petite pièce de chez moi que j'ai transformer en mini salon de coiffure. J'y ai placé un lavabo pour les lavages de cheveux et les colorations. ">
-        Mon espace coiffure
+        content="Chaque membre de notre équipe partage la même passion pour la coiffure et le même engagement : vous offrir une expérience agréable ainsi qu'un résultat qui vous ressemble."
+        content2="Grâce à nos différentes expertises, nous vous accompagnons dans tous vos projets capillaires, des coupes du quotidien aux transformations plus audacieuses."
+    >
+        L'équipe du salon
     </x-client.section.text_content>
-    <x-client.section.text_content
-        img_path="school.jpg"
-        img_alt="Image de l'école fréquentée."
-        content="J’ai réalisé mes études en coiffure à l’École d’Ixelles, où j’ai suivi une formation de 5 ans me permettant d’obtenir également le titre de visagiste, ainsi que ma gestion. J’ai ensuite travaillé pendant 13 ans en salon de coiffure. Par la suite, j’ai choisi de devenir indépendante afin de développer une relation plus authentique avec mes clients.">
-        Mon parcours
-    </x-client.section.text_content>
-
     <x-client.section.approach/>
     <x-client.single_element.icon_content :items="$items">
-        Mes valeurs
+        Nos valeurs
     </x-client.single_element.icon_content>
 </x-client.layout>

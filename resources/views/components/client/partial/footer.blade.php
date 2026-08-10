@@ -8,12 +8,12 @@
             </div>
             <div class="relative w-fit mx-auto">
                 <a href="https://www.facebook.com/groups/1837434023235164/user/100040838886459/?locale=fr_FR" target="_blank"
-                   class="absolute top-0 left-0 h-full w-full" title="Vers ma page Facebook" aria-label="Facebook"></a>
-                <img src="{{asset('assets/svg/facebook.svg')}}" alt="Vers ma page Facebook" width="32" height="32">
+                   class="absolute top-0 left-0 h-full w-full" title="Vers notre page Facebook" aria-label="Facebook"></a>
+                <img src="{{asset('assets/svg/facebook.svg')}}" alt="Vers notre page Facebook" width="32" height="32">
             </div>
         </div>
         <section>
-            <h3 class="text-[1.5rem] mb-4">Mes horaires</h3>
+            <h3 class="text-[1.5rem] mb-4">Nos horaires</h3>
             <ul class="flex flex-col gap-4">
                 <li>
                     Du lundi au vendredi de 9h à 18h
@@ -52,13 +52,13 @@
             </ul>
         </nav>
         <section>
-            <h3 class="text-[1.5rem] mb-4">Mes coordonnées</h3>
+            <h3 class="text-[1.5rem] mb-4">Nos coordonnées</h3>
             <ul class="flex flex-col gap-4" itemtype="https://schema.org/Organization" itemscope>
                 <li itemprop="email">
-                    <x-global.link-button.link route="mailto:joanastofs@gmail.com" title="Envoyez-moi un mail">joanastofs@gmail.com</x-global.link-button.link>
+                    <x-global.link-button.link route="mailto:joanacoiffure190@gmail.com" title="Envoyez-nous un mail">joanacoiffure190@gmail.com</x-global.link-button.link>
                 </li>
                 <li itemprop="telephone">
-                    <x-global.link-button.link route="tel:+32466486777" title="Téléphonez-moi">+32 466 48 67 77</x-global.link-button.link>
+                    <x-global.link-button.link route="tel:+32477810647" title="Téléphonez-nous">+32 477 81 06 47</x-global.link-button.link>
                 </li>
                 <li itemprop="address">
                     Rue de la Station 57,
