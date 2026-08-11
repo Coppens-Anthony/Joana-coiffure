@@ -132,6 +132,7 @@ new class extends Component {
                 $this->dispatch('open_modal', ['modal' => 'modals::recurring_unavailabilities.confirmation', 'params' => ['appointment_ids' => $this->conflictingAppointments->pluck('id')->toArray(), 'days' => $days, 'start_at' => $start_at, 'end_at' => $end_at]]);
             } else {
                 RecurringUnavailability::create([
+                    'uuid' => Str::uuid(),
                     'days_of_week' => $days,
                     'starts_on' => $validated['starts_on'],
                     'ends_on' => $validated['ends_on'],

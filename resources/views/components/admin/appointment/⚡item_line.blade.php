@@ -14,6 +14,11 @@ new class extends Component {
         $this->dispatch('open_modal', ['modal' => 'modals::appointments.show', 'model_id' => $uuid]);
     }
 
+    public function edit(string $uuid)
+    {
+        $this->dispatch('open_modal', ['modal' => 'modals::appointments.create_edit', 'model_id' => $uuid, 'params' => ['date' => $this->appointment->start_at->format('Y-m-d')]]);
+    }
+
     public function delete(string $uuid)
     {
         $this->dispatch('open_modal', ['modal' => 'modals::appointments.delete', 'model_id' => $uuid]);
@@ -49,6 +54,10 @@ new class extends Component {
                          class="w-7 h-7">
                 </button>
                 @if(!$this->isReadOnly)
+                    <button class="cursor-pointer hover:scale-120 duration-200" wire:click="edit('{{ $appointment->uuid }}')">
+                        <img src="{{ asset('assets/svg/edit.svg') }}" alt="Modifier le rendez-vous"
+                             class="w-6 h-6">
+                    </button>
                     <button class="cursor-pointer hover:scale-120 duration-200" wire:click="delete('{{ $appointment->uuid }}')">
                         <img src="{{ asset('assets/svg/delete.svg') }}" alt="Annuler le rendez-vous"
                              class="w-6 h-6">

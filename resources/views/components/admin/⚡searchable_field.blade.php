@@ -40,6 +40,11 @@ new class extends Component {
 
         items: @js($items),
 
+        init() {
+        const selected = this.items.find(i => i.id === $wire.value);
+        if (selected) this.search = selected.label;
+        },
+
         get filteredItems() {
             return this.items.filter(
                 item => item.label.toLowerCase().startsWith(this.search.toLowerCase())

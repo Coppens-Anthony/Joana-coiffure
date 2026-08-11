@@ -40,7 +40,7 @@ new class extends Component {
 
     public function createAppointment()
     {
-        $this->dispatch('open_modal', ['modal' => 'modals::appointments.create', 'params' => ['date' => $this->selectedDate]]);
+        $this->dispatch('open_modal', ['modal' => 'modals::appointments.create_edit', 'params' => ['date' => $this->selectedDate]]);
     }
 
     #[Computed]
