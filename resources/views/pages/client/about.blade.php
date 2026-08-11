@@ -23,8 +23,8 @@
 
 <x-client.layout title="À propos de moi" :isContactOrAppointment="false">
     <x-client.section.text_content
-        img_path="school.jpg"
-        img_alt="Image de l'école fréquentée."
+        img_path="joana-coiffure.jpg"
+        img_alt="Image de Joana avec une de ses clientes"
         content="Au fil des années, l'activité s'est développée, le salon a grandi et l'équipe s'est agrandie. Mais malgré cette évolution, l'esprit du salon est resté le même : prendre le temps de comprendre chaque client, partager notre passion du métier et proposer un service personnalisé.">
         Joana-Coiffure
     </x-client.section.text_content>
@@ -38,8 +38,8 @@
         Joana, la patronne
     </x-client.section.text_content>
     <x-client.section.text_content
-        img_path="room.jpg"
-        img_alt="Image montrant l'espace coiffure avec le siège devant un miroir."
+        img_path="team.jpg"
+        img_alt="Image montrant l'équipe du salon."
         content="Chaque membre de notre équipe partage la même passion pour la coiffure et le même engagement : vous offrir une expérience agréable ainsi qu'un résultat qui vous ressemble."
         content2="Grâce à nos différentes expertises, nous vous accompagnons dans tous vos projets capillaires, des coupes du quotidien aux transformations plus audacieuses."
     >
