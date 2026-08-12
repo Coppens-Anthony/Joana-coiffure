@@ -19,7 +19,7 @@ it('shows home page', function () {
     $page = visit(route('home'));
 
     $page->assertSee('Joana-Coiffure');
-    $page->assertSee('Coiffeuse & visagiste indépendante à Orp-Jauche');
+    $page->assertSee('Des prestations personnalisées, un savoir-faire professionnel et une attention particulière portée à chaque détail.');
 });
 
 it('redirects to contact page', function (int $index) {

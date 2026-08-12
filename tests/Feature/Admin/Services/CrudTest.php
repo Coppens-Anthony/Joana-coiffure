@@ -1,14 +1,16 @@
 <?php
 
 use App\Models\Service;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
 
 it('shows every services in the index page', function () {
     Service::factory(10)->create();
+    $user = User::factory()->create(['isAdmin' => true]);
 
-    $page = Livewire::test('admin.database.services');
+    $page = Livewire::actingAs($user)->test('admin.database.services');
 
     expect($page->services)->toHaveCount(10);
 });

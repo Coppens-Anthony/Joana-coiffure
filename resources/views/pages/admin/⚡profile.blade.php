@@ -43,7 +43,6 @@ class extends Component {
             'oldPassword' => 'required|min:8',
             'password' => 'nullable|min:8|different:oldPassword',
             'avatar' => array_filter([
-                $this->avatar ? 'nullable' : 'required',
                 $this->avatar instanceof TemporaryUploadedFile ? 'mimes:jpeg,png,jpg,gif,webp' : '',
                 $this->avatar instanceof TemporaryUploadedFile ? 'max:2048' : '',
             ]),

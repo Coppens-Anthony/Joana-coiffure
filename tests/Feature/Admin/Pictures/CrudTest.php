@@ -20,7 +20,7 @@ it('creates a new photo', function () {
     $file = UploadedFile::fake()->image('test.jpg');
 
     Livewire::test('modals::pictures.create')
-        ->set('picture', $file)
+        ->set('pictures', $file)
         ->call('store');
 
     expect(Photo::count())->toBe(1);
