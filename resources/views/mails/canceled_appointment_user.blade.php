@@ -25,9 +25,7 @@
 
     <h1>Annulation rendez-vous</h1>
 
-    <p>Nous sommes réellement désolés, mais pour des raisons personnelles, nous sommes dans l'obligation d'annuler votre rendez-vous du {{ $appointment->formatDate('start_at') . ' à ' . $appointment->start_at->format('H:i') }}.</p>
-    <p>Nous vous présentons nos plus plates excuses.</p>
-
+    <p>Le rendez-vous de {{ $appointment->client->name }} du {{ $appointment->formatDate('start_at') . ' à ' . $appointment->start_at->format('H:i') }} vient d'être annulé.</p>
 </div>
 
 </body>

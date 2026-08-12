@@ -2,7 +2,7 @@
 <html lang="{!! App::getLocale() !!}">
 <head>
     <meta charset="UTF-8">
-    <title>Annulation rendez-vous</title>
+    <title>Invitation à activer votre Compte</title>
     <style>
         body {
             font-family: Poppins, Arial, sans-serif;

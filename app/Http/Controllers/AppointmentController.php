@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mails\CanceledAppointmentUser;
 use App\Mails\EditAppointment;
 use App\Mails\EditAppointmentRecap;
 use App\Mails\NewAppointment;
@@ -223,9 +224,10 @@ class AppointmentController
 
         $end = $start->copy()->addMinutes($totalDuration);
 
-        $conflict = Appointment::where('start_at', '<', $end)
+        $conflict = Appointment::where('user_id', $user->id)
+            ->where('start_at', '<', $end)
             ->where('end_at', '>', $start);
-
+        
         if (session('appointment.edit')) {
             $conflict->where('id', '!=', session('appointment.id'));
         }
@@ -307,6 +309,8 @@ class AppointmentController
     {
         AppointmentService::where('appointment_id', $appointment->id)->delete();
         $appointment->delete();
+
+        Mail::to($appointment->user->email)->send(new CanceledAppointmentUser($appointment));
 
         return redirect(route('home'))->with('success', 'Votre rendez-vous à bien été annulé !');
     }

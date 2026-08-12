@@ -89,6 +89,12 @@
     <table class="box">
         <tr>
             <td class="box-cell">
+                <p class="label">Coiffeur.se&nbsp;:</p>
+                <p>{!! $appointment->user->name !!}</p>
+            </td>
+        </tr>
+        <tr>
+            <td class="box-cell">
                 <p class="label">Prestation(s)&nbsp;:</p>
                 <p>{!! $appointment->services->pluck('name')->implode(', ') !!}</p>
             </td>

@@ -84,10 +84,16 @@
 
     <p>Le {{ $appointment->formatDate('start_at') . ' à ' . $appointment->start_at->format('H:i') }} à l'adresse
         suivante&nbsp;: Rue de Station 57, Orp-Jauche 1350</p>
-    <p>Nous vous remercions d'avoir choisi mes services. Voici un récapitulatif
+    <p>Nous vous remercions d'avoir choisi nos services. Voici un récapitulatif
         de votre rendez-vous.</p>
 
     <table class="box">
+        <tr>
+            <td class="box-cell">
+                <p class="label">Coiffeur.se&nbsp;:</p>
+                <p>{!! $appointment->user->name !!}</p>
+            </td>
+        </tr>
         <tr>
             <td class="box-cell">
                 <p class="label">Prestation(s)&nbsp;:</p>

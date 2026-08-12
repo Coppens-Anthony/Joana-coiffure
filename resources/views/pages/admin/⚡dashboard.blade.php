@@ -46,7 +46,7 @@ class extends Component {
             @endif
             <ol class="mt-6 flex flex-col gap-8">
                 @foreach($this->appointments as $appointment)
-                    <livewire:admin.appointment.item_line :appointment="$appointment"/>
+                    <livewire:admin.appointment.item_line :appointment="$appointment" :isReadOnly="false"/>
                 @endforeach
             </ol>
         </section>

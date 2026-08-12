@@ -1,6 +1,7 @@
 <?php
 
 use App\Mails\CanceledAppointment;
+use App\Mails\CanceledAppointmentUser;
 use App\Models\Appointment;
 use App\Models\AppointmentService;
 use App\Models\Note;
@@ -25,6 +26,12 @@ new class extends Component {
         if ($validated['contactClient']) {
             Mail::to(config('mail.from.address'))->send(
                 new CanceledAppointment($this->appointment)
+            );
+        }
+
+        if (auth()->user()->isAdmin()) {
+            Mail::to($this->appointment->user->email)->send(
+                new CanceledAppointmentUser($this->appointment)
             );
         }
 

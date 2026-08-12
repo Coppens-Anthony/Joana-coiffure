@@ -203,9 +203,11 @@ new class extends Component {
 
         $user = User::findOrFail($validated['selected_user_id']);
 
-        Mail::to($user)->send(
-            new EditAppointment($this->appointment)
-        );
+        if (auth()->user()->isAdmin()) {
+            Mail::to($user)->send(
+                new EditAppointment($this->appointment)
+            );
+        }
 
         Mail::to($this->appointment->client->email)->send(
             new EditAppointmentRecap($this->appointment)

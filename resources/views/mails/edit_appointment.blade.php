@@ -48,7 +48,7 @@
 
     <h1>Modification d'un rendez-vous</h1>
 
-    <p>{{ $appointment->client->name }} a modifié son rendez-vous. Prenez connaissance des nouvelles informations.
+    <p>Le rendez-vous de {{ $appointment->client->name }} a été modifié. Prenez connaissance des nouvelles informations.
         Le rendez-vous aura lieu
         le {{ $appointment->formatDate('start_at') . ' à ' . $appointment->start_at->format('H:i') }}.</p>
 
