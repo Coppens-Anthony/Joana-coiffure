@@ -24,13 +24,20 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         User::factory()->create([
-            'name' => 'John Doe',
+            'name' => 'Admin Salon',
             'email' => 'john@doe.com',
             'password' => Hash::make('password'),
-            'isAdmin' => true
+            'isAdmin' => true,
         ]);
 
-        User::factory(10)->create();
+        User::factory()->create([
+            'name' => 'Anthony Coppens',
+            'email' => 'anthonycoppens04@gmail.com',
+            'password' => Hash::make('password'),
+            'isAdmin' => false,
+        ]);
+
+        User::factory(5)->create();
 
         $photos = [
             'gallery_example2.jpg',
@@ -136,9 +143,9 @@ class DatabaseSeeder extends Seeder
     private function seedRecurringUnavailabilities(): void
     {
         $recurring = [
-            ['days_of_week' => [0, 6], 'start_time' => config('app.hours.hour_start'), 'end_time' => config('app.hours.hour_end')],
-            ['days_of_week' => [3], 'start_time' => '12:00', 'end_time' => config('app.hours.hour_end')],
-            ['days_of_week' => [1, 2, 4, 5], 'start_time' => '12:00', 'end_time' => '13:00'],
+            ['days_of_week' => [0, 6], 'start_time' => config('app.hours.hour_start'), 'end_time' => config('app.hours.hour_end'), 'user_id' => 1],
+            ['days_of_week' => [3], 'start_time' => '12:00', 'end_time' => config('app.hours.hour_end'), 'user_id' => 2],
+            ['days_of_week' => [1, 2, 4, 5], 'start_time' => '12:00', 'end_time' => '13:00', 'user_id' => 3],
         ];
 
         $startsOn = Carbon::now()->subMonths(3)->startOfMonth();
@@ -150,8 +157,8 @@ class DatabaseSeeder extends Seeder
                 'start_time' => $r['start_time'],
                 'end_time' => $r['end_time'],
                 'starts_on' => $startsOn,
-                'ends_on' => $startsOn->addMonths(3),
-                'user_id' => User::inRandomOrder()->first()->id,
+                'ends_on' => $startsOn->copy()->addYears(3),
+                'user_id' => $r['user_id'],
             ]);
 
             $this->blockRecurringInWindow($r['days_of_week'], $r['start_time'], $r['end_time'], $startsOn);
