@@ -97,7 +97,6 @@ class extends Component {
             <div class="flex flex-col gap-2 w-fit">
                 <p>
                     Photo de profil
-                    <small class="text-error">*</small>
                     @error('avatar')
                     <small class="text-error block">{{ $message }}</small>
                     @enderror

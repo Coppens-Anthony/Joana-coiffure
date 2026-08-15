@@ -20,7 +20,7 @@
                 Choisissez votre coiffeur.se
             </h2>
 
-            <form method="POST" action="{{ route('appointment2.store') }}">
+            <form method="POST" action="{{ route('appointment2.store') }}" class="relative">
                 @csrf
 
                 @if($users)
@@ -69,7 +69,7 @@
                     </ul>
 
                     <x-global.link-button.button title="Vers la prochaine étape"
-                                                 class="ml-auto block w-fit mt-8">
+                                                 class="ml-auto block w-fit mt-8 md:sticky md:bottom-8 md:right-16 z-10">
                         Continuer
                     </x-global.link-button.button>
                 @else

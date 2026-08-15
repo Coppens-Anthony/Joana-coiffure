@@ -227,7 +227,7 @@ class AppointmentController
         $conflict = Appointment::where('user_id', $user->id)
             ->where('start_at', '<', $end)
             ->where('end_at', '>', $start);
-        
+
         if (session('appointment.edit')) {
             $conflict->where('id', '!=', session('appointment.id'));
         }
@@ -319,12 +319,14 @@ class AppointmentController
     {
         $date = $appointment->start_at->format('Y-m-d');
         $slot = $appointment->start_at->format('H:i');
+        $user_id = $appointment->user->id;
 
         session([
             'appointment.id' => $appointment->id,
             'appointment.services' => $appointment->services->pluck('id')->toArray(),
             'appointment.date' => $date,
             'appointment.slot' => $slot,
+            'appointment.user_id' => $user_id,
             'appointment.client_name' => $appointment->client->name,
             'appointment.client_email' => $appointment->client->email,
             'appointment.client_telephone' => $appointment->client->telephone,
