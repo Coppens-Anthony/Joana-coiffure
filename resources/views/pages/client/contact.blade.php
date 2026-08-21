@@ -1,7 +1,7 @@
 <x-client.layout title="Contactez-moi" :isContactOrAppointment="true">
     <section class="flex flex-col md:flex-row gap-16">
         @if(session('success'))
-            <div class="bg-secondary m-auto w-full md:w-1/2 rounded-3xl p-8 h-fit text-center">
+            <div class="m-auto w-full md:w-1/2 rounded-3xl p-8 h-fit text-center">
                 <svg class="w-16 h-16 mx-auto mb-4" fill="none" stroke="currentColor"
                      viewBox="0 0 24 24" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>

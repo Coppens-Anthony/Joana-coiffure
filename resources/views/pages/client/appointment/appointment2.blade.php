@@ -1,9 +1,4 @@
 <x-client.layout title="Choix du coiffeur" :isContactOrAppointment="true">
-    @if(session('error'))
-        <div class="alert-delete">
-            {{ session('error') }}
-        </div>
-    @endif
     <div class="flex flex-col gap-8">
         <div class="flex justify-between w-full">
             <x-global.link-button.link class="w-fit" title="Vers l'étape précédente" :route="route('appointment')">
@@ -19,7 +14,11 @@
             <h2 class="text-[2rem] mb-8">
                 Choisissez votre coiffeur.se
             </h2>
-
+            @if(session('error'))
+                <small class="text-error mb-8 -mt-4 block">
+                    {{ session('error') }}
+                </small>
+            @endif
             <form method="POST" action="{{ route('appointment2.store') }}" class="relative">
                 @csrf
 

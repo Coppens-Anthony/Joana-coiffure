@@ -21,7 +21,7 @@
             <p>Recevez un lien de réinitialisation par email.</p>
         </div>
         @if (session('status'))
-            <div class="bg-secondary m-auto w-full rounded-3xl p-8 h-fit text-center">
+            <div class="m-auto w-full rounded-3xl p-8 h-fit text-center">
                 <svg class="w-16 h-16 mx-auto mb-4" fill="none" stroke="currentColor"
                      viewBox="0 0 24 24" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>

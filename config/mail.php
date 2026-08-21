@@ -116,7 +116,7 @@ return [
     ],
 
     'reply_to' => [
-        'address' => env('MAIL_TO_ADDRESS', 'anthony.coppens@student.hepl.be'),
+        'address' => env('MAIL_TO_ADDRESS', 'joanacoiffure190@gmail.com '),
         'name' => env('MAIL_FROM_NAME', env('APP_NAME', 'Laravel')),
     ],
 
