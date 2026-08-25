@@ -37,7 +37,54 @@ class DatabaseSeeder extends Seeder
             'isAdmin' => false,
         ]);
 
-        User::factory(5)->create();
+        User::factory()->create([
+            'name' => 'Maud Wera',
+            'email' => 'maud.wera@hepl.be',
+            'password' => Hash::make('password'),
+            'isAdmin' => false,
+        ]);
+
+        User::factory()->create([
+            'name' => 'François Parmentier',
+            'email' => 'francois.parmentier@hepl.be',
+            'password' => Hash::make('password'),
+            'isAdmin' => false,
+        ]);
+
+        User::factory()->create([
+            'name' => 'Julien Mertens',
+            'email' => 'julien@mertens.com',
+            'password' => Hash::make('password'),
+            'isAdmin' => false,
+        ]);
+
+        User::factory()->create([
+            'name' => 'Camille Dubois',
+            'email' => 'camille@dubois.com',
+            'password' => Hash::make('password'),
+            'isAdmin' => false,
+        ]);
+
+        User::factory()->create([
+            'name' => 'Nicolas Vanden',
+            'email' => 'nicolas@vanden.com',
+            'password' => Hash::make('password'),
+            'isAdmin' => false,
+        ]);
+
+        User::factory()->create([
+            'name' => 'Elise Renard',
+            'email' => 'elise@renard.com',
+            'password' => Hash::make('password'),
+            'isAdmin' => false,
+        ]);
+
+        User::factory()->create([
+            'name' => 'Sophie Lambert',
+            'email' => 'sophie@lambert.com',
+            'password' => Hash::make('password'),
+            'isAdmin' => false,
+        ]);
 
         $photos = [
             'gallery_example2.jpg',
