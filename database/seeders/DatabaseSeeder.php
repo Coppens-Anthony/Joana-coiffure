@@ -133,58 +133,8 @@ class DatabaseSeeder extends Seeder
 
         Client::factory(30)->create();
 
-        $this->seedUnavailabilities();
         $this->seedRecurringUnavailabilities();
         $this->seedAppointments();
-    }
-
-    private function seedUnavailabilities(): void
-    {
-        $base = Carbon::now()->subMonth()->startOfMonth();
-
-        $cases = [
-            ['type' => 'full_day', 'date' => $base->copy()->addDays(3)],
-            ['type' => 'full_day', 'date' => $base->copy()->addDays(10)],
-            ['type' => 'full_day', 'date' => $base->copy()->addDays(45)],
-
-            ['type' => 'slot', 'date' => $base->copy()->addDays(5), 'from' => '10:00', 'to' => '12:00'],
-            ['type' => 'slot', 'date' => $base->copy()->addDays(7), 'from' => '14:00', 'to' => '16:30'],
-            ['type' => 'slot', 'date' => $base->copy()->addDays(14), 'from' => '09:00', 'to' => '11:00'],
-            ['type' => 'slot', 'date' => $base->copy()->addDays(46), 'from' => '13:00', 'to' => '15:00'],
-            ['type' => 'slot', 'date' => $base->copy()->addDays(67), 'from' => '09:00', 'to' => '10:30'],
-
-            ['type' => 'period', 'from' => $base->copy()->addDays(18), 'to' => $base->copy()->addDays(21)],
-            ['type' => 'period', 'from' => $base->copy()->addDays(60), 'to' => $base->copy()->addDays(64)],
-        ];
-
-        foreach ($cases as $case) {
-            if ($case['type'] === 'full_day') {
-                $start = $case['date']->copy()->setTime(9, 0);
-                $end = $case['date']->copy()->setTime(18, 0);
-            } elseif ($case['type'] === 'slot') {
-                [$fromH, $fromM] = explode(':', $case['from']);
-                [$toH, $toM] = explode(':', $case['to']);
-                $start = $case['date']->copy()->setTime((int)$fromH, (int)$fromM);
-                $end = $case['date']->copy()->setTime((int)$toH, (int)$toM);
-            } else {
-                $start = $case['from']->copy()->setTime(9, 0);
-                $end = $case['to']->copy()->setTime(18, 0);
-            }
-
-            if ($this->overlaps($start, $end)) {
-                continue;
-            }
-
-            Unavailability::create([
-                'start_at' => $start,
-                'end_at' => $end,
-                'user_id' => User::inRandomOrder()->first()->id,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ]);
-
-            $this->bookSlot($start, $end);
-        }
     }
 
     private function seedRecurringUnavailabilities(): void
@@ -236,16 +186,20 @@ class DatabaseSeeder extends Seeder
         $serviceIds = $services->keys()->toArray();
         $clientIds = Client::pluck('id')->toArray();
         $userIds = User::pluck('id')->toArray();
-        $base = Carbon::now()->subMonths(3)->startOfMonth();
+
+        $base = Carbon::now()->subYear()->startOfYear();
+        $today = Carbon::now();
+        $rangeInDays = $base->diffInDays($today);
+
         $created = 0;
         $attempts = 0;
-        $target = 300;
+        $target = 1500;
 
-        while ($created < $target && $attempts < 1000) {
+        while ($created < $target && $attempts < 2000) {
             $attempts++;
 
             $start = $base->copy()
-                ->addDays(rand(0, 150))
+                ->addDays(rand(0, $rangeInDays))
                 ->setTime(rand(9, 17), rand(0, 1) * 30);
 
             $nbServices = rand(1, 2);
