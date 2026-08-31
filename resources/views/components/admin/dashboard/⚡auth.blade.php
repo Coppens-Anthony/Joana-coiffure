@@ -59,7 +59,7 @@ new class extends Component {
                 'icon' => asset('assets/svg/profile.svg'),
                 'route' => route('members.index'),
                 'title' => 'Vers les membres',
-                'value' => User::count(),
+                'value' => User::where('isAdmin', false)->count(),
                 'label' => 'Membres',
             ],
             [

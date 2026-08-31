@@ -25,7 +25,7 @@ class extends Component {
 
         $this->monthOptions = [0 => 'Tous'] + collect(range(1, 12))->mapWithKeys(function ($month) {
                 return [
-                    $month => ucfirst(now()->month($month)->translatedFormat('F'))
+                    $month => ucfirst(Carbon::create($this->year, $month)->translatedFormat('F'))
                 ];
             })->toArray();
 
