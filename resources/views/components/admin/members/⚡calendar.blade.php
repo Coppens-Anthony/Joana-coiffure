@@ -78,7 +78,6 @@ new class extends Component {
             ->when(!$this->user->isAdmin, function ($query) {
                 $query->where('user_id', $this->user->id);
             })
-            ->whereHas('user')
             ->whereBetween('start_at', [$this->firstDay, $this->lastDay])
             ->get()
             ->map(fn($appointment) => [

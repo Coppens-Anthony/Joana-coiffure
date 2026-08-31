@@ -226,7 +226,7 @@ new class extends Component {
                 Date
             </x-global.form.input>
         @endif
-        <div class="{{ $this->isEditing && auth()->user()->isAdmin() ? 'flex flex-col md:flex-row gap-8' : ''}} ">
+        <div class="flex flex-col gap-4 {{ $this->isEditing && auth()->user()->isAdmin() ? 'md:flex-row gap-8' : ''}} ">
             <livewire:admin.searchable_field wire:model="client_id" label="Client" :items="$this->clients"
                                              wire:key="client_field" :isClientAdding="true"/>
             @if(auth()->user()->isAdmin())
