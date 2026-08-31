@@ -23,7 +23,7 @@ class extends Component {
         $this->client = $client->load([
             'appointments' => fn($q) => $q->orderByDesc('start_at'),
             'appointments.services:name,duration,price',
-            'appointments.user:id,name',
+            'appointments.user:id,name,deleted_at',
         ]);
     }
 
@@ -155,6 +155,9 @@ class extends Component {
                         <td class="text_td">
                             <span class="title_td">Coiffeur</span>
                             {{ $appointment->user->name }}
+                            @if ($appointment->user->trashed())
+                                <small class="text-[.875rem] block">(Ne travaille plus)</small>
+                            @endif
                         </td>
                         <td class="text_td">
                             <span class="title_td">Informations supplémentaires</span>

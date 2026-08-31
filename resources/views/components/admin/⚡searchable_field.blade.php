@@ -62,7 +62,7 @@ new class extends Component {
             this.search = '';
         }
     }"
-    class="relative" @focusout="if (!$el.contains($event.relatedTarget)) open = false"
+    class="relative w-full" @focusout="if (!$el.contains($event.relatedTarget)) open = false"
 >
     <div class="relative">
         <x-global.form.input
