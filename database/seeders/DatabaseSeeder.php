@@ -9,7 +9,6 @@ use App\Models\Client;
 use App\Models\Photo;
 use App\Models\RecurringUnavailability;
 use App\Models\Service;
-use App\Models\Unavailability;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
@@ -30,61 +29,49 @@ class DatabaseSeeder extends Seeder
             'isAdmin' => true,
         ]);
 
-        User::factory()->create([
-            'name' => 'Anthony Coppens',
-            'email' => 'anthonycoppens04@gmail.com',
-            'password' => Hash::make('password'),
-            'isAdmin' => false,
-        ]);
+        $users = [
+            ['name' => 'Anthony Coppens', 'email' => 'anthonycoppens04@gmail.com'],
+            ['name' => 'Maud Wera', 'email' => 'maud.wera@hepl.be'],
+            ['name' => 'François Parmentier', 'email' => 'francois.parmentier@hepl.be'],
+            ['name' => 'Julien Mertens', 'email' => 'julien@mertens.com'],
+            ['name' => 'Camille Dubois', 'email' => 'camille@dubois.com'],
+            ['name' => 'Nicolas Vanden', 'email' => 'nicolas@vanden.com'],
+            ['name' => 'Elise Renard', 'email' => 'elise@renard.com'],
+            ['name' => 'Sophie Lambert', 'email' => 'sophie@lambert.com'],
+        ];
 
-        User::factory()->create([
-            'name' => 'Maud Wera',
-            'email' => 'maud.wera@hepl.be',
-            'password' => Hash::make('password'),
-            'isAdmin' => false,
-        ]);
+        $avatars = ['user_1.jpg', 'user_2.jpg', 'user_3.jpg', 'user_4.jpg', 'user_5.jpg', 'user_6.jpg', 'user_7.jpg', 'user_8.jpg'];
 
-        User::factory()->create([
-            'name' => 'François Parmentier',
-            'email' => 'francois.parmentier@hepl.be',
-            'password' => Hash::make('password'),
-            'isAdmin' => false,
-        ]);
+        $processedAvatars = [];
 
-        User::factory()->create([
-            'name' => 'Julien Mertens',
-            'email' => 'julien@mertens.com',
-            'password' => Hash::make('password'),
-            'isAdmin' => false,
-        ]);
+        foreach ($avatars as $avatar) {
 
-        User::factory()->create([
-            'name' => 'Camille Dubois',
-            'email' => 'camille@dubois.com',
-            'password' => Hash::make('password'),
-            'isAdmin' => false,
-        ]);
+            $newName = uniqid().'.jpg';
 
-        User::factory()->create([
-            'name' => 'Nicolas Vanden',
-            'email' => 'nicolas@vanden.com',
-            'password' => Hash::make('password'),
-            'isAdmin' => false,
-        ]);
+            $sourcePath = public_path("assets/img/originals/$avatar");
 
-        User::factory()->create([
-            'name' => 'Elise Renard',
-            'email' => 'elise@renard.com',
-            'password' => Hash::make('password'),
-            'isAdmin' => false,
-        ]);
+            $relativePath = config('pictures.original_path').'/'.$newName;
+            $disk = config('filesystems.default');
 
-        User::factory()->create([
-            'name' => 'Sophie Lambert',
-            'email' => 'sophie@lambert.com',
-            'password' => Hash::make('password'),
-            'isAdmin' => false,
-        ]);
+            Storage::disk($disk)->put(
+                $relativePath,
+                file_get_contents($sourcePath)
+            );
+
+            ProcessUploadedPicture::dispatchSync($relativePath, $newName);
+
+            $processedAvatars[] = $newName;
+        }
+
+        foreach ($users as $index => $user) {
+            User::factory()->create([
+                'avatar' => $processedAvatars[$index] ?? null,
+                'name' => $user['name'],
+                'email' => $user['email'],
+                'password' => Hash::make('password'),
+                'isAdmin' => false,
+            ]);
+        }
 
         $photos = [
             'gallery_example2.jpg',
@@ -98,11 +85,11 @@ class DatabaseSeeder extends Seeder
 
         foreach ($photos as $photo) {
 
-            $newName = uniqid() . '.jpg';
+            $newName = uniqid().'.jpg';
 
             $sourcePath = public_path("assets/img/originals/$photo");
 
-            $relativePath = config('pictures.original_path') . '/' . $newName;
+            $relativePath = config('pictures.original_path').'/'.$newName;
             $disk = config('filesystems.default');
 
             Storage::disk($disk)->put(
@@ -146,6 +133,7 @@ class DatabaseSeeder extends Seeder
         ];
 
         $startsOn = Carbon::now()->subMonths(3)->startOfMonth();
+        $blockUntil = Carbon::now()->addMonths(2)->endOfDay();
 
         foreach ($recurring as $r) {
             RecurringUnavailability::create([
@@ -154,26 +142,25 @@ class DatabaseSeeder extends Seeder
                 'start_time' => $r['start_time'],
                 'end_time' => $r['end_time'],
                 'starts_on' => $startsOn,
-                'ends_on' => $startsOn->copy()->addYears(3),
+                'ends_on' => '9999-12-31',
                 'user_id' => $r['user_id'],
             ]);
 
-            $this->blockRecurringInWindow($r['days_of_week'], $r['start_time'], $r['end_time'], $startsOn);
+            $this->blockRecurringInWindow($r['days_of_week'], $r['start_time'], $r['end_time'], $startsOn, $blockUntil);
         }
     }
 
-    private function blockRecurringInWindow(array $daysOfWeek, string $startTime, string $endTime, Carbon $startsOn): void
+    private function blockRecurringInWindow(array $daysOfWeek, string $startTime, string $endTime, Carbon $startsOn, Carbon $endWindow): void
     {
         [$startH, $startM] = explode(':', $startTime);
         [$endH, $endM] = explode(':', $endTime);
 
         $cursor = $startsOn->copy();
-        $endWindow = $startsOn->copy()->addDays(150);
 
         while ($cursor->lte($endWindow)) {
             if (in_array($cursor->dayOfWeek, $daysOfWeek)) {
-                $start = $cursor->copy()->setTime((int)$startH, (int)$startM);
-                $end = $cursor->copy()->setTime((int)$endH, (int)$endM);
+                $start = $cursor->copy()->setTime((int) $startH, (int) $startM);
+                $end = $cursor->copy()->setTime((int) $endH, (int) $endM);
                 $this->bookSlot($start, $end);
             }
             $cursor->addDay();
@@ -187,15 +174,15 @@ class DatabaseSeeder extends Seeder
         $clientIds = Client::pluck('id')->toArray();
         $userIds = User::pluck('id')->toArray();
 
-        $base = Carbon::now()->subYear()->startOfYear();
+        $base = Carbon::now()->subMonths(18)->startOfMonth();
         $today = Carbon::now();
-        $rangeInDays = $base->diffInDays($today);
+        $rangeInDays = $base->diffInDays($today->addMonths(2));
 
         $created = 0;
         $attempts = 0;
-        $target = 1500;
+        $target = 10000;
 
-        while ($created < $target && $attempts < 2000) {
+        while ($created < $target && $attempts < 10000) {
             $attempts++;
 
             $start = $base->copy()

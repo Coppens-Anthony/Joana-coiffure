@@ -59,7 +59,7 @@ new class extends Component {
         }
 
         $start = Carbon::parse($this->start_at);
-        $end = Carbon::parse($this->end_at);
+        $end = Carbon::parse($this->end_at) ?? '9999-12-31';
 
         if ($this->reccuring_unavailabilityId) {
             $recurring_unavailability = RecurringUnavailability::findOrFail($this->reccuring_unavailabilityId);
@@ -72,6 +72,7 @@ new class extends Component {
             ]);
         } else {
             RecurringUnavailability::create([
+                'uuid' => Str::uuid(),
                 'days_of_week' => $this->days,
                 'starts_on' => $start->format('Y-m-d'),
                 'ends_on' => $end->format('Y-m-d'),
